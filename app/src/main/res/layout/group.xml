@@ -1,0 +1,27 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal"
+	android:background="@drawable/group_background_selector">
+
+	<TextView
+		android:id="@+id/groupLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:maxLines="1"
+		android:ellipsize="end"
+		android:padding="12dp"
+		android:layout_weight="1"
+		android:gravity="center_horizontal"
+		android:textColor="@android:color/white"
+		android:textSize="16dp"/>
+
+	<ImageView
+		android:id="@+id/groupDelete"
+		android:layout_height="match_parent"
+		android:layout_width="wrap_content"
+		android:src="@android:drawable/ic_menu_delete"/>
+
+</LinearLayout>
+

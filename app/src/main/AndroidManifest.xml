@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application 
+        android:label="@string/appName"
+        android:icon="@drawable/app">
+
+        <activity 
+            android:name=".Home"
+            android:label="@string/appName"
+            android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".tab.Tabs"
+            android:label="@string/applications"
+            android:icon="@drawable/all_apps"
+            android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+        </activity>
+
+        <activity 
+            android:name=".application.Applications"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+        </activity>
+
+        <activity
+            android:name=".group.Groups"
+            android:label="@string/tabsSet"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+        </activity>
+        
+        <activity
+            android:name=".group.GroupEditor"
+            android:label="@string/groupEdit"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+        </activity>
+        
+        <activity
+            android:name=".set.Settings"
+            android:label="@string/settings"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
+        </activity>
+        
+        <receiver 
+            android:name=".application.Items">
+            
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_CHANGED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+      
+    </application>
+</manifest> 

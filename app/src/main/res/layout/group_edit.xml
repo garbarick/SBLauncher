@@ -1,0 +1,59 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:layout_width="wrap_content"
+			android:text="@string/name"
+			android:padding="10dp"/>
+
+		<EditText
+			android:layout_height="match_parent"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"
+            android:id="@+id/name"/>
+
+	</LinearLayout>
+
+	<ListView
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_weight="1"
+		android:id="@+id/applications"
+        android:choiceMode="none"/>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<Button
+			android:layout_height="wrap_content"
+			android:text="@string/ok"
+			android:id="@+id/ok"
+			android:background="@drawable/group_background_selector"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"/>
+
+		<Button
+			android:layout_height="wrap_content"
+			android:text="@string/cancel"
+			android:id="@+id/cancel"
+			android:background="@drawable/group_background_selector"
+			android:layout_width="wrap_content"
+			android:layout_weight="1"/>
+
+	</LinearLayout>
+
+</LinearLayout>
+
