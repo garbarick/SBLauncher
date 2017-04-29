@@ -38,21 +38,18 @@
         <activity
             android:name=".group.Groups"
             android:label="@string/tabsSet"
-            android:launchMode="singleTask"
             android:stateNotNeeded="true">
         </activity>
         
         <activity
             android:name=".group.GroupEditor"
             android:label="@string/groupEdit"
-            android:launchMode="singleTask"
             android:stateNotNeeded="true">
         </activity>
         
         <activity
             android:name=".set.Settings"
             android:label="@string/settings"
-            android:launchMode="singleTask"
             android:stateNotNeeded="true">
         </activity>
         
