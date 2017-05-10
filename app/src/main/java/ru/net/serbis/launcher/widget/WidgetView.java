@@ -1,6 +1,7 @@
 package ru.net.serbis.launcher.widget;
 import android.appwidget.*;
 import android.content.*;
+import android.util.*;
 import android.view.*;
 import ru.net.serbis.launcher.drag.*;
 import ru.net.serbis.launcher.host.*;
@@ -47,6 +48,12 @@ public class WidgetView extends AppWidgetHostView
     public WidgetView(Context context, int id, AppWidgetProviderInfo info)
     {
         super(context);
+        
+        setFocusable(true);
+        TypedValue background = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, background, true);
+        setBackgroundResource(background.resourceId);
+        
         setAppWidget(id, info);
         detector = new GestureDetector(context, new WidgetGestureListener());
     }

@@ -21,6 +21,8 @@ public class IkonView extends LinearLayout
 
         this.ikon = ikon;
         this.host = host;
+        
+        setId((int) ikon.getId());
 
         initView(layoutId);
         initLongClickListener();
