@@ -156,4 +156,9 @@ public class Home extends Activity
             desktops.get(desktop).sendItem(name);
         }
     }
+
+    @Override
+    public void onBackPressed()
+    {
+    }
 }

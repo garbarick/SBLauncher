@@ -27,6 +27,7 @@ public class Tabs extends TabActivity
         initSettings();
         initTabs();
         intAnimationTabChange();
+        initMenuButton();
     }
     
     private void initSettings()
@@ -126,5 +127,19 @@ public class Tabs extends TabActivity
     {
         getTabHost().clearAllTabs();
         initTabs();
+    }
+    
+    private void initMenuButton()
+    {
+        ImageButton menu = (ImageButton) findViewById(R.id.menu);
+        menu.setOnClickListener(
+            new View.OnClickListener()
+            {
+                public void onClick(View view)
+                {
+                    openOptionsMenu();
+                }
+            }
+        );
     }
 }

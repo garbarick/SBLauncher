@@ -4,12 +4,14 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/black_transparent"
-    android:fitsSystemWindows="true">
+	android:fitsSystemWindows="true"
+	android:orientation="vertical">
 
 	<TabHost
 		android:id="@android:id/tabhost"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="wrap_content"
+		android:layout_weight="1">
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -39,6 +41,21 @@
 		</LinearLayout>
 
 	</TabHost>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<ImageButton
+			style="?android:attr/buttonBarButtonStyle"
+			android:layout_height="50dp"
+			android:layout_width="50dp"
+            android:scaleType="fitCenter"
+			android:id="@+id/menu"
+			android:src="@android:drawable/ic_menu_more"/>
+
+	</LinearLayout>
 
 </LinearLayout>
 

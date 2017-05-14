@@ -85,12 +85,6 @@ public class Applications extends Activity
                     next = next < 0 ? count : next;
                     host.setCurrentTab(next);
                 }
-                
-                @Override
-                public void onSwipeTop()
-                {
-                    openOptionsMenu();
-                }
             }
         );
     }
