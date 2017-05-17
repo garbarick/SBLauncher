@@ -129,21 +129,31 @@ public class Home extends Activity
     
     public void swipDesktop(boolean right)
     {
+        if (desktops.size() == 1)
+        {
+            return;
+        }
         desktop = swipCurrent(right, desktop, desktops.size() - 1);
-            
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         setAnimation(right, transaction);
         transaction.replace(R.id.desktop, desktops.get(desktop));
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
     public void swipDoc(boolean right)
     {
+        if (docs.size() == 1)
+        {
+            return;
+        }
         doc = swipCurrent(right, doc, docs.size() - 1);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         setAnimation(right, transaction);
         transaction.replace(R.id.doc, docs.get(doc));
+        transaction.addToBackStack(null);
         transaction.commit();
     }
     

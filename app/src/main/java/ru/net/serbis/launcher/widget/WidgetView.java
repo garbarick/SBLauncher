@@ -83,6 +83,6 @@ public class WidgetView extends AppWidgetHostView
     {
         View.DragShadowBuilder builder = new View.DragShadowBuilder(this);
         ClipData data = ClipData.newPlainText(null, null);
-        WidgetView.this.startDrag(data, builder, new DragItem(this, null), 0);
+        startDrag(data, builder, new DragItem(this, null), 0);
     }
 }
