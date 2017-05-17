@@ -5,13 +5,14 @@ import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
+import java.lang.reflect.*;
+import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.drag.*;
 import ru.net.serbis.launcher.ikon.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.widget.*;
-import java.util.*;
 
 public abstract class Host extends Fragment
 {
@@ -66,7 +67,7 @@ public abstract class Host extends Fragment
 
         return view;
     }
-    
+
     public void setPlace(int place)
     {
         this.place = place;
@@ -326,5 +327,20 @@ public abstract class Host extends Fragment
         Widget widget = view.getWidget();
         db.updateWidget(widget, host, place);
         layout.addView(view, createLayoutParams(widget.getRect()));
+    }
+    
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        try
+        {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        }
+        catch (Throwable e)
+        {
+        }
     }
 }
