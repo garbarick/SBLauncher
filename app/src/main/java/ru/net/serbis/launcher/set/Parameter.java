@@ -9,11 +9,15 @@ public class Parameter
     private int min;
     private int max;
 
-    public Parameter(Value name, Type type, String defaultValue)
+    public Parameter(Value name, Type type)
     {
         this.name = name;
         this.type = type;
-        this.defaultValue = defaultValue;
+    }
+    
+    public Parameter(Value name, Type type, String defaultValue)
+    {
+        this(name, type);
     }
     
     public Parameter(Value name, Type type, Integer defaultValue)

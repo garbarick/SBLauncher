@@ -17,7 +17,7 @@ public class SettingsTable extends Table
             "    value text" +
             ")");
     }
-    
+
     public boolean loadParameterValue(Parameter parameter)
     {
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -35,7 +35,7 @@ public class SettingsTable extends Table
             db.close();
         }
     }
-    
+
     private boolean loadParameterValue(SQLiteDatabase db, Parameter parameter)
     {
         Cursor cursor = db.query("settings", new String[]{"value"}, "name = ?", new String[]{parameter.getName().getValue()}, null, null, null);
@@ -46,7 +46,7 @@ public class SettingsTable extends Table
         }
         return false;
     }
-    
+
     public void loadParameterValues(List<Parameter> parameters)
     {
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -71,7 +71,7 @@ public class SettingsTable extends Table
             loadParameterValue(db, parameter);
         }
     }
-    
+
     public boolean saveParameterValues(List<Parameter> parameters)
     {
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -91,32 +91,56 @@ public class SettingsTable extends Table
         }
     }
 
+    public boolean saveParameterValue(Parameter parameter)
+    {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        try
+        {
+            saveParameterValue(db, parameter);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.info(this, "Error on save parameter", e);
+            return false;
+        }
+        finally
+        {
+            db.close();
+        }
+    }
+
     private void saveParameterValues(SQLiteDatabase db, List<Parameter> parameters)
     {
         db.beginTransaction();
 
         for (Parameter parameter : parameters)
         {
-            String name = parameter.getName().getValue();
-            String value = parameter.getValue();
-            if (value == null || value.isEmpty())
-            {
-                db.delete("settings", "name = ?", new String[]{name});
-            }
-            else
-            {
-                ContentValues values = new ContentValues();
-                values.put("value", value);
-                int count = db.update("settings", values, "name = ?", new String[]{name});
-                if (count == 0)
-                {
-                    values.put("name", name);
-                    db.insert("settings", null, values);
-                }
-            }
+            saveParameterValue(db, parameter);
         }
 
         db.setTransactionSuccessful();
         db.endTransaction();
+    }
+
+    private void saveParameterValue(SQLiteDatabase db, Parameter parameter)
+    {
+        String name = parameter.getName().getValue();
+        String value = parameter.getValue();
+        if (value == null || value.isEmpty())
+        {
+            db.delete("settings", "name = ?", new String[]{name});
+        }
+        else
+        {
+            ContentValues values = new ContentValues();
+            values.put("value", value);
+            int count = db.update("settings", values, "name = ?", new String[]{name});
+            if (count == 0)
+            {
+                values.put("name", name);
+                db.insert("settings", null, values);
+            }
+        }
     }
 }

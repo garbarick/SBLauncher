@@ -2,19 +2,23 @@ package ru.net.serbis.launcher.tab;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
-import android.widget.TabHost.*;
-import ru.net.serbis.launcher.*;
+import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.set.*;
 
-public class AnimatedTabChange implements OnTabChangeListener
+public class AnimatedTabChange implements TabHost.OnTabChangeListener
 {
     private static final int DURATION = 250;
+
+    private DBHelper db;
     private TabHost host;
+    
     private View previous;
     private View current;
     private int currentTab;
 
-    public AnimatedTabChange(TabHost host)
+    public AnimatedTabChange(DBHelper db, TabHost host)
     {
+        this.db = db;
         this.host = host;
         previous = host.getCurrentView();
         currentTab = host.getCurrentTab();
@@ -23,6 +27,10 @@ public class AnimatedTabChange implements OnTabChangeListener
     @Override
     public void onTabChanged(String tab)
     {
+        Parameter lastTab = new Parameters().lastTab;
+        lastTab.setValue(tab);
+        db.saveParameterValue(lastTab);
+        
         current = host.getCurrentView();
         if (host.getCurrentTab() > currentTab)
         {

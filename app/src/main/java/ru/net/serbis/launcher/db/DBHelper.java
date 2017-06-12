@@ -175,6 +175,11 @@ public class DBHelper extends SQLiteOpenHelper
         return settings.saveParameterValues(parameters);
     }
     
+    public boolean saveParameterValue(Parameter parameter)
+    {
+        return settings.saveParameterValue(parameter);
+    }
+
     public void addWidget(Widget widget, String host, int place)
     {
         widgets.addWidget(widget, host, place);

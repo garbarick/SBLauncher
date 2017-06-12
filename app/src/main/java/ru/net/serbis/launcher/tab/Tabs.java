@@ -41,12 +41,15 @@ public class Tabs extends TabActivity
     }
     
     private void initTabs()
-    {
+    {        
         for (Group group : db.getGroups(true))
         {
             setupTab(group);
         }
-        getTabHost().setCurrentTab(0);
+
+        Parameter lastTab = new Parameters().lastTab;
+        db.loadParameterValue(lastTab);
+        getTabHost().setCurrentTabByTag(lastTab.getValue());
     }
 
     private void setupTab(Group group)
@@ -72,7 +75,7 @@ public class Tabs extends TabActivity
     private void intAnimationTabChange()
     {
         getTabHost().setOnTabChangedListener(
-            new AnimatedTabChange(getTabHost())
+            new AnimatedTabChange(db, getTabHost())
         );
     }
 

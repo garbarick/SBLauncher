@@ -7,9 +7,14 @@ public class Value implements Serializable
     private String value;
     private int resource;
 
-    public Value(String value, int resource)
+    public Value(String value)
     {
         this.value = value;
+    }
+
+    public Value(String value, int resource)
+    {
+        this(value);
         this.resource = resource;
     }
 
