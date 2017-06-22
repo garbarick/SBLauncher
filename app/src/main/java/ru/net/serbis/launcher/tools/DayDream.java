@@ -27,6 +27,6 @@ public class DayDream extends Item
     @Override
     public boolean validate(PackageManager manager)
     {
-        return getIntent().resolveActivity(manager) != null;
+        return getIntent().resolveActivityInfo(manager, 0) != null;
     }
 }
