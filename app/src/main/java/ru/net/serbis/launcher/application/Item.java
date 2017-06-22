@@ -60,12 +60,24 @@ public class Item implements Comparable
     
     public void start(Context context)
     {
-        context.startActivity(getIntent());
+        try
+        {
+            context.startActivity(getIntent());
+        }
+        catch(Throwable e)
+        {
+        }
     }
     
     public void start(Host host)
     {
-        host.getActivity().startActivity(getIntent());
+        try
+        {
+            host.getActivity().startActivity(getIntent());
+        }
+        catch(Throwable e)
+        {
+        }
     }
     
     @Override
