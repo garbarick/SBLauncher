@@ -223,8 +223,7 @@ public abstract class Host extends Fragment
 
             db.updateWidget(widget, host, place);
 
-            view.setHost(this);
-            layout.addView(view, createLayoutParams(widget.getRect()));
+            createWidget(widget);
         }
         catch (Exception e)
         {
@@ -246,8 +245,7 @@ public abstract class Host extends Fragment
 
             db.updateIkon(ikon, host, place);
 
-            view = new IkonView(this, ikon, getIkonLayotId());
-            layout.addView(view, createLayoutParams(ikon.getRect()));
+            creatIkonView(ikon);
         }
         catch (Exception e)
         {
