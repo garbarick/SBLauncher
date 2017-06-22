@@ -31,14 +31,18 @@ public class Items extends BroadcastReceiver
         intent = new Intent(context, Tabs.class);
         findActivities(manager, intent);
         
-        addItem(new SwipeRight(context));
-        addItem(new SwipeLeft(context));
-        addItem(new SwipeTop(context));
+        addItem(new SwipeRight(context), manager);
+        addItem(new SwipeLeft(context), manager);
+        addItem(new SwipeTop(context), manager);
+        addItem(new DayDream(context), manager);
     }
     
-    private void addItem(Item item)
+    private void addItem(Item item, PackageManager manager)
     {
-        items.put(item.getName(), item);
+        if (item.validate(manager))
+        {
+            items.put(item.getName(), item);
+        }
     }
 
     private void findActivities(PackageManager manager, Intent intent)

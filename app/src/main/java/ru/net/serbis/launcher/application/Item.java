@@ -11,10 +11,10 @@ import ru.net.serbis.launcher.host.*;
 public class Item implements Comparable
 {
     public static final String ITEM_NAME = "itemName";
-    private String label;
-    private Drawable icon;
-    private String name;
-    private String packageName;
+    protected String label;
+    protected Drawable icon;
+    protected String name;
+    protected String packageName;
 
     public Item(String label, Drawable icon, String name, String packageName)
     {
@@ -49,7 +49,7 @@ public class Item implements Comparable
         return packageName;
     }
     
-    private Intent getIntent()
+    protected Intent getIntent()
     {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -79,5 +79,10 @@ public class Item implements Comparable
     public boolean equals(Object that)
     {
         return name.equals(((Item)that).name);
+    }
+   
+    public boolean validate(PackageManager manager)
+    {
+        return true;
     }
 }

@@ -81,8 +81,11 @@ public class IkonTable extends Table
             {
                 String name = cursor.getString(1);
                 Item item = helper.getItem(name);
-                Ikon ikon = new Ikon(cursor.getLong(0), item, cursor.getInt(2), cursor.getInt(3));
-                result.add(ikon);
+                if (item != null)
+                {
+                    Ikon ikon = new Ikon(cursor.getLong(0), item, cursor.getInt(2), cursor.getInt(3));
+                    result.add(ikon);
+                }
             }
             while(cursor.moveToNext());
         }
