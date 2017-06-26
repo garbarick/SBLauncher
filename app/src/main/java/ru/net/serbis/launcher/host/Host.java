@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.host;
+
 import android.app.*;
 import android.appwidget.*;
 import android.graphics.*;
@@ -6,7 +7,6 @@ import android.os.*;
 import android.view.*;
 import android.widget.*;
 import java.lang.reflect.*;
-import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.drag.*;
@@ -22,7 +22,6 @@ public abstract class Host extends Fragment
     protected AppWidgetManager widgetManager;
     protected WidgetHost widgetHost;
     protected RelativeLayout layout;
-    protected List<View> showOnDragViews = new ArrayList<View>(2);
 
     protected DBHelper db;
 
@@ -42,17 +41,6 @@ public abstract class Host extends Fragment
 
         layout = (RelativeLayout) view;
 
-        ImageView deleteItem = (ImageView) layout.findViewById(R.id.deleteItem);
-        if (deleteItem != null)
-        {
-            showOnDragViews.add(deleteItem);
-        }
-        ImageView resizeItem = (ImageView) layout.findViewById(R.id.resizeItem);
-        if (resizeItem != null)
-        {
-            showOnDragViews.add(resizeItem);
-        }
-
         widgetManager = AppWidgetManager.getInstance(getActivity());
         widgetHost = new WidgetHost(getActivity(), getHostId());
         db = new DBHelper(getActivity());
@@ -61,8 +49,6 @@ public abstract class Host extends Fragment
         restoreIkons();
 
         initDragListener();
-        initDeleteDragListener(deleteItem);
-        initResizeDragListener(resizeItem);
         initSwipeListener();
 
         return view;
@@ -91,30 +77,43 @@ public abstract class Host extends Fragment
 
     protected void initDragListener()
     {
-        layout.setOnDragListener(
-            new DragAndShowViewListener(showOnDragViews)
+        ImageView deleteItem = (ImageView) layout.findViewById(R.id.deleteItem);
+        ImageView resizeItem = (ImageView) layout.findViewById(R.id.resizeItem);
+
+        DragAndShowViewListener dragListener = new DragAndShowViewListener()
+        {
+            @Override
+            protected void moveItem(View view, DragEvent event, DragItem item)
             {
-                @Override
-                protected void moveItem(View view, DragEvent event, DragItem item)
+                View object = item.getView();
+                if (object instanceof WidgetView)
                 {
-                    View object = item.getView();
-                    if (object instanceof WidgetView)
-                    {
-                        saveWidgetPosition(event, item);
-                    }
-                    else if (object instanceof IkonView)
-                    {
-                        saveIkonPosition(event, item);
-                    }
+                    saveWidgetPosition(event, item);
+                }
+                else if (object instanceof IkonView)
+                {
+                    saveIkonPosition(event, item);
                 }
             }
-        );
+        };
+        dragListener.setViewsForWidget(deleteItem, resizeItem);
+        dragListener.setViewsForIkon(deleteItem);
+        layout.setOnDragListener(dragListener);
+
+        if (deleteItem != null)
+        {
+            initDeleteDragListener(deleteItem);
+        }
+        if (resizeItem != null)
+        {
+            initResizeDragListener(resizeItem);
+        }
     }
 
     protected void initDeleteDragListener(ImageView deleteItem)
     {
         deleteItem.setOnDragListener(
-            new DragAndShowViewListener(showOnDragViews)
+            new DragListener()
             {
                 @Override
                 protected void moveItem(View view, DragEvent event, DragItem item)
@@ -136,7 +135,7 @@ public abstract class Host extends Fragment
     protected void initResizeDragListener(ImageView resizeItem)
     {
         resizeItem.setOnDragListener(
-            new DragAndShowViewListener(showOnDragViews)
+            new DragListener()
             {
                 @Override
                 protected void moveItem(View view, DragEvent event, DragItem item)
@@ -151,17 +150,19 @@ public abstract class Host extends Fragment
         );
     }
 
-    protected void createWidget(Widget widget)
+    public WidgetView createWidget(Widget widget)
     {
         AppWidgetProviderInfo widgetInfo = widgetManager.getAppWidgetInfo(widget.getId());
         WidgetView view = widgetHost.createView(this, widget, widgetInfo);
         layout.addView(view, createLayoutParams(widget.getRect()));
+        return view;
     }
 
-    protected void creatIkonView(Ikon ikon)
+    public IkonView creatIkonView(Ikon ikon)
     {
         IkonView view = new IkonView(this, ikon, getIkonLayotId());
         layout.addView(view, createLayoutParams(ikon.getRect()));
+        return view;
     }
 
     protected RelativeLayout.LayoutParams createLayoutParams(Rect rect)
@@ -326,7 +327,7 @@ public abstract class Host extends Fragment
         db.updateWidget(widget, host, place);
         layout.addView(view, createLayoutParams(widget.getRect()));
     }
-    
+
     @Override
     public void onDetach()
     {

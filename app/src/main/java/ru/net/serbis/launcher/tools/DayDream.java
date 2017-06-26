@@ -1,17 +1,14 @@
 package ru.net.serbis.launcher.tools;
 
 import android.content.*;
-import ru.net.serbis.launcher.*;
-import ru.net.serbis.launcher.application.*;
 import android.content.pm.*;
+import ru.net.serbis.launcher.application.*;
 
 public class DayDream extends Item
 {
     public DayDream(Context context)
     {
-        super(
-            context.getResources().getString(R.string.dayDream),
-            context.getResources().getDrawable(R.drawable.day_dream),
+        super(null, null, 
             "com.android.systemui.Somnambulator",
             "com.android.systemui");
     }
@@ -27,6 +24,13 @@ public class DayDream extends Item
     @Override
     public boolean validate(PackageManager manager)
     {
-        return getIntent().resolveActivityInfo(manager, 0) != null;
+        ActivityInfo info = getIntent().resolveActivityInfo(manager, 0);
+        if (info != null)
+        {
+            label = info.loadLabel(manager).toString();
+            icon = info.loadIcon(manager);
+            return true;
+        }
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package ru.net.serbis.launcher.application;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
@@ -98,8 +99,16 @@ public class Applications extends Activity
                 public boolean onItemLongClick(AdapterView parent, View view, int position, long id)
                 {
                     Item item = (Item) parent.getItemAtPosition(position);
+                    
                     Intent intent = new Intent(Applications.this, Home.class);
                     intent.putExtra(Item.ITEM_NAME, item.getName());
+                    
+                    Rect rect = new Rect();
+                    view.getGlobalVisibleRect(rect);
+                    
+                    intent.putExtra(Item.ITEM_POS_X, rect.left);
+                    intent.putExtra(Item.ITEM_POS_Y, rect.top);
+                    
                     startActivity(intent);
                     return true;
                 }

@@ -163,7 +163,9 @@ public class Home extends Activity
         if (intent.hasExtra(Item.ITEM_NAME))
         {
             String name = intent.getStringExtra(Item.ITEM_NAME);
-            desktops.get(desktop).sendItem(name);
+            int x = intent.getIntExtra(Item.ITEM_POS_X, 0);
+            int y = intent.getIntExtra(Item.ITEM_POS_Y, 0);
+            desktops.get(desktop).sendItem(name, x, y);
         }
     }
 

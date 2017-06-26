@@ -11,6 +11,9 @@ import ru.net.serbis.launcher.host.*;
 public class Item implements Comparable
 {
     public static final String ITEM_NAME = "itemName";
+    public static final String ITEM_POS_X = "itemPosX";
+    public static final String ITEM_POS_Y = "itemPosY";
+    
     protected String label;
     protected Drawable icon;
     protected String name;

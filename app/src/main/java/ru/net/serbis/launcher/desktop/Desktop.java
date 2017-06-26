@@ -3,7 +3,6 @@ package ru.net.serbis.launcher.desktop;
 import android.app.*;
 import android.appwidget.*;
 import android.content.*;
-import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import java.util.*;
@@ -111,15 +110,14 @@ public class Desktop extends Host
         createWidget(widget);
     }
 
-    public void sendItem(String name)
+    public void sendItem(String name, int x, int y)
     {
         Item item = db.getItem(name);
-        int x = layout.getWidth() / 2 - 60;
-        int y = layout.getHeight() / 2 - 60;
         Ikon ikon = new Ikon(0, item, x, y);
         db.addIkon(ikon, host, place);
-
-        creatIkonView(ikon);
+        
+        IkonView view = creatIkonView(ikon);
+        view.startDrag(); //not worked
     }
 
     @Override

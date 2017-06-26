@@ -65,13 +65,13 @@ public class IkonView extends LinearLayout
         );
     }
 
-    private void startDrag()
+    public void startDrag()
     {
         View.DragShadowBuilder builder = new View.DragShadowBuilder(view);
         ClipData data = ClipData.newPlainText(null, null);
         view.startDrag(data, builder, new DragItem(IkonView.this, null), 0);
     }
-
+    
     private void initClickListener()
     {
         view.setOnClickListener(

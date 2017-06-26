@@ -79,7 +79,7 @@ public class WidgetView extends AppWidgetHostView
         this.host = host;
     }
 
-    private void startDrag()
+    public void startDrag()
     {
         View.DragShadowBuilder builder = new View.DragShadowBuilder(this);
         ClipData data = ClipData.newPlainText(null, null);

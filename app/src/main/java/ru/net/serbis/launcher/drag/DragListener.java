@@ -2,7 +2,7 @@ package ru.net.serbis.launcher.drag;
 
 import android.view.*;
 
-public abstract class DragListener implements View.OnDragListener
+public class DragListener implements View.OnDragListener
 {    
     public boolean onDrag(View view, DragEvent event)
     { 
@@ -27,15 +27,13 @@ public abstract class DragListener implements View.OnDragListener
     
     protected void startDrag(View view, DragEvent event, DragItem item)
     {
-        View itemView = item.getView();
-        itemView.setVisibility(View.INVISIBLE);
     }
     
     protected void endDrag(View view, DragEvent event, DragItem item)
     {
-        View itemView = item.getView();
-        itemView.setVisibility(View.VISIBLE);
     }
     
-    protected abstract void moveItem(View view, DragEvent event, DragItem item);
+    protected void moveItem(View view, DragEvent event, DragItem item)
+    {
+    }
 }
