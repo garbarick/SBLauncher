@@ -15,13 +15,13 @@ import ru.net.serbis.launcher.set.*;
 public class Tabs extends TabActivity
 {  
     private DBHelper db;
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         Transparent.set(this);
-        
+
         db = new DBHelper(this);
 
         initSettings();
@@ -29,7 +29,7 @@ public class Tabs extends TabActivity
         intAnimationTabChange();
         initMenuButton();
     }
-    
+
     private void initSettings()
     {
         Parameters parameters = new Parameters();
@@ -39,7 +39,7 @@ public class Tabs extends TabActivity
         }
         setContentView(R.layout.tabs);
     }
-    
+
     private void initTabs()
     {        
         for (Group group : db.getGroups(true))
@@ -93,25 +93,19 @@ public class Tabs extends TabActivity
         switch (item.getItemId())
         {
             case R.id.tabsSet:
-            {
                 startActivityForResult(new Intent(this, Groups.class), 0);
                 return true;
-            }
-                
+
             case R.id.hideSet:
-            {
                 Intent intent = new Intent(this, GroupEditor.class);
                 intent.putExtra(Group.GROUP, Group.HIDDEN);
                 startActivityForResult(intent, 0);
                 return true;
-            }
- 
+
             case R.id.reload:
-            {
                 reload();
                 return true;
-            }
-                
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -131,7 +125,7 @@ public class Tabs extends TabActivity
         getTabHost().clearAllTabs();
         initTabs();
     }
-    
+
     private void initMenuButton()
     {
         ImageButton menu = (ImageButton) findViewById(R.id.menu);
@@ -144,5 +138,54 @@ public class Tabs extends TabActivity
                 }
             }
         );
+    }
+
+    public void nextTab(boolean left)
+    {
+        TabHost host = getTabHost();
+        int count = host.getTabWidget().getTabCount() - 1;
+        int next = host.getCurrentTab();
+        if (left)
+        {
+            next--;
+            next = next < 0 ? count : next;
+        }
+        else
+        {
+            next++;
+            next = next > count ? 0 : next;
+        }
+        host.setCurrentTab(next);
+    }
+
+    @Override
+    public boolean onKeyDown(int code, KeyEvent event)
+    {
+        TabHost host = getTabHost();
+        int count = host.getTabWidget().getTabCount() - 1;
+        int current = host.getCurrentTab();
+
+        if (count > 0)
+        {
+            switch (code)
+            {
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    if (current == count)
+                    {
+                        nextTab(false);
+                        return true;
+                    }
+                    break;
+
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    if (current == 0)
+                    {
+                        nextTab(true);
+                        return true;
+                    }
+                    break;
+            }
+        }
+        return false;
     }
 }

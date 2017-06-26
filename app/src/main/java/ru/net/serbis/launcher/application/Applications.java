@@ -70,21 +70,13 @@ public class Applications extends Activity
                 @Override
                 public void onSwipeLeft()
                 {
-                    TabHost host = tabs.getTabHost();
-                    int count = host.getTabWidget().getTabCount() - 1;
-                    int next = host.getCurrentTab() + 1;
-                    next = next > count ? 0 : next;
-                    host.setCurrentTab(next);
+                    tabs.nextTab(false);
                 }
 
                 @Override
                 public void onSwipeRight()
                 {
-                    TabHost host = tabs.getTabHost();
-                    int count = host.getTabWidget().getTabCount() - 1;
-                    int next = host.getCurrentTab() - 1;
-                    next = next < 0 ? count : next;
-                    host.setCurrentTab(next);
+                    tabs.nextTab(true);
                 }
             }
         );
