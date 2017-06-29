@@ -55,10 +55,21 @@ public class IkonTable extends Table
 
     public List<Ikon> getIkons(String host, int place)
     {
+        List<Long> removed = new ArrayList<Long>();
+        List<Ikon> result = getIkons(host, place, removed);
+        if (!removed.isEmpty())
+        {
+            removeIkons(removed);
+        }
+        return result;
+    }
+
+    private List<Ikon> getIkons(String host, int place, List<Long> removed)
+    {
         SQLiteDatabase db = helper.getReadableDatabase();
         try
         {
-            return getIkons(db, host, place);
+            return getIkons(db, host, place, removed);
         }
         catch (Exception e)
         {
@@ -71,7 +82,7 @@ public class IkonTable extends Table
         }
     }
 
-    private List<Ikon> getIkons(SQLiteDatabase db, String host, Integer place)
+    private List<Ikon> getIkons(SQLiteDatabase db, String host, Integer place, List<Long> removed)
     {
         List<Ikon> result = new ArrayList<Ikon>();
         Cursor cursor = db.query("ikons", new String[]{"id", "name", "x", "y"}, "host = ? and place = ?", new String[]{host, place.toString()}, null, null, "id");
@@ -79,12 +90,17 @@ public class IkonTable extends Table
         {
             do
             {
+                long id = cursor.getLong(0);
                 String name = cursor.getString(1);
                 Item item = helper.getItem(name);
                 if (item != null)
                 {
-                    Ikon ikon = new Ikon(cursor.getLong(0), item, cursor.getInt(2), cursor.getInt(3));
+                    Ikon ikon = new Ikon(id, item, cursor.getInt(2), cursor.getInt(3));
                     result.add(ikon);
+                }
+                else
+                {
+                    removed.add(id);
                 }
             }
             while(cursor.moveToNext());
@@ -92,12 +108,12 @@ public class IkonTable extends Table
         return result;
     }
 
-    public void removeIkon(long id)
+    public void removeIkons(List<Long> ids)
     {
         SQLiteDatabase db = helper.getWritableDatabase();
         try
         {
-            removeIkon(db, id);
+            removeIkons(db, ids);
         }
         catch (Exception e)
         {
@@ -109,6 +125,24 @@ public class IkonTable extends Table
         }
     }
 
+    public void removeIkon(long id)
+    {
+        removeIkons(Arrays.asList(id));
+    }
+
+    private void removeIkons(SQLiteDatabase db, List<Long> ids)
+    {
+        db.beginTransaction();
+
+        for (long id : ids)
+        {
+            removeIkon(db, id);
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+    
     private void removeIkon(SQLiteDatabase db, Long id)
     {
         db.delete("ikons", "id = ?", new String[]{id.toString()});
