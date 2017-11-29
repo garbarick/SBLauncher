@@ -10,7 +10,7 @@ import ru.net.serbis.launcher.host.*;
  */
 public class Item implements Comparable
 {
-    public static final String ITEM_NAME = "itemName";
+    public static final String ITEM_KEY = "itemKey";
     public static final String ITEM_POS_X = "itemPosX";
     public static final String ITEM_POS_Y = "itemPosY";
     
@@ -51,6 +51,16 @@ public class Item implements Comparable
     {
         return packageName;
     }
+	
+	public String getKey()
+	{
+		return getKey(name, packageName);
+	}
+	
+	public static String getKey(String name, String packageName)
+	{
+		return packageName + "/" + name;
+	}
     
     protected Intent getIntent()
     {

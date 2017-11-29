@@ -4,40 +4,39 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import java.util.*;
-import ru.net.serbis.launcher.*;
-import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.db.action.*;
 import ru.net.serbis.launcher.group.*;
 
 public class GroupsTable extends Table
 {
     @Override
-    public void createTable(SQLiteDatabase db)
+    public void createTable(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL(
-            "create table groups(" +
+            "create table if not exists groups(" +
             "    id integer primary key autoincrement," + 
             "    name text," +
             "    ordering integer" +
             ")");
-        createGroup(db, Group.HIDDEN);
+			
+		if (!groupExists(db, Group.HIDDEN.getId()))
+		{
+        	createGroup(db, Group.HIDDEN);
+		}
     }   
 
-    public List<Group> getGroups()
+    public Collection<Group> getGroups()
     {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        try
-        {
-            return getGroups(db);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on get groups", e);
-            return Collections.<Group>emptyList();
-        }
-        finally
-        {
-            db.close();
-        }
+		return read(
+			new CollectionAction<Group>()
+			{
+				@Override
+				public Collection<Group> call(SQLiteDatabase db)
+				{
+					return getGroups(db);
+				}
+			}
+		);
     }
 
     private List<Group> getGroups(SQLiteDatabase db)
@@ -58,22 +57,18 @@ public class GroupsTable extends Table
         return result;
     }
 
-    public boolean deleteGroup(Group group)
+    public boolean deleteGroup(final Group group)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            return deleteGroup(db, group);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on delete group " + group.getName(getContext()), e);
-            return false;
-        }
-        finally
-        {
-            db.close();
-        }
+		return write(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					return deleteGroup(db, group);
+				}
+			}
+		);
     }
     
     private boolean deleteGroup(SQLiteDatabase db, Group group)
@@ -92,22 +87,18 @@ public class GroupsTable extends Table
         return createGroup(group.getId(), group.getName(getContext()));
     }
 
-    public Group createGroup(Long id, String name)
+    public Group createGroup(final Long id, final String name)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            return createGroup(db, id, name);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on create group " + name, e);
-            return null;
-        }
-        finally
-        {
-            db.close();
-        }
+		return write(
+			new Action<Group>()
+			{
+				@Override
+				public Group call(SQLiteDatabase db)
+				{
+					return createGroup(db, id, name);
+				}
+			}
+		);
     }
     
     private Group createGroup(SQLiteDatabase db, Group group)
@@ -138,27 +129,23 @@ public class GroupsTable extends Table
         return 0;
     }
 
-    public void saveGroupOrdering(List<Group> groups)
+    public void saveGroupOrdering(final List<Group> groups)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            saveGroupOrdering(db, groups);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on save group ordering", e);
-        }
-        finally
-        {
-            db.close();
-        }
+		write(
+			new Action<Void>()
+			{
+				@Override
+				public Void call(SQLiteDatabase db)
+				{
+					saveGroupOrdering(db, groups);
+					return null;
+				}
+			}
+		);
     }
     
     private void saveGroupOrdering(SQLiteDatabase db, List<Group> groups)
     {
-        db.beginTransaction();
-
         int order = 0;
         for (Group group : groups)
         {
@@ -166,27 +153,20 @@ public class GroupsTable extends Table
             values.put("ordering", order++);
             db.update("groups", values, "id = ?", new String[]{group.getId().toString()});
         }
-
-        db.setTransactionSuccessful();
-        db.endTransaction();
     }
 
-    public boolean updateGroup(Group group)
+    public boolean updateGroup(final Group group)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            return updateGroup(db, group);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on update group " + group.getName(getContext()), e);
-            return false;
-        }
-        finally
-        {
-            db.close();
-        }
+		return write(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					return updateGroup(db, group);
+				}
+			}
+		);
     }
     
     private boolean updateGroup(SQLiteDatabase db, Group group)
@@ -196,4 +176,10 @@ public class GroupsTable extends Table
         int count = db.update("groups", values, "id = ?", new String[]{group.getId().toString()});
         return count > 0;
     }
+	
+	private boolean groupExists(SQLiteDatabase db, Long id)
+	{
+		Cursor cursor = db.query("groups", new String[]{"1"}, "id = ?", new String[]{id.toString()}, null, null, null);
+        return cursor.moveToFirst();
+	}
 }

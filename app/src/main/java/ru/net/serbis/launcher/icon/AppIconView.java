@@ -1,4 +1,4 @@
-package ru.net.serbis.launcher.ikon;
+package ru.net.serbis.launcher.icon;
 
 import android.content.*;
 import android.view.*;
@@ -9,20 +9,20 @@ import ru.net.serbis.launcher.host.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.application.*;
 
-public class IkonView extends LinearLayout
+public class AppIconView extends LinearLayout
 {
-    private Ikon ikon;
+    private AppIcon appIcon;
     private View view;
     private Host host;
 
-    public IkonView(Host host, Ikon ikon, int layoutId)
+    public AppIconView(Host host, AppIcon appIcon, int layoutId)
     {
         super(host.getActivity());
 
-        this.ikon = ikon;
+        this.appIcon = appIcon;
         this.host = host;
         
-        setId((int) ikon.getId());
+        setId((int) appIcon.getId());
 
         initView(layoutId);
         initLongClickListener();
@@ -30,9 +30,9 @@ public class IkonView extends LinearLayout
         initSwipeListener();
     }
 
-    public Ikon getIkon()
+    public AppIcon getAppIcon()
     {
-        return ikon;
+        return appIcon;
     }
     
     private void initView(int layoutId)
@@ -40,12 +40,12 @@ public class IkonView extends LinearLayout
         view = inflate(getContext(), layoutId, null);
         
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        icon.setImageDrawable(ikon.getItem().getIcon());
+        icon.setImageDrawable(appIcon.getItem().getIcon());
         
         TextView label = (TextView) view.findViewById(R.id.label);
         if (label != null)
         {
-            label.setText(ikon.getItem().getLabel());
+            label.setText(appIcon.getItem().getLabel());
         }
         
         addView(view);
@@ -69,7 +69,7 @@ public class IkonView extends LinearLayout
     {
         View.DragShadowBuilder builder = new View.DragShadowBuilder(view);
         ClipData data = ClipData.newPlainText(null, null);
-        view.startDrag(data, builder, new DragItem(IkonView.this, null), 0);
+        view.startDrag(data, builder, new DragItem(AppIconView.this, null), 0);
     }
     
     private void initClickListener()
@@ -80,7 +80,7 @@ public class IkonView extends LinearLayout
                 @Override
                 public void onClick(View view)
                 {
-                    ikon.getItem().start(host);
+                    appIcon.getItem().start(host);
                 }
             });        
     }

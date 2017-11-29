@@ -12,7 +12,7 @@ public class Items extends BroadcastReceiver
 {
     private static Items instance = new Items();
     
-    private Map<String, Item> items;
+	private Map<String, Item> items;
     
     public static Items getIstance()
     {
@@ -21,7 +21,7 @@ public class Items extends BroadcastReceiver
     
     public void init(Context context)
     {
-        items = new HashMap<String, Item>();
+		items = new HashMap<String, Item>();
         PackageManager manager = context.getPackageManager();
         
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
@@ -41,7 +41,7 @@ public class Items extends BroadcastReceiver
     {
         if (item.validate(manager))
         {
-            items.put(item.getName(), item);
+            items.put(item.getKey(), item);
         }
     }
 
@@ -54,8 +54,8 @@ public class Items extends BroadcastReceiver
                 resolveInfo.loadLabel(manager).toString().trim(),
                 getActivityIcon(manager, resolveInfo.activityInfo),
                 resolveInfo.activityInfo);
-            
-            items.put(item.getName(), item);
+           
+            items.put(item.getKey(), item);
         }
     }
   
@@ -63,8 +63,8 @@ public class Items extends BroadcastReceiver
     {
         return info.loadIcon(manager);
     }
-    
-    public Map<String, Item> getItems(Context context)
+	
+	public Map<String, Item> getItems(Context context)
     {
         if (items == null)
         {
@@ -72,18 +72,23 @@ public class Items extends BroadcastReceiver
         }
         return items;        
     }
-    
-    public Item getItem(Context context, String name)
-    {
-        return getItems(context).get(name);
-    }
 
+	public Item getItem(Context context, String itemKey)
+    {
+        return getItems(context).get(itemKey);
+    }
+	
+	public Item getItem(Context context, String name, String packageName)
+    {
+        return getItem(context, Item.getKey(name, packageName));
+    }
+	
     @Override
     public void onReceive(Context context, Intent intent)
     {
         String packageName = intent.getData().getEncodedSchemeSpecificPart();
         String action = intent.getAction();
         Log.info(this, packageName + " - " + action);
-        instance.items = null;
+		instance.items = null;
     }
 }

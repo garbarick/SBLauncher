@@ -10,7 +10,7 @@ import java.lang.reflect.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.drag.*;
-import ru.net.serbis.launcher.ikon.*;
+import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.widget.*;
 
@@ -30,7 +30,7 @@ public abstract class Host extends Fragment
 
     protected abstract int getLayoutId();
     protected abstract int getHostId();
-    protected abstract int getIkonLayotId();
+    protected abstract int getAppIconLayotId();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
@@ -46,7 +46,7 @@ public abstract class Host extends Fragment
         db = new DBHelper(getActivity());
 
         restoreWidgets();
-        restoreIkons();
+        restoreAppIcons();
 
         initDragListener();
         initSwipeListener();
@@ -67,11 +67,11 @@ public abstract class Host extends Fragment
         }
     }
 
-    protected void restoreIkons()
+    protected void restoreAppIcons()
     {
-        for (Ikon ikon : db.getIkons(host, place))
+        for (AppIcon appIcon : db.getAppIcons(host, place))
         {
-            creatIkonView(ikon);
+            createAppIconView(appIcon);
         }
     }
 
@@ -90,14 +90,14 @@ public abstract class Host extends Fragment
                 {
                     saveWidgetPosition(event, item);
                 }
-                else if (object instanceof IkonView)
+                else if (object instanceof AppIconView)
                 {
-                    saveIkonPosition(event, item);
+                    saveAppIconPosition(event, item);
                 }
             }
         };
         dragListener.setViewsForWidget(deleteItem, resizeItem);
-        dragListener.setViewsForIkon(deleteItem);
+        dragListener.setViewsForAppIcon(deleteItem);
         layout.setOnDragListener(dragListener);
 
         if (deleteItem != null)
@@ -123,9 +123,9 @@ public abstract class Host extends Fragment
                     {
                         removeWidget(item);
                     }
-                    else if (object instanceof IkonView)
+                    else if (object instanceof AppIconView)
                     {
-                        removeIkon(item);
+                        removeAppIcon(item);
                     }
                 }
             }
@@ -158,10 +158,10 @@ public abstract class Host extends Fragment
         return view;
     }
 
-    public IkonView creatIkonView(Ikon ikon)
+    public AppIconView createAppIconView(AppIcon appIcon)
     {
-        IkonView view = new IkonView(this, ikon, getIkonLayotId());
-        layout.addView(view, createLayoutParams(ikon.getRect()));
+        AppIconView view = new AppIconView(this, appIcon, getAppIconLayotId());
+        layout.addView(view, createLayoutParams(appIcon.getRect()));
         return view;
     }
 
@@ -205,7 +205,7 @@ public abstract class Host extends Fragment
         return getPosition(event, item);
     }
 
-    protected Point getIkonPosition(DragEvent event, DragItem item)
+    protected Point getAppIconPosition(DragEvent event, DragItem item)
     {
         return getPosition(event, item);
     }
@@ -232,21 +232,21 @@ public abstract class Host extends Fragment
         }
     }
 
-    protected void saveIkonPosition(DragEvent event, DragItem item)
+    protected void saveAppIconPosition(DragEvent event, DragItem item)
     {
         try
         {
-            IkonView view = (IkonView) item.getView();
-            Point point = getIkonPosition(event, item);
+            AppIconView view = (AppIconView) item.getView();
+            Point point = getAppIconPosition(event, item);
             removeFromParent(view);
 
-            Ikon ikon = view.getIkon();
-            ikon.setX(point.x);
-            ikon.setY(point.y);
+            AppIcon appIcon = view.getAppIcon();
+            appIcon.setX(point.x);
+            appIcon.setY(point.y);
 
-            db.updateIkon(ikon, host, place);
+            db.updateAppIcon(appIcon, host, place);
 
-            creatIkonView(ikon);
+            createAppIconView(appIcon);
         }
         catch (Exception e)
         {
@@ -268,10 +268,10 @@ public abstract class Host extends Fragment
         removeFromParent(view);
     }
 
-    protected void removeIkon(DragItem item)
+    protected void removeAppIcon(DragItem item)
     {
-        IkonView view = (IkonView) item.getView();
-        db.removeIkon(view.getIkon().getId());
+        AppIconView view = (AppIconView) item.getView();
+        db.removeAppIcon(view.getAppIcon().getId());
         removeFromParent(view);
     }
 

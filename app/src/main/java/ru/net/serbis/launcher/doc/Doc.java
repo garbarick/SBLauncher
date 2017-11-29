@@ -28,7 +28,7 @@ public class Doc extends Host
     }
 
     @Override
-    protected int getIkonLayotId()
+    protected int getAppIconLayotId()
     {
         return R.layout.doc_application;
     }
@@ -72,9 +72,9 @@ public class Doc extends Host
     }
 
     @Override
-    protected Point getIkonPosition(DragEvent event, DragItem item)
+    protected Point getAppIconPosition(DragEvent event, DragItem item)
     {
-        Point result = super.getIkonPosition(event, item);
+        Point result = super.getAppIconPosition(event, item);
         result.x = result.x < 0 ? 0 : result.x;
         result.x = (int) Math.ceil(result.x/5) * 5;
         result.y = 0;

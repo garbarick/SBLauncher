@@ -22,4 +22,9 @@ public class Log
     {
         android.util.Log.i(o.getClass().getName(), message, e);
     }
+	
+	public static void info(Object o, Throwable e)
+    {
+        info(o, "Error", e);
+    }
 }

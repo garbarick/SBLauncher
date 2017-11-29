@@ -2,22 +2,22 @@ package ru.net.serbis.launcher.drag;
 
 import android.view.*;
 import java.util.*;
-import ru.net.serbis.launcher.ikon.*;
+import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.widget.*;
 
 public abstract class DragAndShowViewListener extends DragListener
 {
     private View[] viewsForWidget;
-    private View[] viewsForIkon;
+    private View[] viewsForAppIcon;
 
     public void setViewsForWidget(View... viewsForWidget)
     {
         this.viewsForWidget = viewsForWidget;
     }
 
-    public void setViewsForIkon(View... viewsForIkon)
+    public void setViewsForAppIcon(View... viewsForAppIcon)
     {
-        this.viewsForIkon = viewsForIkon;
+        this.viewsForAppIcon = viewsForAppIcon;
     }
 
     private void showViews(View[] views, int visible)
@@ -38,9 +38,9 @@ public abstract class DragAndShowViewListener extends DragListener
         {
             showViews(viewsForWidget, viewsVisible);
         }
-        else if (view instanceof IkonView)
+        else if (view instanceof AppIconView)
         {
-            showViews(viewsForIkon, viewsVisible);
+            showViews(viewsForAppIcon, viewsVisible);
         }
         else
         {

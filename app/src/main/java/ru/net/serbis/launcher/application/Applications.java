@@ -93,7 +93,7 @@ public class Applications extends Activity
                     Item item = (Item) parent.getItemAtPosition(position);
                     
                     Intent intent = new Intent(Applications.this, Home.class);
-                    intent.putExtra(Item.ITEM_NAME, item.getName());
+                    intent.putExtra(Item.ITEM_KEY, item.getKey());
                     
                     Rect rect = new Rect();
                     view.getGlobalVisibleRect(rect);

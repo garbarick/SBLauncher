@@ -160,12 +160,12 @@ public class Home extends Activity
     @Override
     protected void onNewIntent(Intent intent)
     {
-        if (intent.hasExtra(Item.ITEM_NAME))
+        if (intent.hasExtra(Item.ITEM_KEY))
         {
-            String name = intent.getStringExtra(Item.ITEM_NAME);
+            String itemKey = intent.getStringExtra(Item.ITEM_KEY);
             int x = intent.getIntExtra(Item.ITEM_POS_X, 0);
             int y = intent.getIntExtra(Item.ITEM_POS_Y, 0);
-            desktops.get(desktop).sendItem(name, x, y);
+            desktops.get(desktop).sendItem(itemKey, x, y);
         }
     }
 

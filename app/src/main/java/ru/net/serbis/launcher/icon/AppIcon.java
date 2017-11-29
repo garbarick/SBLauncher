@@ -1,23 +1,23 @@
-package ru.net.serbis.launcher.ikon;
+package ru.net.serbis.launcher.icon;
 
 import android.graphics.*;
 import ru.net.serbis.launcher.application.*;
 import android.graphics.drawable.*;
 
-public class Ikon
+public class AppIcon
 {
     private long id;
     private Item item;
     private Rect rect;
     
-    private Ikon(long id, Item item, Rect rect)
+    private AppIcon(long id, Item item, Rect rect)
     {
         this.id = id;
         this.item = item;
         this.rect = rect;
     }
 
-    public Ikon(long id, Item item, int x, int y)
+    public AppIcon(long id, Item item, int x, int y)
     {
         this(id, item, new Rect(x, y, 0, 0));
     }

@@ -9,7 +9,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.host.*;
-import ru.net.serbis.launcher.ikon.*;
+import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.widget.*;
 
 public class Desktop extends Host
@@ -32,7 +32,7 @@ public class Desktop extends Host
     }
 
     @Override
-    protected int getIkonLayotId()
+    protected int getAppIconLayotId()
     {
         return R.layout.doc_application;
     }
@@ -110,13 +110,13 @@ public class Desktop extends Host
         createWidget(widget);
     }
 
-    public void sendItem(String name, int x, int y)
+    public void sendItem(String itemKey, int x, int y)
     {
-        Item item = db.getItem(name);
-        Ikon ikon = new Ikon(0, item, x, y);
-        db.addIkon(ikon, host, place);
+        Item item = db.getItem(itemKey);
+        AppIcon appIcon = new AppIcon(0, item, x, y);
+        db.addAppIcon(appIcon, host, place);
         
-        IkonView view = creatIkonView(ikon);
+        AppIconView view = createAppIconView(appIcon);
         view.startDrag(); //not worked
     }
 

@@ -1,39 +1,36 @@
 package ru.net.serbis.launcher.db.table;
+
 import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import java.util.*;
-import ru.net.serbis.launcher.*;
+import ru.net.serbis.launcher.db.action.*;
 import ru.net.serbis.launcher.set.*;
 
 public class SettingsTable extends Table
 {
     @Override
-    public void createTable(SQLiteDatabase db)
+    public void createTable(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL(
-            "create table settings(" +
+            "create table if not exists settings(" +
             "    name text primary key," +
             "    value text" +
             ")");
     }
 
-    public boolean loadParameterValue(Parameter parameter)
+    public boolean loadParameterValue(final Parameter parameter)
     {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        try
-        {
-            return loadParameterValue(db, parameter);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on get parameter " + parameter.getName().getValue(), e);
-            return false;
-        }
-        finally
-        {
-            db.close();
-        }
+		return read(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					return loadParameterValue(db, parameter);
+				}
+			}
+		);
     }
 
     private boolean loadParameterValue(SQLiteDatabase db, Parameter parameter)
@@ -47,21 +44,19 @@ public class SettingsTable extends Table
         return false;
     }
 
-    public void loadParameterValues(List<Parameter> parameters)
+    public void loadParameterValues(final List<Parameter> parameters)
     {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        try
-        {
-            loadParameterValues(db, parameters);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on get parameters", e);
-        }
-        finally
-        {
-            db.close();
-        }
+		read(
+			new Action<Void>()
+			{
+				@Override
+				public Void call(SQLiteDatabase db)
+				{
+					loadParameterValues(db, parameters);
+					return null;
+				}
+			}
+		);
     }
 
     private void loadParameterValues(SQLiteDatabase db, List<Parameter> parameters)
@@ -72,55 +67,42 @@ public class SettingsTable extends Table
         }
     }
 
-    public boolean saveParameterValues(List<Parameter> parameters)
+    public boolean saveParameterValues(final List<Parameter> parameters)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            saveParameterValues(db, parameters);
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on save parameters", e);
-            return false;
-        }
-        finally
-        {
-            db.close();
-        }
+		return write(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					saveParameterValues(db, parameters);
+					return true;
+				}
+			}
+		);
     }
 
-    public boolean saveParameterValue(Parameter parameter)
+    public boolean saveParameterValue(final Parameter parameter)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            saveParameterValue(db, parameter);
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on save parameter", e);
-            return false;
-        }
-        finally
-        {
-            db.close();
-        }
+		return write(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					saveParameterValue(db, parameter);
+					return true;
+				}
+			}
+		);
     }
 
     private void saveParameterValues(SQLiteDatabase db, List<Parameter> parameters)
     {
-        db.beginTransaction();
-
         for (Parameter parameter : parameters)
         {
             saveParameterValue(db, parameter);
         }
-
-        db.setTransactionSuccessful();
-        db.endTransaction();
     }
 
     private void saveParameterValue(SQLiteDatabase db, Parameter parameter)

@@ -3,18 +3,18 @@ package ru.net.serbis.launcher.db.table;
 import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
-import java.util.*;
-import ru.net.serbis.launcher.*;
-import ru.net.serbis.launcher.widget.*;
 import android.graphics.*;
+import java.util.*;
+import ru.net.serbis.launcher.db.action.*;
+import ru.net.serbis.launcher.widget.*;
 
 public class WidgetTable extends Table
 {
     @Override
-    public void createTable(SQLiteDatabase db)
+    public void createTable(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL(
-            "create table widgets(" +
+            "create table if not exists widgets(" +
             "    id integer primary key," +
             "    x integer," +
             "    y integer," +
@@ -25,21 +25,19 @@ public class WidgetTable extends Table
             ")");
     }
 
-    public void addWidget(Widget widget, String host, int place)
+    public void addWidget(final Widget widget, final String host, final int place)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            addWidget(db, widget, host, place);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on add widget", e);
-        }
-        finally
-        {
-            db.close();
-        }
+		write(
+			new Action<Void>()
+			{
+				@Override
+				public Void call(SQLiteDatabase db)
+				{
+					addWidget(db, widget, host, place);
+					return null;
+				}
+			}
+		);
     }
 
     private void addWidget(SQLiteDatabase db, Widget widget, String host, int place)
@@ -53,22 +51,18 @@ public class WidgetTable extends Table
         db.insert("widgets", null, values);
     }
 
-    public List<Widget> getWidgets(String host, int place)
+    public Collection<Widget> getWidgets(final String host, final int place)
     {
-        SQLiteDatabase db = helper.getReadableDatabase();
-        try
-        {
-            return getWidgets(db, host, place);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on get widgets for place " + place, e);
-            return Collections.<Widget>emptyList();
-        }
-        finally
-        {
-            db.close();
-        }
+		return read(
+			new CollectionAction<Widget>()
+			{
+				@Override
+				public Collection<Widget> call(SQLiteDatabase db)
+				{
+					return getWidgets(db, host, place);
+				}
+			}
+		);
     }
 
     private List<Widget> getWidgets(SQLiteDatabase db, String host, Integer place)
@@ -93,21 +87,19 @@ public class WidgetTable extends Table
         return result;
     }
 
-    public void removeWidget(int id)
+    public void removeWidget(final int id)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            removeWidget(db, id);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on remove widget", e);
-        }
-        finally
-        {
-            db.close();
-        }
+		write(
+			new Action<Void>()
+			{
+				@Override
+				public Void call(SQLiteDatabase db)
+				{
+					removeWidget(db, id);
+					return null;
+				}
+			}
+		);
     }
 
     private void removeWidget(SQLiteDatabase db, Integer id)
@@ -115,21 +107,19 @@ public class WidgetTable extends Table
         db.delete("widgets", "id = ?", new String[]{id.toString()});
     }
 
-    public void updateWidget(Widget widget, String host, int place)
+    public void updateWidget(final Widget widget, final String host, final int place)
     {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try
-        {
-            updateWidget(db, widget, host, place);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "Error on update widget", e);
-        }
-        finally
-        {
-            db.close();
-        }
+		write(
+			new Action<Void>()
+			{
+				@Override
+				public Void call(SQLiteDatabase db)
+				{
+					updateWidget(db, widget, host, place);
+					return null;
+				}
+			}
+		);
     }
 
     private void updateWidget(SQLiteDatabase db, Widget widget, String host, int place)

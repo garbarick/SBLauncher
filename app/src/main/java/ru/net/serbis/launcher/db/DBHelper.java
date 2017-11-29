@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.db;
+
 import android.content.*;
 import android.database.sqlite.*;
 import java.util.*;
@@ -6,31 +7,34 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.table.*;
 import ru.net.serbis.launcher.group.*;
-import ru.net.serbis.launcher.ikon.*;
+import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.widget.*;
 
 public class DBHelper extends SQLiteOpenHelper
 {
     private Context context;
+
     private GroupsTable groups = new GroupsTable();
-    private ApplicationsTable applications = new ApplicationsTable();
+    private AppsGroupTable appsGroup = new AppsGroupTable();
     private SettingsTable settings = new SettingsTable();
     private WidgetTable widgets = new WidgetTable();
-    private IkonTable ikons = new IkonTable();
-    
+    private AppIconsTable appIcons = new AppIconsTable();
+	private AppsTable apps = new AppsTable();
+
     private List<Table> tables = Arrays.asList(
-        groups, 
-        applications, 
+        groups,
+		apps,
+        appsGroup,
         settings,
         widgets,
-        ikons);
+        appIcons);
 
     public DBHelper(Context context)
     {
-        super(context, "db", null, 1);
+        super(context, "db", null, 2);
         this.context = context;
-        
+
         initTables();
     }
 
@@ -50,13 +54,13 @@ public class DBHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        createTables(db);
+        createTables(db, 1, 1);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        createTables(db);
+        createTables(db, oldVersion, newVersion);
     }
 
     @Override
@@ -71,17 +75,17 @@ public class DBHelper extends SQLiteOpenHelper
         db.setForeignKeyConstraintsEnabled(true);
     }
 
-    private void createTables(SQLiteDatabase db)
+    private void createTables(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         for (Table table : tables)
         {
             try
             {
-                table.createTable(db);
+                table.createTable(db, oldVersion, newVersion);
             }
             catch (Exception e)
             {
-                Log.info(this, "Error on create tables", e);
+                Log.info(this, "Error on create tables: " + e.getMessage());
             }
         }
     }
@@ -113,14 +117,14 @@ public class DBHelper extends SQLiteOpenHelper
     private List<Item> filterItemForAll(Map<String, Item> items)
     {
         Map<String, Item> result = new HashMap<String, Item>(items);
-        result.keySet().removeAll(applications.getItemNames(null, null));
+        result.keySet().removeAll(appsGroup.getItemKeys(null));
         return new ArrayList<Item>(result.values());
     }
 
     private List<Item> filterItemForGroup(Map<String, Item> items, Group group)
     {
         List<Item> result = new ArrayList<Item>();
-        for (String name : applications.getItemNames("group_id = ?", new String[]{group.getId().toString()}))
+        for (String name : appsGroup.getItemKeys(group))
         {
             if (items.containsKey(name))
             {
@@ -129,10 +133,15 @@ public class DBHelper extends SQLiteOpenHelper
         }
         return result;
     }
-    
-    public Item getItem(String name)
+
+    public Item getItem(String name, String packageName)
     {
-        return Items.getIstance().getItem(context, name);
+        return Items.getIstance().getItem(context, name, packageName);
+    }
+	
+	public Item getItem(String itemKey)
+    {
+        return Items.getIstance().getItem(context, itemKey);
     }
 
     public boolean deleteGroup(Group group)
@@ -157,24 +166,24 @@ public class DBHelper extends SQLiteOpenHelper
 
     public boolean saveItemsInGroup(List<Item> items, Group group)
     {
-        return applications.saveItemsInGroup(items, group);
+        return appsGroup.saveItemsInGroup(items, group);
     }
-    
+
     public boolean loadParameterValue(Parameter parameter)
     {
         return settings.loadParameterValue(parameter);
     }
-    
+
     public void loadParameterValues(List<Parameter> parameters)
     {
         settings.loadParameterValues(parameters);
     }
-    
+
     public boolean saveParameterValues(List<Parameter> parameters)
     {
         return settings.saveParameterValues(parameters);
     }
-    
+
     public boolean saveParameterValue(Parameter parameter)
     {
         return settings.saveParameterValue(parameter);
@@ -184,39 +193,44 @@ public class DBHelper extends SQLiteOpenHelper
     {
         widgets.addWidget(widget, host, place);
     }
-    
-    public List<Widget> getWidgets(String host, int place)
+
+    public Collection<Widget> getWidgets(String host, int place)
     {
         return widgets.getWidgets(host, place);
     }
-    
+
     public void removeWidget(int id)
     {
         widgets.removeWidget(id);
     }
-    
+
     public void updateWidget(Widget widget, String host, int place)
     {
         widgets.updateWidget(widget, host, place);
     }
-    
-    public void addIkon(Ikon ikon, String host, int place)
+
+    public void addAppIcon(AppIcon appIcon, String host, int place)
     {
-        ikons.addIkon(ikon, host, place);
+        appIcons.add(appIcon, host, place);
     }
 
-    public List<Ikon> getIkons(String host, int place)
+    public Collection<AppIcon> getAppIcons(String host, int place)
     {
-        return ikons.getIkons(host, place);
+        return appIcons.getIcons(host, place);
     }
 
-    public void removeIkon(long id)
+    public void removeAppIcon(long id)
     {
-        ikons.removeIkon(id);
+        appIcons.remove(id);
     }
 
-    public void updateIkon(Ikon ikon, String host, int place)
+    public void updateAppIcon(AppIcon appIcon, String host, int place)
     {
-        ikons.updateIkon(ikon, host, place);
+        appIcons.update(appIcon, host, place);
     }
+	
+	public long addApplication(SQLiteDatabase db, Item item)
+    {
+		return apps.add(db, item);
+	}
 }
