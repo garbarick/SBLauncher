@@ -169,6 +169,11 @@ public class DBHelper extends SQLiteOpenHelper
         return appsGroup.saveItemsInGroup(items, group);
     }
 
+	public boolean addItemInGroup(Item item, Group group)
+    {
+        return appsGroup.addItemInGroup(item, group);
+    }
+	
     public boolean loadParameterValue(Parameter parameter)
     {
         return settings.loadParameterValue(parameter);

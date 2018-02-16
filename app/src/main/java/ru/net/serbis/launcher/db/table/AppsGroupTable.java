@@ -81,11 +81,39 @@ public class AppsGroupTable extends Table
         db.delete("apps_group", "group_id = ?", new String[]{group.getId().toString()});
         for (Item item : items)
         {
-            ContentValues values = new ContentValues();
-            values.put("app_id", helper.addApplication(db, item));
-            values.put("group_id", group.getId());
-            db.insert("apps_group", null, values);
+			Long id = helper.addApplication(db, item);
+			addItemInGroup(db, id, group);
         }
         return true;
+    }
+	
+	public boolean addItemInGroup(final Item item, final Group group)
+    {
+		return write(
+			new BooleanAction()
+			{
+				@Override
+				public Boolean call(SQLiteDatabase db)
+				{
+					return addItemInGroup(db, item, group);
+				}
+			}
+		);
+    }
+
+    private boolean addItemInGroup(SQLiteDatabase db, Item item, Group group)
+    {
+		Long id = helper.addApplication(db, item);
+        db.delete("apps_group", "app_id = ? and group_id = ?", new String[]{id.toString(), group.getId().toString()});
+		addItemInGroup(db, id, group);
+        return true;
+    }
+	
+	private void addItemInGroup(SQLiteDatabase db, Long itemId, Group group)
+    {
+		ContentValues values = new ContentValues();
+        values.put("app_id", itemId);
+        values.put("group_id", group.getId());
+        db.insert("apps_group", null, values);
     }
 }

@@ -3,6 +3,8 @@ package ru.net.serbis.launcher.icon;
 import android.content.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
+import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.group.*;
 
 public class ShortcutReceiver extends BroadcastReceiver
 {
@@ -15,6 +17,7 @@ public class ShortcutReceiver extends BroadcastReceiver
 			Item item = Items.getIstance().addItem(context, extra.getComponent());
 			if (item != null)
 			{
+				addToHiddenGroup(context, item);
 				addToDesktop(context, item);
 			}
 		}
@@ -34,5 +37,11 @@ public class ShortcutReceiver extends BroadcastReceiver
 		intent.putExtra(Item.ITEM_POS_Y, 10);
 
 		context.startActivity(intent);
+	}
+	
+	private void addToHiddenGroup(Context context, Item item)
+	{
+		DBHelper db = new DBHelper(context);
+		db.addItemInGroup(item, Group.HIDDEN);
 	}
 }
