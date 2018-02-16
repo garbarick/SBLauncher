@@ -11,38 +11,44 @@ import ru.net.serbis.launcher.tools.*;
 public class Items extends BroadcastReceiver
 {
     private static Items instance = new Items();
-    
+
 	private Map<String, Item> items;
-    
+
     public static Items getIstance()
     {
         return instance;
     }
-    
+
     public void init(Context context)
     {
 		items = new HashMap<String, Item>();
         PackageManager manager = context.getPackageManager();
-        
+
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         findActivities(manager, intent);
-        
+		
+		intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        findActivities(manager, intent);
+
         intent = new Intent(context, Tabs.class);
         findActivities(manager, intent);
-        
+
         addItem(new SwipeRight(context), manager);
         addItem(new SwipeLeft(context), manager);
         addItem(new SwipeTop(context), manager);
-        addItem(new DayDream(context), manager);
+        addItem(new DayDream(), manager);
     }
-    
-    private void addItem(Item item, PackageManager manager)
+
+    private boolean addItem(Item item, PackageManager manager)
     {
         if (item.validate(manager))
         {
-            items.put(item.getKey(), item);
+			addItem(item);
+			return true;
         }
+		return false;
     }
 
     private void findActivities(PackageManager manager, Intent intent)
@@ -54,16 +60,25 @@ public class Items extends BroadcastReceiver
                 resolveInfo.loadLabel(manager).toString().trim(),
                 getActivityIcon(manager, resolveInfo.activityInfo),
                 resolveInfo.activityInfo);
-           
-            items.put(item.getKey(), item);
+            addItem(item);
         }
     }
-  
+
+	private void addItem(Item item)
+	{
+		items.put(item.getKey(), item);
+	}
+
+	public Item addItem(Context context, ComponentName comp)
+	{
+		return getItem(context, comp.getClassName(), comp.getPackageName());
+	}
+
     private Drawable getActivityIcon(PackageManager manager, ActivityInfo info)
     {
         return info.loadIcon(manager);
     }
-	
+
 	public Map<String, Item> getItems(Context context)
     {
         if (items == null)
@@ -77,12 +92,22 @@ public class Items extends BroadcastReceiver
     {
         return getItems(context).get(itemKey);
     }
-	
+
 	public Item getItem(Context context, String name, String packageName)
     {
-        return getItem(context, Item.getKey(name, packageName));
+		Item item = getItem(context, Item.getKey(name, packageName));
+		if (item == null)
+		{
+			item = new ActionItem(name, packageName);
+			PackageManager manager = context.getPackageManager();
+			if (!addItem(item, manager))
+			{
+				item = null;
+			}
+		}
+		return item;
     }
-	
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
