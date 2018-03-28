@@ -55,18 +55,7 @@ public class AppIconsTable extends Table
         appIcon.setId(id);
     }
 
-    public Collection<AppIcon> getIcons(String host, int place)
-    {
-        List<Long> removed = new ArrayList<Long>();
-        Collection<AppIcon> result = getIcons(host, place, removed);
-        if (!removed.isEmpty())
-        {
-            removeIcons(removed);
-        }
-        return result;
-    }
-
-    private Collection<AppIcon> getIcons(final String host, final int place, final List<Long> removed)
+    public Collection<AppIcon> getIcons(final String host, final int place)
     {
 		return read(
 			new CollectionAction<AppIcon>()
@@ -74,13 +63,13 @@ public class AppIconsTable extends Table
 				@Override
 				public Collection<AppIcon> call(SQLiteDatabase db)
 				{
-					return getIcons(db, host, place, removed);
+					return getIcons(db, host, place);
 				}
 			}
 		);
     }
 
-    private List<AppIcon> getIcons(SQLiteDatabase db, String host, Integer place, List<Long> removed)
+    private List<AppIcon> getIcons(SQLiteDatabase db, String host, Integer place)
     {
         List<AppIcon> result = new ArrayList<AppIcon>();
         Cursor cursor = db.query("app_icons i, apps a", new String[]{"i.id", "a.name", "a.package", "i.x", "i.y"}, "i.app_id = a.id and i.host = ? and i.place = ?", new String[]{host, place.toString()}, null, null, "i.id");
@@ -94,10 +83,6 @@ public class AppIconsTable extends Table
                 {
                     AppIcon appIcon = new AppIcon(id, item, cursor.getInt(3), cursor.getInt(4));
                     result.add(appIcon);
-                }
-                else
-                {
-                    removed.add(id);
                 }
             }
             while(cursor.moveToNext());
