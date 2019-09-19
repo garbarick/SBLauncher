@@ -22,13 +22,13 @@ public class DBHelper extends SQLiteOpenHelper
     private AppIconsTable appIcons = new AppIconsTable();
 	private AppsTable apps = new AppsTable();
 
-    private List<Table> tables = Arrays.asList(
+    private List<Table> tables = Arrays.asList(new Table[] {
         groups,
 		apps,
         appsGroup,
         settings,
         widgets,
-        appIcons);
+        appIcons});
 
     public DBHelper(Context context)
     {

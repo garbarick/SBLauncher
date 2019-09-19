@@ -41,9 +41,19 @@ public class GroupEditor extends Activity
 
     private void initList()
     {
-        List<Item> items = db.getItems(Group.ALL);
+        List<Item> items;
         List<Item> checked = db.getItems(group);
-        items.addAll(checked);
+      
+		if (Group.HIDDEN.equals(group))
+		{
+			items = new ArrayList<Item>(Items.getIstance().getItems(this).values());
+		}
+		else
+		{
+			items = db.getItems(Group.ALL);
+			items.addAll(checked);
+		}
+		
         Collections.sort(items);
         adapter = new EditApplicationAdapter(this, R.layout.group_edit, R.layout.edit_application, items);
         adapter.setChecked(checked);

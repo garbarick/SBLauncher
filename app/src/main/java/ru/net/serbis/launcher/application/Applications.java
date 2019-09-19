@@ -43,6 +43,7 @@ public class Applications extends Activity
         Intent intent = getIntent();
         Group group = (Group)intent.getSerializableExtra(Group.GROUP);
         List<Item> items = db.getItems(group);
+		items.removeAll(db.getItems(Group.HIDDEN));
         Collections.sort(items);
         ApplicationAdapter adapter = new ApplicationAdapter(this, R.layout.applications, R.layout.application, items);
         grid.setAdapter(adapter);

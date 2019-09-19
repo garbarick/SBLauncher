@@ -15,6 +15,7 @@ import ru.net.serbis.launcher.set.*;
 public class Tabs extends TabActivity
 {  
     private DBHelper db;
+	private AnimatedTabChange animationTab;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -26,7 +27,7 @@ public class Tabs extends TabActivity
 
         initSettings();
         initTabs();
-        intAnimationTabChange();
+        initAnimationTabChange();
         initMenuButton();
     }
 
@@ -72,11 +73,10 @@ public class Tabs extends TabActivity
         return view;
     }
 
-    private void intAnimationTabChange()
+    private void initAnimationTabChange()
     {
-        getTabHost().setOnTabChangedListener(
-            new AnimatedTabChange(db, getTabHost())
-        );
+		animationTab = new AnimatedTabChange(db, getTabHost());
+        getTabHost().setOnTabChangedListener(animationTab);
     }
 
     @Override
@@ -122,8 +122,10 @@ public class Tabs extends TabActivity
 
     private void reload()
     {
+		animationTab.setDisable(true);
         getTabHost().clearAllTabs();
         initTabs();
+		animationTab.setDisable(false);
     }
 
     private void initMenuButton()
