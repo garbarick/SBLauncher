@@ -114,36 +114,36 @@ public class Items extends BroadcastReceiver
         String packageName = intent.getData().getEncodedSchemeSpecificPart();
         String action = intent.getAction();
         Log.info(this, packageName + " - " + action);
-		if (Intent.ACTION_PACKAGE_REMOVED.equals(action))
-		{
-			getIstance().removeItems(packageName);
-		}
-		else if (Intent.ACTION_PACKAGE_ADDED.equals(action))
-		{
-			getIstance().findItems(context, packageName);
-		}
+        if (Intent.ACTION_PACKAGE_REMOVED.equals(action))
+        {
+            getIstance().removeItems(packageName);
+        }
+        else if (Intent.ACTION_PACKAGE_ADDED.equals(action))
+        {
+            getIstance().findItems(context, packageName);
+        }
     }
 
-	private void removeItems(String packageName)
-	{
-		List<String> keys = new ArrayList<String>();
-		for (Item item : items.values())
-		{
-			if (packageName.equals(item.getPackageName()))
-			{
-				Log.info(this, "remove item " + item.getKey());
-				keys.add(item.getKey());
-			}
-		}
-		items.keySet().removeAll(keys);
-	}
-	
-	private void findItems(Context context, String packageName)
-	{
-		PackageManager manager = context.getPackageManager();
-		Intent intent = new Intent(Intent.ACTION_MAIN, null);
+    private void removeItems(String packageName)
+    {
+        List<String> keys = new ArrayList<String>();
+        for (Item item : items.values())
+        {
+            if (packageName.equals(item.getPackageName()))
+            {
+                Log.info(this, "remove item " + item.getKey());
+                keys.add(item.getKey());
+            }
+        }
+        items.keySet().removeAll(keys);
+    }
+
+    private void findItems(Context context, String packageName)
+    {
+        PackageManager manager = context.getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-		intent.setPackage(packageName);
-		findActivities(manager, intent);
-	}
+        intent.setPackage(packageName);
+        findActivities(manager, intent);
+    }
 }

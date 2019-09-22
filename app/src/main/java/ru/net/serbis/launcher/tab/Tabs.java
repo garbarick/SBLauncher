@@ -75,7 +75,7 @@ public class Tabs extends TabActivity
 
     private void initAnimationTabChange()
     {
-		animationTab = new AnimatedTabChange(db, getTabHost());
+        animationTab = new AnimatedTabChange(db, getTabHost());
         getTabHost().setOnTabChangedListener(animationTab);
     }
 
@@ -122,10 +122,10 @@ public class Tabs extends TabActivity
 
     private void reload()
     {
-		animationTab.setDisable(true);
+        animationTab.setDisable(true);
         getTabHost().clearAllTabs();
         initTabs();
-		animationTab.setDisable(false);
+        animationTab.setDisable(false);
     }
 
     private void initMenuButton()

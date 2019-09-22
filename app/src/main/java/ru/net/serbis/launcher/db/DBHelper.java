@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper
 
     private List<Table> tables = Arrays.asList(new Table[] {
         groups,
-		apps,
+        apps,
         appsGroup,
         settings,
         widgets,

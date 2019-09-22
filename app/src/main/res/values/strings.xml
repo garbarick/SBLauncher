@@ -18,5 +18,8 @@
     <string name="resize">Resize</string>
     <string name="width">Width</string>
     <string name="height">Height</string>
-    
+
+    <string name="addToDesktop">Add To Desktop</string>
+    <string name="info">Information</string>
+
 </resources>

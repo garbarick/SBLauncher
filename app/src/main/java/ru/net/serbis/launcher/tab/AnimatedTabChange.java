@@ -16,7 +16,7 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
     private View previous;
     private View current;
     private int currentTab;
-	private boolean disable;
+    private boolean disable;
 
     public AnimatedTabChange(DBHelper db, TabHost host)
     {
@@ -26,19 +26,19 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
         currentTab = host.getCurrentTab();
     }
 
-	public void setDisable(boolean disable)
-	{
-		this.disable = disable;
-	}
+    public void setDisable(boolean disable)
+    {
+        this.disable = disable;
+    }
 
     @Override
     public void onTabChanged(String tab)
     {
-		if (disable)
-		{
-			return;
-		}
-		
+        if (disable)
+        {
+            return;
+        }
+
         Parameter lastTab = new Parameters().lastTab;
         lastTab.setValue(tab);
         db.saveParameterValue(lastTab);
