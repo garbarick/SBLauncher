@@ -123,6 +123,7 @@ public class Tabs extends TabActivity
     private void reload()
     {
         animationTab.setDisable(true);
+        Items.getIstance().findActivities(this);
         getTabHost().clearAllTabs();
         initTabs();
         animationTab.setDisable(false);

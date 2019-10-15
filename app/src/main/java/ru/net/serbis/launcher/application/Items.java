@@ -12,33 +12,33 @@ public class Items extends BroadcastReceiver
 {
     private static Items instance = new Items();
 
-	private Map<String, Item> items;
+	private Map<String, Item> items = new HashMap<String, Item>();
+    private boolean init;
 
     public static Items getIstance()
     {
         return instance;
     }
 
-    public void init(Context context)
+    public synchronized void init(Context context)
     {
-		items = new HashMap<String, Item>();
+        findActivities(context);
+        
         PackageManager manager = context.getPackageManager();
-
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        findActivities(manager, intent);
-		
-		intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        findActivities(manager, intent);
-
-        intent = new Intent(context, Tabs.class);
+        Intent intent = new Intent(context, Tabs.class);
         findActivities(manager, intent);
 
         addItem(new SwipeRight(context), manager);
         addItem(new SwipeLeft(context), manager);
         addItem(new SwipeTop(context), manager);
         addItem(new DayDream(), manager);
+        
+        init = true;
+    }
+    
+    public synchronized void findActivities(Context context)
+    {
+        findActivities(context, null);
     }
 
     private boolean addItem(Item item, PackageManager manager)
@@ -81,7 +81,7 @@ public class Items extends BroadcastReceiver
 
 	public Map<String, Item> getItems(Context context)
     {
-        if (items == null)
+        if (!init)
         {
             init(context);
         }
@@ -116,15 +116,17 @@ public class Items extends BroadcastReceiver
         Log.info(this, packageName + " - " + action);
         if (Intent.ACTION_PACKAGE_REMOVED.equals(action))
         {
-            getIstance().removeItems(packageName);
+            getIstance().removeItems(context, packageName);
         }
-        else if (Intent.ACTION_PACKAGE_ADDED.equals(action))
+        else if (Intent.ACTION_PACKAGE_ADDED.equals(action)  ||
+                 Intent.ACTION_PACKAGE_CHANGED.equals(action) ||
+                 Intent.ACTION_PACKAGE_REPLACED.equals(action))
         {
-            getIstance().findItems(context, packageName);
+            getIstance().findActivities(context, packageName);
         }
     }
 
-    private void removeItems(String packageName)
+    private synchronized void removeItems(Context context, String packageName)
     {
         List<String> keys = new ArrayList<String>();
         for (Item item : items.values())
@@ -138,12 +140,21 @@ public class Items extends BroadcastReceiver
         items.keySet().removeAll(keys);
     }
 
-    private void findItems(Context context, String packageName)
+    private synchronized void findActivities(Context context, String packageName)
+    {
+        findActivities(context, Intent.CATEGORY_LAUNCHER, packageName);
+        findActivities(context, Intent.CATEGORY_HOME, packageName);
+    }
+    
+    private synchronized void findActivities(Context context, String category, String packageName)
     {
         PackageManager manager = context.getPackageManager();
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.setPackage(packageName);
+        intent.addCategory(category);
+        if (packageName != null)
+        {
+            intent.setPackage(packageName);
+        }
         findActivities(manager, intent);
     }
 }

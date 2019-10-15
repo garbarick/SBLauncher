@@ -1,6 +1,7 @@
 package ru.net.serbis.launcher;
 
-import java.io.BufferedReader;
+import android.os.*;
+import java.io.*;
 
 public class Log
 {
@@ -26,5 +27,38 @@ public class Log
 	public static void info(Object o, Throwable e)
     {
         info(o, "Error", e);
+    }
+    
+    public static synchronized void toFile(String message)
+    {
+        File dir = Environment.getExternalStorageDirectory();
+        File logFile = new File(dir , "SBLauncher.log");
+        PrintWriter writer = null;
+        try
+        {
+            writer = new PrintWriter(new FileWriter(logFile, true));
+            writer.printf("%s\n", message);
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+            close(writer);
+        }
+    }
+    
+    private static void close(Closeable o)
+    {
+        try
+        {
+            if (o != null)
+            {
+                o.close();
+            }
+        }
+        catch (Exception e)
+        {
+        }
     }
 }
