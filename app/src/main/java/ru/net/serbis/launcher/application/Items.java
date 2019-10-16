@@ -124,6 +124,10 @@ public class Items extends BroadcastReceiver
         {
             getIstance().findActivities(context, packageName);
         }
+        else if (Intent.ACTION_MEDIA_MOUNTED.equals(action))
+        {
+            getIstance().findActivities(context);
+        }
     }
 
     private synchronized void removeItems(Context context, String packageName)
