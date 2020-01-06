@@ -41,8 +41,14 @@ public class Home extends Activity
         setContentView(R.layout.home);
         
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.desktop, desktops.get(desktop));
-        transaction.replace(R.id.doc, docs.get(doc));
+        if (!desktops.isEmpty())
+        {
+            transaction.replace(R.id.desktop, desktops.get(desktop));
+        }
+        if (!docs.isEmpty())
+        {
+            transaction.replace(R.id.doc, docs.get(doc));
+        }
         transaction.commit();
     }
     
