@@ -41,7 +41,7 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
 
         Parameter lastTab = new Parameters().lastTab;
         lastTab.setValue(tab);
-        db.saveParameterValue(lastTab);
+        db.settings.saveParameterValue(lastTab);
         
         current = host.getCurrentView();
         if (host.getCurrentTab() > currentTab)

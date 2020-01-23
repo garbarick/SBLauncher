@@ -61,7 +61,7 @@ public abstract class Host extends Fragment
 
     protected void restoreWidgets()
     {
-        for (Widget widget : db.getWidgets(host, place))
+        for (Widget widget : db.widgets.getWidgets(host, place))
         {
             createWidget(widget);
         }
@@ -69,7 +69,7 @@ public abstract class Host extends Fragment
 
     protected void restoreAppIcons()
     {
-        for (AppIcon appIcon : db.getAppIcons(host, place))
+        for (AppIcon appIcon : db.appIcons.getIcons(host, place))
         {
             createAppIconView(appIcon);
         }
@@ -222,7 +222,7 @@ public abstract class Host extends Fragment
             widget.setX(point.x);
             widget.setY(point.y);
 
-            db.updateWidget(widget, host, place);
+            db.widgets.updateWidget(widget, host, place);
 
             createWidget(widget);
         }
@@ -244,7 +244,7 @@ public abstract class Host extends Fragment
             appIcon.setX(point.x);
             appIcon.setY(point.y);
 
-            db.updateAppIcon(appIcon, host, place);
+            db.appIcons.update(appIcon, host, place);
 
             createAppIconView(appIcon);
         }
@@ -263,7 +263,7 @@ public abstract class Host extends Fragment
     protected void removeWidget(DragItem item)
     {
         WidgetView view = (WidgetView) item.getView();
-        db.removeWidget(view.getWidget().getId());
+        db.widgets.removeWidget(view.getWidget().getId());
         widgetHost.deleteAppWidgetId(view.getAppWidgetId());
         removeFromParent(view);
     }
@@ -271,7 +271,7 @@ public abstract class Host extends Fragment
     protected void removeAppIcon(DragItem item)
     {
         AppIconView view = (AppIconView) item.getView();
-        db.removeAppIcon(view.getAppIcon().getId());
+        db.appIcons.remove(view.getAppIcon().getId());
         removeFromParent(view);
     }
 
@@ -324,7 +324,7 @@ public abstract class Host extends Fragment
     {
         removeFromParent(view);
         Widget widget = view.getWidget();
-        db.updateWidget(widget, host, place);
+        db.widgets.updateWidget(widget, host, place);
         layout.addView(view, createLayoutParams(widget.getRect()));
     }
 

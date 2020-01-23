@@ -106,7 +106,7 @@ public class Desktop extends Host
     {
         int widgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
         Widget widget = new Widget(widgetId, 100, 100);
-        db.addWidget(widget, host, place);
+        db.widgets.addWidget(widget, host, place);
         createWidget(widget);
     }
 
@@ -114,7 +114,7 @@ public class Desktop extends Host
     {
         Item item = db.getItem(itemKey);
         AppIcon appIcon = new AppIcon(0, item, x, y);
-        db.addAppIcon(appIcon, host, place);
+        db.appIcons.add(appIcon, host, place);
         
         AppIconView view = createAppIconView(appIcon);
         view.startDrag(); //not worked

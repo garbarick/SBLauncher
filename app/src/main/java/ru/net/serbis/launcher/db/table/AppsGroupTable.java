@@ -79,14 +79,9 @@ public class AppsGroupTable extends Table
     private boolean saveItemsInGroup(SQLiteDatabase db, List<Item> items, Group group)
     {
         db.delete("apps_group", "group_id = ?", new String[]{group.getId().toString()});
-        for (Item item : items)
-        {
-			Long id = helper.addApplication(db, item);
-			addItemInGroup(db, id, group);
-        }
-        return true;
+        return addItemsInGroup(db, items, group);
     }
-	
+
 	public boolean addItemInGroup(final Item item, final Group group)
     {
 		return write(
@@ -104,16 +99,69 @@ public class AppsGroupTable extends Table
     private boolean addItemInGroup(SQLiteDatabase db, Item item, Group group)
     {
 		Long id = helper.addApplication(db, item);
-        db.delete("apps_group", "app_id = ? and group_id = ?", new String[]{id.toString(), group.getId().toString()});
+        excludeItemFromGroup(db, id, group);
 		addItemInGroup(db, id, group);
         return true;
     }
-	
+
 	private void addItemInGroup(SQLiteDatabase db, Long itemId, Group group)
     {
 		ContentValues values = new ContentValues();
         values.put("app_id", itemId);
         values.put("group_id", group.getId());
         db.insert("apps_group", null, values);
+    }
+
+    public boolean addItemsInGroup(final List<Item> items, final Group group)
+    {
+        return write(
+            new BooleanAction()
+            {
+                @Override
+                public Boolean call(SQLiteDatabase db)
+                {
+                    return addItemsInGroup(db, items, group);
+                }
+            }
+        );
+    }
+
+    private boolean addItemsInGroup(SQLiteDatabase db, List<Item> items, Group group)
+    {
+        for (Item item : items)
+        {
+            Long id = helper.addApplication(db, item);
+            addItemInGroup(db, id, group);
+        }
+        return true;
+    }
+
+    private void excludeItemFromGroup(SQLiteDatabase db, Long id, Group group)
+    {
+        db.delete("apps_group", "app_id = ? and group_id = ?", new String[]{id.toString(), group.getId().toString()});
+    }
+
+    public boolean excludeItemsFromGroup(final List<Item> items, final Group group)
+    {
+        return write(
+            new BooleanAction()
+            {
+                @Override
+                public Boolean call(SQLiteDatabase db)
+                {
+                    return excludeItemsFromGroup(db, items, group);
+                }
+            }
+        );
+    }
+
+    private boolean excludeItemsFromGroup(SQLiteDatabase db, List<Item> items, Group group)
+    {
+        for (Item item : items)
+        {
+            Long id = helper.addApplication(db, item);
+            excludeItemFromGroup(db, id, group);
+        }
+        return true;
     }
 }

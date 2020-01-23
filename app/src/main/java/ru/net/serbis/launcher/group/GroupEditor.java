@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.group;
+
 import android.app.*;
 import android.content.*;
 import android.os.*;
@@ -29,7 +30,7 @@ public class GroupEditor extends Activity
         db = new DBHelper(this);
 
         Intent intent = getIntent();
-        group = (Group)intent.getSerializableExtra(Group.GROUP);
+        group = (Group)intent.getSerializableExtra(Constants.GROUP);
         input.setText(group.getName(this));
         input.setEnabled(group.getId() >= 0);
 
@@ -46,7 +47,7 @@ public class GroupEditor extends Activity
 
         if (Group.HIDDEN.equals(group))
         {
-            items = new ArrayList<Item>(Items.getIstance().getItems(this).values());
+            items = db.getItems(getCurrentGroup());
         }
         else
         {
@@ -58,6 +59,13 @@ public class GroupEditor extends Activity
         adapter = new EditApplicationAdapter(this, R.layout.group_edit, R.layout.edit_application, items);
         adapter.setChecked(checked);
         listView.setAdapter(adapter);
+    }
+    
+    private Group getCurrentGroup()
+    {
+        Intent intent = getIntent();
+        int tab = intent.getIntExtra(Constants.POSITION, 0);
+        return db.getGroups(true).get(tab);
     }
 
     private void initClickListener()
@@ -86,7 +94,7 @@ public class GroupEditor extends Activity
                     if (saveGroup() && saveChecked())
                     {
                         Intent intent = new Intent(getIntent());
-                        intent.putExtra(Group.GROUP, group);
+                        intent.putExtra(Constants.GROUP, group);
                         setResult(RESULT_OK, intent);
                     }
                     finish();
@@ -111,11 +119,20 @@ public class GroupEditor extends Activity
 
     private boolean saveGroup()
     {
-        return db.updateGroup(group);
+        if (Group.HIDDEN.equals(group))
+        {
+            return true;
+        }
+        return db.groups.updateGroup(group);
     }
     
     private boolean saveChecked()
     {
-        return db.saveItemsInGroup(adapter.getChecked(), group);
+        if (Group.HIDDEN.equals(group))
+        {
+            db.appsGroup.excludeItemsFromGroup(adapter.getAll(), group);
+            return db.appsGroup.addItemsInGroup(adapter.getChecked(), group);
+        }
+        return db.appsGroup.saveItemsInGroup(adapter.getChecked(), group);
     }
 }

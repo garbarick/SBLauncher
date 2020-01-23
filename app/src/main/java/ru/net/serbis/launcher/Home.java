@@ -5,7 +5,6 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import java.util.*;
-import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.desktop.*;
 import ru.net.serbis.launcher.doc.*;
@@ -32,7 +31,7 @@ public class Home extends Activity
     private void initSettings()
     {
         Parameters parameters = new Parameters();
-        db.loadParameterValues(parameters.getDesktopParameters());
+        db.settings.loadParameterValues(parameters.getDesktopParameters());
 
         setRequestedOrientation(parameters.orientation.getIntValue());
         initDesktops(parameters.desktopCount.getIntValue());
@@ -166,11 +165,11 @@ public class Home extends Activity
     @Override
     protected void onNewIntent(Intent intent)
     {
-        if (intent.hasExtra(Item.ITEM_KEY))
+        if (intent.hasExtra(Constants.ITEM_KEY))
         {
-            String itemKey = intent.getStringExtra(Item.ITEM_KEY);
-            int x = intent.getIntExtra(Item.ITEM_POS_X, 0);
-            int y = intent.getIntExtra(Item.ITEM_POS_Y, 0);
+            String itemKey = intent.getStringExtra(Constants.ITEM_KEY);
+            int x = intent.getIntExtra(Constants.ITEM_POS_X, 0);
+            int y = intent.getIntExtra(Constants.ITEM_POS_Y, 0);
             desktops.get(desktop).sendItem(itemKey, x, y);
         }
     }

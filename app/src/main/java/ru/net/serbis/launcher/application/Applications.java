@@ -15,9 +15,6 @@ import ru.net.serbis.launcher.group.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.tab.*;
 
-/**
- * SEBY0408
- */
 public class Applications extends Activity
 {
     private GridView grid;
@@ -43,7 +40,7 @@ public class Applications extends Activity
     private void initList()
     {
         Intent intent = getIntent();
-        Group group = (Group)intent.getSerializableExtra(Group.GROUP);
+        Group group = (Group)intent.getSerializableExtra(Constants.GROUP);
         List<Item> items = db.getItems(group);
         items.removeAll(db.getItems(Group.HIDDEN));
         Collections.sort(items);
@@ -88,13 +85,13 @@ public class Applications extends Activity
     private void addToDesktop(Item item, View view)
     {
         Intent intent = new Intent(Applications.this, Home.class);
-        intent.putExtra(Item.ITEM_KEY, item.getKey());
+        intent.putExtra(Constants.ITEM_KEY, item.getKey());
 
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
 
-        intent.putExtra(Item.ITEM_POS_X, rect.left);
-        intent.putExtra(Item.ITEM_POS_Y, rect.top);
+        intent.putExtra(Constants.ITEM_POS_X, rect.left);
+        intent.putExtra(Constants.ITEM_POS_Y, rect.top);
 
         startActivity(intent);
     }
@@ -102,7 +99,7 @@ public class Applications extends Activity
     @Override
     protected void onNewIntent(Intent intent)
     {
-        if (intent.hasExtra(Group.GROUP))
+        if (intent.hasExtra(Constants.GROUP))
         {
             initList();
         }

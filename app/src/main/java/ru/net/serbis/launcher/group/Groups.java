@@ -49,8 +49,8 @@ public class Groups extends Activity
                 {
                     Group group = (Group) parent.getItemAtPosition(position);
                     Intent intent = new Intent(Groups.this, GroupEditor.class);
-                    intent.putExtra(Group.GROUP, group);
-                    intent.putExtra(Group.POSITION, position);
+                    intent.putExtra(Constants.GROUP, group);
+                    intent.putExtra(Constants.POSITION, position);
                     Groups.this.startActivityForResult(intent, 0);
                 }
             }
@@ -128,7 +128,7 @@ public class Groups extends Activity
         {
             groups.add(groupAdapter.getItem(i));
         }
-        db.saveGroupOrdering(groups);
+        db.groups.saveGroupOrdering(groups);
     }
 
     @Override
@@ -136,8 +136,8 @@ public class Groups extends Activity
     {
         if (RESULT_OK == resultCode)
         {
-            Group group = (Group) intent.getSerializableExtra(Group.GROUP);
-            int position = intent.getIntExtra(Group.POSITION, -1);
+            Group group = (Group) intent.getSerializableExtra(Constants.GROUP);
+            int position = intent.getIntExtra(Constants.POSITION, -1);
             if (position > -1)
             {
                 groupAdapter.getItem(position).setName(group.getName(this));

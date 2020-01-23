@@ -13,7 +13,7 @@ import ru.net.serbis.launcher.group.*;
 import ru.net.serbis.launcher.set.*;
 
 public class Tabs extends TabActivity
-{  
+{
     private DBHelper db;
 	private AnimatedTabChange animationTab;
     
@@ -34,7 +34,7 @@ public class Tabs extends TabActivity
     private void initSettings()
     {
         Parameters parameters = new Parameters();
-        if (db.loadParameterValue(parameters.orientation))
+        if (db.settings.loadParameterValue(parameters.orientation))
         {
             setRequestedOrientation(parameters.orientation.getIntValue());
         }
@@ -49,7 +49,7 @@ public class Tabs extends TabActivity
         }
 
         Parameter lastTab = new Parameters().lastTab;
-        db.loadParameterValue(lastTab);
+        db.settings.loadParameterValue(lastTab);
         getTabHost().setCurrentTabByTag(lastTab.getValue());
     }
 
@@ -59,7 +59,7 @@ public class Tabs extends TabActivity
         spec.setIndicator(createTabIndicator(group.getName(this)));
 
         Intent intent = new Intent(this, Applications.class);
-        intent.putExtra(Group.GROUP, group);
+        intent.putExtra(Constants.GROUP, group);
 
         spec.setContent(intent);
         getTabHost().addTab(spec);
@@ -98,7 +98,8 @@ public class Tabs extends TabActivity
 
             case R.id.hideSet:
                 Intent intent = new Intent(this, GroupEditor.class);
-                intent.putExtra(Group.GROUP, Group.HIDDEN);
+                intent.putExtra(Constants.GROUP, Group.HIDDEN);
+                intent.putExtra(Constants.POSITION, getTabHost().getCurrentTab());
                 startActivityForResult(intent, 0);
                 return true;
 

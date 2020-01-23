@@ -33,7 +33,7 @@ public class Settings extends Activity
     private void initList()
     {
         parameters = new Parameters().getParameters();
-        db.loadParameterValues(parameters);
+        db.settings.loadParameterValues(parameters);
         ParameterAdapter adapter = new ParameterAdapter(this, R.layout.settings, parameters);
         listView.setAdapter(adapter);
     }
@@ -46,7 +46,7 @@ public class Settings extends Activity
             {
                 public void onClick(View view)
                 {
-                    if (db.saveParameterValues(parameters))
+                    if (db.settings.saveParameterValues(parameters))
                     {
                         Intent intent = new Intent(getIntent());
                         setResult(RESULT_OK, intent);

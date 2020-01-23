@@ -7,9 +7,6 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.adapter.*;
 
-/**
- * SEBY0408
- */
 public class ApplicationAdapter extends ItemAdapter<Item>
 {
     public ApplicationAdapter(Context context, int resourceId, int layoutId, List<Item> objects)

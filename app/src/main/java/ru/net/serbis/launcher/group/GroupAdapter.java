@@ -37,7 +37,7 @@ public class GroupAdapter extends ItemAdapter<Group>
             {
                 public void onClick(View view)
                 {
-                    if (db.deleteGroup(item))
+                    if (db.groups.deleteGroup(item))
                     {
                         remove(item);
                     }

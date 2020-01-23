@@ -7,20 +7,17 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.table.*;
 import ru.net.serbis.launcher.group.*;
-import ru.net.serbis.launcher.icon.*;
-import ru.net.serbis.launcher.set.*;
-import ru.net.serbis.launcher.widget.*;
 
 public class DBHelper extends SQLiteOpenHelper
 {
     private Context context;
 
-    private GroupsTable groups = new GroupsTable();
-    private AppsGroupTable appsGroup = new AppsGroupTable();
-    private SettingsTable settings = new SettingsTable();
-    private WidgetTable widgets = new WidgetTable();
-    private AppIconsTable appIcons = new AppIconsTable();
-	private AppsTable apps = new AppsTable();
+    public GroupsTable groups = new GroupsTable();
+    public AppsGroupTable appsGroup = new AppsGroupTable();
+    public SettingsTable settings = new SettingsTable();
+    public WidgetTable widgets = new WidgetTable();
+    public AppIconsTable appIcons = new AppIconsTable();
+	public AppsTable apps = new AppsTable();
 
     private List<Table> tables = Arrays.asList(new Table[] {
         groups,
@@ -142,96 +139,6 @@ public class DBHelper extends SQLiteOpenHelper
 	public Item getItem(String itemKey)
     {
         return Items.getIstance().getItem(context, itemKey);
-    }
-
-    public boolean deleteGroup(Group group)
-    {
-        return groups.deleteGroup(group);
-    }
-
-    public Group createGroup(String name)
-    {
-        return groups.createGroup(name);
-    }
-
-    public void saveGroupOrdering(List<Group> groupList)
-    {
-        groups.saveGroupOrdering(groupList);
-    }
-
-    public boolean updateGroup(Group group)
-    {
-        return groups.updateGroup(group);
-    }
-
-    public boolean saveItemsInGroup(List<Item> items, Group group)
-    {
-        return appsGroup.saveItemsInGroup(items, group);
-    }
-
-	public boolean addItemInGroup(Item item, Group group)
-    {
-        return appsGroup.addItemInGroup(item, group);
-    }
-	
-    public boolean loadParameterValue(Parameter parameter)
-    {
-        return settings.loadParameterValue(parameter);
-    }
-
-    public void loadParameterValues(List<Parameter> parameters)
-    {
-        settings.loadParameterValues(parameters);
-    }
-
-    public boolean saveParameterValues(List<Parameter> parameters)
-    {
-        return settings.saveParameterValues(parameters);
-    }
-
-    public boolean saveParameterValue(Parameter parameter)
-    {
-        return settings.saveParameterValue(parameter);
-    }
-
-    public void addWidget(Widget widget, String host, int place)
-    {
-        widgets.addWidget(widget, host, place);
-    }
-
-    public Collection<Widget> getWidgets(String host, int place)
-    {
-        return widgets.getWidgets(host, place);
-    }
-
-    public void removeWidget(int id)
-    {
-        widgets.removeWidget(id);
-    }
-
-    public void updateWidget(Widget widget, String host, int place)
-    {
-        widgets.updateWidget(widget, host, place);
-    }
-
-    public void addAppIcon(AppIcon appIcon, String host, int place)
-    {
-        appIcons.add(appIcon, host, place);
-    }
-
-    public Collection<AppIcon> getAppIcons(String host, int place)
-    {
-        return appIcons.getIcons(host, place);
-    }
-
-    public void removeAppIcon(long id)
-    {
-        appIcons.remove(id);
-    }
-
-    public void updateAppIcon(AppIcon appIcon, String host, int place)
-    {
-        appIcons.update(appIcon, host, place);
     }
 	
 	public long addApplication(SQLiteDatabase db, Item item)

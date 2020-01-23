@@ -18,9 +18,19 @@ public class EditApplicationAdapter extends ApplicationAdapter
     public List<Item> getChecked()
     {
         List<Item> result = new ArrayList<Item>();
-        for(int position : checked)
+        for(int i : checked)
         {
-            result.add(getItem(position));
+            result.add(getItem(i));
+        }
+        return result;
+    }
+
+    public List<Item> getAll()
+    {
+        List<Item> result = new ArrayList<Item>();
+        for(int i = 0; i < getCount(); i ++)
+        {
+            result.add(getItem(i));
         }
         return result;
     }

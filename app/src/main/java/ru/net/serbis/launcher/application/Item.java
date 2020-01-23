@@ -5,15 +5,8 @@ import android.content.pm.*;
 import android.graphics.drawable.*;
 import ru.net.serbis.launcher.host.*;
 
-/**
- * SEBY0408
- */
 public class Item implements Comparable
 {
-    public static final String ITEM_KEY = "itemKey";
-    public static final String ITEM_POS_X = "itemPosX";
-    public static final String ITEM_POS_Y = "itemPosY";
-    
     protected String label;
     protected Drawable icon;
     protected String name;

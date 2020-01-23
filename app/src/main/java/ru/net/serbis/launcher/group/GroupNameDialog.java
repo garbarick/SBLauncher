@@ -38,7 +38,7 @@ public class GroupNameDialog extends AlertDialog.Builder
                 public void onClick(DialogInterface dialog, int which)
                 {
                     DBHelper db = new DBHelper(getContext());
-                    Group group = db.createGroup(input.getText().toString());
+                    Group group = db.groups.createGroup(input.getText().toString());
                     if (group != null)
                     {
                         groupAdapter.add(group);

@@ -31,10 +31,10 @@ public class ShortcutReceiver extends BroadcastReceiver
 	{
 		Intent intent = new Intent(context, Home.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		intent.putExtra(Item.ITEM_KEY, item.getKey());
+		intent.putExtra(Constants.ITEM_KEY, item.getKey());
 
-		intent.putExtra(Item.ITEM_POS_X, 10);
-		intent.putExtra(Item.ITEM_POS_Y, 10);
+		intent.putExtra(Constants.ITEM_POS_X, 10);
+		intent.putExtra(Constants.ITEM_POS_Y, 10);
 
 		context.startActivity(intent);
 	}
@@ -42,6 +42,6 @@ public class ShortcutReceiver extends BroadcastReceiver
 	private void addToHiddenGroup(Context context, Item item)
 	{
 		DBHelper db = new DBHelper(context);
-		db.addItemInGroup(item, Group.HIDDEN);
+		db.appsGroup.addItemInGroup(item, Group.HIDDEN);
 	}
 }
