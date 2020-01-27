@@ -7,6 +7,7 @@ import java.util.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.action.*;
 import ru.net.serbis.launcher.db.table.migrate.*;
+import ru.net.serbis.launcher.ei.*;
 import ru.net.serbis.launcher.icon.*;
 
 public class AppIconsTable extends Table
@@ -43,16 +44,27 @@ public class AppIconsTable extends Table
 		);
     }
 
-    private void add(SQLiteDatabase db, AppIcon appIcon, String host, int place)
+    public void add(SQLiteDatabase db, AppIcon appIcon, String host, int place)
+    {
+        long appId = helper.addApplication(db, appIcon.getItem());
+        long id = add(db, appId, host, place, appIcon.getX(), appIcon.getY());
+        appIcon.setId(id);
+    }
+
+    public void add(SQLiteDatabase db, long appId, Host host)
+    {
+        add(db, appId, host.getType(), host.getPlace(), host.getX(), host.getY());
+    }
+
+    private long add(SQLiteDatabase db, long appId, String host, int place, int x, int y)
     {
         ContentValues values = new ContentValues();
-        values.put("app_id", helper.addApplication(db, appIcon.getItem()));
-        values.put("x", appIcon.getX());
-        values.put("y", appIcon.getY());
+        values.put("app_id", appId);
+        values.put("x", x);
+        values.put("y", y);
         values.put("host", host);
         values.put("place", place);
-        long id = db.insert("app_icons", null, values);
-        appIcon.setId(id);
+        return db.insert("app_icons", null, values);
     }
 
     public Collection<AppIcon> getIcons(final String host, final int place)
@@ -140,11 +152,36 @@ public class AppIconsTable extends Table
 
     private void update(SQLiteDatabase db, AppIcon appIcon, String host, int place)
     {
+        update(db, appIcon.getId(), host, place, appIcon.getX(), appIcon.getY());
+    }
+
+    public void update(SQLiteDatabase db, long iconId, Host host)
+    {
+        update(db, iconId, host.getType(), host.getPlace(), host.getX(), host.getY());
+    }
+
+    private void update(SQLiteDatabase db, Long iconId, String host, int place, int x, int y)
+    {
         ContentValues values = new ContentValues();
-        values.put("x", appIcon.getX());
-        values.put("y", appIcon.getY());
+        values.put("x", x);
+        values.put("y", y);
         values.put("host", host);
         values.put("place", place);
-        db.update("app_icons", values, "id = ?", new String[]{String.valueOf(appIcon.getId())});   
+        db.update("app_icons", values, "id = ?", new String[]{iconId.toString()});   
+    }
+
+    public long findIcon(SQLiteDatabase db, Long appId, String host, Integer place)
+    {
+        Cursor cursor = db.query("app_icons", new String[]{"id"}, "app_id = ? and host = ? and place = ?", new String[]{appId.toString(), host, place.toString()}, null, null, null);
+        if (cursor.moveToFirst())
+        {
+            return cursor.getLong(0);
+        }
+        return 0;
+    }
+
+    public long findIcon(SQLiteDatabase db, Long appId, Host host)
+    {
+        return findIcon(db, appId, host.getType(), host.getPlace());
     }
 }

@@ -5,9 +5,9 @@ import android.view.*;
 import android.widget.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.drag.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.host.*;
 import ru.net.serbis.launcher.swipe.*;
-import ru.net.serbis.launcher.application.*;
 
 public class AppIconView extends LinearLayout
 {
@@ -39,10 +39,10 @@ public class AppIconView extends LinearLayout
     {
         view = inflate(getContext(), layoutId, null);
         
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
+        ImageView icon = Tools.getView(view, R.id.icon);
         icon.setImageDrawable(appIcon.getItem().getIcon());
         
-        TextView label = (TextView) view.findViewById(R.id.label);
+        TextView label = Tools.getView(view, R.id.label);
         if (label != null)
         {
             label.setText(appIcon.getItem().getLabel());

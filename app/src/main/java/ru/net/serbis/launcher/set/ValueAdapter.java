@@ -1,10 +1,12 @@
 package ru.net.serbis.launcher.set;
+
 import android.content.*;
 import android.view.*;
 import android.widget.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.adapter.*;
+import ru.net.serbis.launcher.help.*;
 
 public class ValueAdapter extends ItemAdapter<Value>
 {
@@ -22,7 +24,7 @@ public class ValueAdapter extends ItemAdapter<Value>
         }
 
         Value value = getItem(position);
-        TextView name = (TextView)view.findViewById(R.id.value);
+        TextView name = Tools.getView(view, R.id.value);
         name.setText(value.getResource());
 
         return view;

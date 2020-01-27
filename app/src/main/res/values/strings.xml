@@ -12,6 +12,7 @@
     <string name="groupEdit">Edit Group</string>
     
     <string name="ok">Ok</string>
+    <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
     <string name="name">Name</string>
     
@@ -21,5 +22,10 @@
 
     <string name="addToDesktop">Add To Desktop</string>
     <string name="info">Information</string>
+
+    <string name="doImport">Import</string>
+    <string name="doExport">Export</string>
+    <string name="selectFile">Select File</string>
+    <string name="successfully">Successfully</string>
 
 </resources>

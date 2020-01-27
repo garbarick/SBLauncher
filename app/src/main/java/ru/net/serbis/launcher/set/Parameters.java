@@ -11,14 +11,6 @@ public class Parameters
     public Parameter docCount = new Parameter(new Value("docCount", R.string.docCount), Type.INTEGER, 3, 1, 10);
     public Parameter lastTab = new Parameter(new Value("lastTab"), Type.STRING);
     
-    public List<Parameter> getDesktopParameters()
-    {
-        return Arrays.asList(
-            orientation,
-            desktopCount,
-            docCount);
-    }
-    
     public List<Parameter> getParameters()
     {
         return Arrays.asList(

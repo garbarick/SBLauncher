@@ -132,13 +132,12 @@ public class GroupsTable extends Table
     public void saveGroupOrdering(final List<Group> groups)
     {
 		write(
-			new Action<Void>()
+			new VoidAction()
 			{
 				@Override
-				public Void call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
 					saveGroupOrdering(db, groups);
-					return null;
 				}
 			}
 		);
@@ -182,4 +181,41 @@ public class GroupsTable extends Table
 		Cursor cursor = db.query("groups", new String[]{"1"}, "id = ?", new String[]{id.toString()}, null, null, null);
         return cursor.moveToFirst();
 	}
+
+    public Group getGroup(SQLiteDatabase db, String name)
+    {
+        Cursor cursor = db.query("groups", new String[]{"id"}, "name = ?", new String[]{name}, null, null, null);
+        if (cursor.moveToFirst())
+        {
+            return new Group(cursor.getLong(0), name);
+        }
+        return null;
+	}
+
+    public void updateGroup(final String name, final int order)
+    {
+        write(
+            new VoidAction()
+            {
+                @Override
+                public void voidCall(SQLiteDatabase db)
+                {
+                    updateGroup(db, name, order);
+                }
+            }
+		);
+    }
+    
+    private void updateGroup(SQLiteDatabase db, String name, int order)
+    {
+        ContentValues values = new ContentValues();
+        values.put("ordering", order);
+        int count = db.update("groups", values, "name = ?", new String[]{name});
+        if (count > 0)
+        {
+            return;
+        }
+        values.put("name", name);
+        db.insert("groups", null, values);
+    }
 }

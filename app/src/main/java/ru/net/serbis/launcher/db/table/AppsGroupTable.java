@@ -4,10 +4,13 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import java.util.*;
+import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.action.*;
 import ru.net.serbis.launcher.db.table.migrate.*;
+import ru.net.serbis.launcher.ei.*;
 import ru.net.serbis.launcher.group.*;
+import ru.net.serbis.launcher.help.*;
 
 public class AppsGroupTable extends Table
 {
@@ -140,6 +143,11 @@ public class AppsGroupTable extends Table
     {
         db.delete("apps_group", "app_id = ? and group_id = ?", new String[]{id.toString(), group.getId().toString()});
     }
+    
+    private void excludeItemFromGroup(SQLiteDatabase db, Long id)
+    {
+        db.delete("apps_group", "app_id = ?", new String[]{id.toString()});
+    }
 
     public boolean excludeItemsFromGroup(final List<Item> items, final Group group)
     {
@@ -163,5 +171,104 @@ public class AppsGroupTable extends Table
             excludeItemFromGroup(db, id, group);
         }
         return true;
+    }
+    
+    public Collection<ExportData> getExportData()
+    {
+        return read(
+            new CollectionAction<ExportData>()
+            {
+                public Collection<ExportData> call(SQLiteDatabase db)
+                {
+                    return getExportData(db);
+                }
+            }
+        );
+    }
+    
+    private Collection<ExportData> getExportData(SQLiteDatabase db)
+    {
+        Map<String, ExportData> result = new LinkedHashMap<String, ExportData>();
+        Cursor cursor = db.rawQuery(getContext().getResources().getString(R.string.exportApplications), null);
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                ExportData row = new ExportData(
+                    cursor.getString(0),
+                    cursor.getString(1));
+                if (result.containsKey(row.getKey()))
+                {
+                    row = result.get(row.getKey());
+                }
+                else
+                {
+                    result.put(row.getKey(), row);
+                }
+                long groupId = cursor.getLong(2);
+                if (groupId == Group.HIDDEN.getId())
+                {
+                    row.setHidden(true);
+                }
+                else
+                {
+                    row.setGroup(cursor.getString(3));
+                }
+                row.addHost(
+                    cursor.getString(4),
+                    cursor.getInt(5), 
+                    cursor.getInt(6),
+                    cursor.getInt(7));
+            }
+            while(cursor.moveToNext());
+        }
+        return result.values();
+    }
+
+    public void updateData(final ExportData data)
+    {
+        write(
+            new VoidAction()
+            {
+                @Override
+                public void voidCall(SQLiteDatabase db)
+                {
+                    updateData(db, data);
+                }
+            }
+        );
+    }
+
+    private void updateData(SQLiteDatabase db, ExportData data)
+    {
+        long appId = helper.apps.add(db, data);
+        excludeItemFromGroup(db, appId);
+        if (data.isHidden())
+        {
+            addItemInGroup(db, appId, Group.HIDDEN);
+        }
+        if (Tools.isNotEmpty(data.getGroup()))
+        {
+            Group group = helper.groups.getGroup(db, data.getGroup());
+            if (group != null)
+            {
+                addItemInGroup(db, appId, group);
+            }
+        }
+        if (data.getHosts() != null)
+        {
+            for(Host host : data.getHosts())
+            {
+                long iconId = helper.appIcons.findIcon(db, appId, host);
+                if (iconId == 0)
+                {
+                    helper.appIcons.add(db, appId, host);
+                }
+                else
+                {
+                    helper.appIcons.update(db, iconId, host);
+                }
+            }
+        }
     }
 }

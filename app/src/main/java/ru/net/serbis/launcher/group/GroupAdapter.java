@@ -7,6 +7,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.adapter.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.help.*;
 
 public class GroupAdapter extends ItemAdapter<Group>
 {
@@ -28,10 +29,10 @@ public class GroupAdapter extends ItemAdapter<Group>
 
         final Group item = getItem(position);
        
-        TextView label = (TextView) view.findViewById(R.id.groupLabel);
+        TextView label = Tools.getView(view, R.id.groupLabel);
         label.setText(item.getName(getContext()));
         
-        ImageView delete = (ImageView) view.findViewById(R.id.groupDelete);
+        ImageView delete = Tools.getView(view, R.id.groupDelete);
         delete.setOnClickListener(
             new OnClickListener()
             {

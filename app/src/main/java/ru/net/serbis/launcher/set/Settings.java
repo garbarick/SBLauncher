@@ -8,8 +8,9 @@ import android.widget.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.ei.*;
 
-public class Settings extends Activity
+public class Settings extends Activity implements View.OnClickListener
 {
     private ListView listView;
     private DBHelper db;
@@ -26,8 +27,10 @@ public class Settings extends Activity
         db = new DBHelper(this);
 
         initList();
-        initOk();
-        initCancel();
+        initButton(R.id.apply);
+        initButton(R.id.cancel);
+        initButton(R.id.doImport);
+        initButton(R.id.doExport);
     }
     
     private void initList()
@@ -37,37 +40,73 @@ public class Settings extends Activity
         ParameterAdapter adapter = new ParameterAdapter(this, R.layout.settings, parameters);
         listView.setAdapter(adapter);
     }
-    
-    private void initOk()
+
+    private void initButton(int id)
     {
-        Button button = (Button) findViewById(R.id.ok);
-        button.setOnClickListener(
-            new View.OnClickListener()
-            {
-                public void onClick(View view)
-                {
-                    if (db.settings.saveParameterValues(parameters))
-                    {
-                        Intent intent = new Intent(getIntent());
-                        setResult(RESULT_OK, intent);
-                        finish();        
-                    }
-                }
-            }
-        );
+        Button button = (Button) findViewById(id);
+        button.setOnClickListener(this);
     }
 
-    private void initCancel()
+    private void makeResultOk()
     {
-        Button button = (Button) findViewById(R.id.cancel);
-        button.setOnClickListener(
-            new View.OnClickListener()
+        Intent intent = new Intent(getIntent());
+        setResult(RESULT_OK, intent);
+    }
+
+    private void apply()
+    {
+        if (db.settings.saveParameterValues(parameters))
+        {
+            makeResultOk();
+            finish();        
+        }
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch(view.getId())
+        {
+            case R.id.apply:
+                apply();
+                break;
+
+            case R.id.cancel:
+                finish();
+                break;
+
+            case R.id.doExport:
+                doExport();
+                break;
+
+            case R.id.doImport:
+                doImport();
+                break;
+        }
+    }
+
+    private void doExport()
+    {
+        new ExportTool(this)
+        {
+            @Override
+            protected void onFinish()
             {
-                public void onClick(View view)
-                {
-                    finish();
-                }
+                finish();
             }
-        );
+        }.executeDialog(R.string.doExport);
+    }
+
+    private void doImport()
+    {
+        new ImportTool(this)
+        {
+            @Override
+            protected void onFinish()
+            {
+                makeResultOk();
+                finish();
+            }
+        }.executeDialog(R.string.doImport);
     }
 }

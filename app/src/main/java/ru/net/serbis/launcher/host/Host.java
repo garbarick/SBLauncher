@@ -10,6 +10,7 @@ import java.lang.reflect.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.drag.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.widget.*;
@@ -77,8 +78,8 @@ public abstract class Host extends Fragment
 
     protected void initDragListener()
     {
-        ImageView deleteItem = (ImageView) layout.findViewById(R.id.deleteItem);
-        ImageView resizeItem = (ImageView) layout.findViewById(R.id.resizeItem);
+        ImageView deleteItem = Tools.getView(layout, R.id.deleteItem);
+        ImageView resizeItem = Tools.getView(layout, R.id.resizeItem);
 
         DragAndShowViewListener dragListener = new DragAndShowViewListener()
         {

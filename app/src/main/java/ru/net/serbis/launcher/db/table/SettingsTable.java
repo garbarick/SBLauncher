@@ -5,6 +5,7 @@ import android.database.*;
 import android.database.sqlite.*;
 import java.util.*;
 import ru.net.serbis.launcher.db.action.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
 
 public class SettingsTable extends Table
@@ -47,13 +48,12 @@ public class SettingsTable extends Table
     public void loadParameterValues(final List<Parameter> parameters)
     {
 		read(
-			new Action<Void>()
+			new VoidAction()
 			{
 				@Override
-				public Void call(SQLiteDatabase db)
+				protected void voidCall(SQLiteDatabase db)
 				{
 					loadParameterValues(db, parameters);
-					return null;
 				}
 			}
 		);
@@ -109,7 +109,26 @@ public class SettingsTable extends Table
     {
         String name = parameter.getName().getValue();
         String value = parameter.getValue();
-        if (value == null || value.isEmpty())
+        saveParameterValue(db, name, value);
+    }
+
+    public void saveParameterValue(final String name, final String value)
+    {
+        write(
+            new VoidAction()
+            {
+                @Override
+                protected void voidCall(SQLiteDatabase db)
+                {
+                    saveParameterValue(db, name, value);
+                }
+            }
+        );
+    }
+
+    private void saveParameterValue(SQLiteDatabase db, String name, String value)
+    {
+        if (Tools.isEmpty(value))
         {
             db.delete("settings", "name = ?", new String[]{name});
         }

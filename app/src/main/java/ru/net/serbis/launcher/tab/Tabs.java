@@ -10,6 +10,7 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.group.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
 
 public class Tabs extends TabActivity
@@ -68,7 +69,7 @@ public class Tabs extends TabActivity
     private View createTabIndicator(String name)
     {
         View view = getLayoutInflater().inflate(R.layout.tab, null);
-        TextView text = (TextView) view.findViewById(R.id.tab_text);
+        TextView text = Tools.getView(view, R.id.tab_text);
         text.setText(name);
         return view;
     }

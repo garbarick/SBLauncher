@@ -1,0 +1,26 @@
+<resources>
+    <string name="exportApplications">
+select a.name,
+       a.package,
+       ag.group_id,
+       ag.group_name,
+       ai.host host_type,
+       ai.place host_place,
+       ai.x host_x,
+       ai.y host_y
+  from apps a
+  left join (
+select ag.app_id,
+       ag.group_id,
+       g.name group_name
+  from apps_group ag,
+       groups g
+ where g.id = ag.group_id) ag
+    on ag.app_id = a.id
+  left join app_icons ai
+    on ai.app_id = a.id
+ where ag.group_name is not null
+    or ai.host is not null
+ order by 1, 2, 3, 4, 5, 6, 7, 8
+    </string>
+</resources>

@@ -2,6 +2,7 @@ package ru.net.serbis.launcher;
 
 import android.os.*;
 import java.io.*;
+import ru.net.serbis.launcher.help.*;
 
 public class Log
 {
@@ -44,21 +45,7 @@ public class Log
         }
         finally
         {
-            close(writer);
-        }
-    }
-    
-    private static void close(Closeable o)
-    {
-        try
-        {
-            if (o != null)
-            {
-                o.close();
-            }
-        }
-        catch (Exception e)
-        {
+            Tools.close(writer);
         }
     }
 }

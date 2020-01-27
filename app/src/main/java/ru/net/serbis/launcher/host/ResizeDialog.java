@@ -3,9 +3,10 @@ package ru.net.serbis.launcher.host;
 import android.app.*;
 import android.content.*;
 import android.view.*;
-import ru.net.serbis.launcher.*;
-import ru.net.serbis.launcher.widget.*;
 import android.widget.*;
+import ru.net.serbis.launcher.*;
+import ru.net.serbis.launcher.help.*;
+import ru.net.serbis.launcher.widget.*;
 
 public class ResizeDialog extends AlertDialog.Builder
 {
@@ -26,8 +27,8 @@ public class ResizeDialog extends AlertDialog.Builder
     private void initLayout(Host host, WidgetView view)
     {
         View layout = host.getActivity().getLayoutInflater().inflate(R.layout.resize, null);
-        widthEdit = (EditText) layout.findViewById(R.id.width);
-        heightEdit = (EditText) layout.findViewById(R.id.height);
+        widthEdit = Tools.getView(layout, R.id.width);
+        heightEdit = Tools.getView(layout, R.id.height);
         
         Integer width = view.getWidget().getW();
         Integer height = view.getWidget().getH();

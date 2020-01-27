@@ -31,7 +31,7 @@ public class Home extends Activity
     private void initSettings()
     {
         Parameters parameters = new Parameters();
-        db.settings.loadParameterValues(parameters.getDesktopParameters());
+        db.settings.loadParameterValues(parameters.getParameters());
 
         setRequestedOrientation(parameters.orientation.getIntValue());
         initDesktops(parameters.desktopCount.getIntValue());

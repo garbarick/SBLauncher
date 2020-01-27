@@ -6,6 +6,7 @@ import android.widget.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.adapter.*;
+import ru.net.serbis.launcher.help.*;
 
 public class ApplicationAdapter extends ItemAdapter<Item>
 {
@@ -32,13 +33,13 @@ public class ApplicationAdapter extends ItemAdapter<Item>
 
     protected void initImage(int position, View view, Item item)
     {
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
+        ImageView icon = Tools.getView(view, R.id.icon);
         icon.setImageDrawable(item.getIcon());
     }
     
     protected void initLabel(int position, View view, Item item)
     {
-        TextView label = (TextView) view.findViewById(R.id.label);
+        TextView label = Tools.getView(view, R.id.label);
         label.setText(item.getLabel());
     }
 }

@@ -1,13 +1,13 @@
 package ru.net.serbis.launcher.set;
+
 import android.content.*;
 import android.text.*;
 import android.view.*;
 import android.widget.*;
-import android.widget.NumberPicker.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.adapter.*;
-import java.security.acl.*;
+import ru.net.serbis.launcher.help.*;
 
 public class ParameterAdapter extends ItemAdapter<Parameter>
 {
@@ -21,7 +21,7 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
     {
         Parameter parameter = getItem(position);
 
-        view = getActivity().getLayoutInflater().inflate(parameter.getType().getLayout(), null);
+        view = getItemView(parameter.getType().getLayout());
 
         switch (parameter.getType())
         {
@@ -49,7 +49,7 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
     {
         initName(view, parameter);
         
-        EditText edit = (EditText)view.findViewById(R.id.value);
+        EditText edit = Tools.getView(view, R.id.value);
         edit.setText(parameter.getValue());
         
         addTextWatcher(edit, parameter);
@@ -57,7 +57,7 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
     
     private void initName(View view, Parameter parameter)
     {
-        TextView name = (TextView)view.findViewById(R.id.name);
+        TextView name = Tools.getView(view, R.id.name);
         name.setText(parameter.getName().getResource());
     }
     
@@ -65,11 +65,11 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
     {
         initName(view, parameter);
         
-        SeekBar seek = (SeekBar)view.findViewById(R.id.value);
+        SeekBar seek = Tools.getView(view, R.id.value);
         seek.setMax(parameter.getMax());
         seek.setProgress(parameter.getIntValue());
         
-        TextView hint = (TextView)view.findViewById(R.id.hint);
+        TextView hint = Tools.getView(view, R.id.hint);
         hint.setText(parameter.getValue());
         
         setSeekChange(seek, hint, parameter);
@@ -79,8 +79,8 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
     {
         initName(view, parameter);
         
-        Spinner spinner = (Spinner)view.findViewById(R.id.value);
-        ValueAdapter valueAdapter = new ValueAdapter(getActivity(), parameter.getType().getLayout(), R.layout.value, parameter.getType().getValues()); 
+        Spinner spinner = Tools.getView(view, R.id.value);
+        ValueAdapter valueAdapter = new ValueAdapter(getContext(), parameter.getType().getLayout(), R.layout.value, parameter.getType().getValues()); 
         spinner.setAdapter(valueAdapter);
         int current = valueAdapter.getPosition(new Value(parameter.getValue(), 0));
         if (current > -1)
@@ -93,7 +93,7 @@ public class ParameterAdapter extends ItemAdapter<Parameter>
 
     private void initBoolean(View view, Parameter parameter)
     {
-        CheckBox check = (CheckBox)view.findViewById(R.id.value);
+        CheckBox check = Tools.getView(view, R.id.value);
         check.setText(parameter.getName().getResource());
         check.setChecked(parameter.getBooleanValue());
         setCheckedChange(check, parameter);

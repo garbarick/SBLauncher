@@ -5,6 +5,7 @@ import android.widget.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
+import ru.net.serbis.launcher.help.*;
 
 public class EditApplicationAdapter extends ApplicationAdapter
 {
@@ -50,7 +51,7 @@ public class EditApplicationAdapter extends ApplicationAdapter
     @Override
     protected void initLabel(int position, View view, Item item)
     {
-        CheckedTextView label = (CheckedTextView) view.findViewById(R.id.label);
+        CheckedTextView label = Tools.getView(view, R.id.label);
         label.setText(item.getLabel());
         label.setChecked(checked.contains(position));
     }
