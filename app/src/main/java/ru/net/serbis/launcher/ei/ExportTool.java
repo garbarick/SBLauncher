@@ -12,7 +12,7 @@ import ru.net.serbis.launcher.set.*;
 
 public abstract class ExportTool extends Tool
 {
-    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
     private JsonWriter writer;
 
     public ExportTool(Context context)
@@ -23,21 +23,20 @@ public abstract class ExportTool extends Tool
     @Override
     public void execute() throws Exception
     {
-        File dir = Environment.getExternalStorageDirectory();
-        File appDir = new File(dir, "SBLauncher");
-        String name = "set-android-" + Build.VERSION.SDK_INT + "-" + format.format(new Date()) + ".json";
-        File file = new File(appDir, name);
         try
         {
-            appDir.mkdirs();
+            File appDir = Tools.getToolDir();
+            String name = "set-android-" + Build.VERSION.SDK_INT + "-" + format.format(new Date()) + ".json";
+            File file = new File(appDir, name);
+            
             writer = new JsonWriter(new FileWriter(file));
             writer.setIndent("  ");
             write();
+            result = file.getAbsolutePath();
         }
         finally
         {
             Tools.close(writer);
-            result = file.getAbsolutePath();
         }
     }
 

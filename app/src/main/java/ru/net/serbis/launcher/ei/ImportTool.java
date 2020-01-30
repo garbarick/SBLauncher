@@ -1,7 +1,6 @@
 package ru.net.serbis.launcher.ei;
 
 import android.content.*;
-import android.os.*;
 import android.util.*;
 import java.io.*;
 import ru.net.serbis.launcher.*;
@@ -21,11 +20,7 @@ public abstract class ImportTool extends Tool
     @Override
     public void executeDialog(final int title)
     {
-        File dir = Environment.getExternalStorageDirectory();
-        File appDir = new File(dir, "SBLauncher");
-        appDir.mkdirs();
-
-        new FileDialog(context, appDir, ".json")
+        new FileDialog(context, Tools.getToolDir(), ".json")
         {
             @Override
             protected void onSelect(File file)

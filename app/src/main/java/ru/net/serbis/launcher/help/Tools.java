@@ -1,5 +1,6 @@
 package ru.net.serbis.launcher.help;
 
+import android.os.*;
 import android.view.*;
 import java.io.*;
 
@@ -37,5 +38,13 @@ public class Tools
     public static <T extends View> T getView(View view, int id)
     {
         return (T) view.findViewById(id);
+    }
+    
+    public static File getToolDir()
+    {
+        File dir = Environment.getExternalStorageDirectory();
+        File appDir = new File(dir, "SBLauncher");
+        appDir.mkdirs();
+        return appDir;
     }
 }
