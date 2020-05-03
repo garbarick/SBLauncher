@@ -114,7 +114,8 @@ public class DBHelper extends SQLiteOpenHelper
     private List<Item> filterItemForAll(Map<String, Item> items)
     {
         Map<String, Item> result = new HashMap<String, Item>(items);
-        result.keySet().removeAll(appsGroup.getItemKeys(null));
+        List<String> inGroups = new ArrayList<String>(appsGroup.getItemKeys(null));
+        result.keySet().removeAll(inGroups);
         return new ArrayList<Item>(result.values());
     }
 

@@ -133,7 +133,7 @@ public class Tabs extends TabActivity
 
     private void initMenuButton()
     {
-        ImageButton menu = (ImageButton) findViewById(R.id.menu);
+        ImageButton menu = Tools.getView(this, R.id.menu);
         menu.setOnClickListener(
             new View.OnClickListener()
             {

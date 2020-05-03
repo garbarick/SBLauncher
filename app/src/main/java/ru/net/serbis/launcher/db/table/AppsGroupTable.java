@@ -46,7 +46,12 @@ public class AppsGroupTable extends Table
     {
 		String where = "g.app_id = a.id";
 		String[] binds = null;
-		if (group != null)
+        if (Group.ALL_HIDDEN.equals(group))
+        {
+            where += " and g.group_id = -1" +
+                     " and a.id not in (select h.app_id from apps_group h where h.group_id != -1)";
+        }
+		else if (group != null)
 		{
 			where += " and g.group_id = ?";
 			binds = new String[]{group.getId().toString()};

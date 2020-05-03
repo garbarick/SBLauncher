@@ -9,6 +9,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.ei.*;
+import ru.net.serbis.launcher.help.*;
 
 public class Settings extends Activity implements View.OnClickListener
 {
@@ -23,7 +24,7 @@ public class Settings extends Activity implements View.OnClickListener
         setContentView(R.layout.settings);
         setResult(RESULT_CANCELED);
 
-        listView = (ListView) findViewById(R.id.settings);
+        listView = Tools.getView(this, R.id.settings);
         db = new DBHelper(this);
 
         initList();
@@ -43,7 +44,7 @@ public class Settings extends Activity implements View.OnClickListener
 
     private void initButton(int id)
     {
-        Button button = (Button) findViewById(id);
+        Button button = Tools.getView(this, id);
         button.setOnClickListener(this);
     }
 

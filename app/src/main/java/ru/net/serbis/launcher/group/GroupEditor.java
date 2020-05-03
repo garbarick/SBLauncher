@@ -9,6 +9,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.help.*;
 
 public class GroupEditor extends Activity
 {
@@ -25,8 +26,8 @@ public class GroupEditor extends Activity
         setContentView(R.layout.group_edit);
         setResult(RESULT_CANCELED);
 
-        listView = (ListView) findViewById(R.id.applications);
-        input = (EditText) findViewById(R.id.name);
+        listView = Tools.getView(this, R.id.applications);
+        input = Tools.getView(this, R.id.name);
         db = new DBHelper(this);
 
         Intent intent = getIntent();
@@ -47,7 +48,12 @@ public class GroupEditor extends Activity
 
         if (Group.HIDDEN.equals(group))
         {
-            items = db.getItems(getCurrentGroup());
+            Group current = getCurrentGroup();
+            items = db.getItems(current);
+            if (Group.ALL.equals(current))
+            {
+                items.addAll(db.getItems(Group.ALL_HIDDEN));
+            }
         }
         else
         {
@@ -83,7 +89,7 @@ public class GroupEditor extends Activity
     
     private void initOk()
     {
-        Button button = (Button) findViewById(R.id.ok);
+        Button button = Tools.getView(this, R.id.ok);
         button.setOnClickListener(
             new View.OnClickListener()
             {
@@ -105,7 +111,7 @@ public class GroupEditor extends Activity
 
     private void initCancel()
     {
-        Button button = (Button) findViewById(R.id.cancel);
+        Button button = Tools.getView(this, R.id.cancel);
         button.setOnClickListener(
             new View.OnClickListener()
             {

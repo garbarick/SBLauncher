@@ -12,6 +12,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.group.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.tab.*;
 
@@ -27,7 +28,7 @@ public class Applications extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.applications);
 
-        grid = (GridView) findViewById(R.id.applications);
+        grid = Tools.getView(this, R.id.applications);
         tabs = (Tabs)getParent();
         db = new DBHelper(this);
         

@@ -9,6 +9,7 @@ import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.drag.*;
+import ru.net.serbis.launcher.help.*;
 
 public class Groups extends Activity
 {
@@ -23,7 +24,7 @@ public class Groups extends Activity
         setContentView(R.layout.groups);
         setResult(RESULT_OK);
 
-        listView = (ListView) findViewById(R.id.groups);
+        listView = Tools.getView(this, R.id.groups);
         db = new DBHelper(this);
 
         initList();
@@ -59,7 +60,7 @@ public class Groups extends Activity
 
     private void initButtonNew()
     {
-        Button button = (Button) findViewById(R.id.groupNew);
+        Button button = Tools.getView(this, R.id.groupNew);
         button.setOnClickListener(
             new View.OnClickListener()
             {

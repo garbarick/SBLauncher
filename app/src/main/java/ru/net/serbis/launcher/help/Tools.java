@@ -3,6 +3,7 @@ package ru.net.serbis.launcher.help;
 import android.os.*;
 import android.view.*;
 import java.io.*;
+import android.app.*;
 
 public class Tools
 {
@@ -35,11 +36,19 @@ public class Tools
         return Integer.valueOf(str);
     }
     
-    public static <T extends View> T getView(View view, int id)
+    public static <T extends View> T getView(Object view, int id)
     {
-        return (T) view.findViewById(id);
+        if (view instanceof View)
+        {
+            return (T) ((View)view).findViewById(id);
+        }
+        else if (view instanceof Activity)
+        {
+            return (T) ((Activity)view).findViewById(id);
+        }
+        return null;
     }
-    
+
     public static File getToolDir()
     {
         File dir = Environment.getExternalStorageDirectory();
