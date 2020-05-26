@@ -1,5 +1,7 @@
 package ru.net.serbis.launcher.set;
 
+import ru.net.serbis.launcher.help.Tools;
+
 public class Parameter
 {
     private Value name;
@@ -18,6 +20,7 @@ public class Parameter
     public Parameter(Value name, Type type, String defaultValue)
     {
         this(name, type);
+        this.defaultValue = defaultValue;
     }
     
     public Parameter(Value name, Type type, Integer defaultValue)
@@ -59,7 +62,7 @@ public class Parameter
     
     public String getValue()
     {
-        return value != null? value : defaultValue;
+        return Tools.isEmpty(value) ? defaultValue : value;
     }
     
     public int getIntValue()
