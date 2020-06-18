@@ -11,9 +11,10 @@
         <activity 
             android:name=".Home"
             android:label="@string/appName"
-            android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
+            android:theme="@style/Home"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,33 +28,38 @@
             android:name=".tab.Tabs"
             android:label="@string/applications"
             android:icon="@drawable/all_apps"
-            android:theme="@android:style/Theme.Holo.Wallpaper.NoTitleBar"
+            android:theme="@style/Tabs"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
         </activity>
 
         <activity 
             android:name=".application.Applications"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
         </activity>
 
         <activity
             android:name=".group.Groups"
             android:label="@string/tabsSet"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
         </activity>
         
         <activity
             android:name=".group.GroupEditor"
             android:label="@string/groupEdit"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
         </activity>
         
         <activity
             android:name=".set.Settings"
             android:label="@string/settings"
-            android:stateNotNeeded="true">
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
         </activity>
         
         <receiver 

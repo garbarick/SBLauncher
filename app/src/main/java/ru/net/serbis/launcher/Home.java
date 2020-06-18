@@ -22,7 +22,6 @@ public class Home extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Transparent.set(this);
         
         db = new DBHelper(this);
         initSettings();

@@ -22,7 +22,6 @@ public class Tabs extends TabActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Transparent.set(this);
 
         db = new DBHelper(this);
 
