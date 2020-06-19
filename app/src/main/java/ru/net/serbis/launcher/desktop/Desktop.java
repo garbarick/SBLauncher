@@ -116,8 +116,7 @@ public class Desktop extends Host
         AppIcon appIcon = new AppIcon(0, item, x, y);
         db.appIcons.add(appIcon, host, place);
         
-        AppIconView view = createAppIconView(appIcon);
-        view.startDrag(); //not worked
+        createAppIconView(appIcon);
     }
 
     @Override
