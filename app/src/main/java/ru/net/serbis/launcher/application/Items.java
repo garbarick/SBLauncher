@@ -3,6 +3,7 @@ package ru.net.serbis.launcher.application;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
+import android.os.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.tab.*;
@@ -76,6 +77,10 @@ public class Items extends BroadcastReceiver
 
     private Drawable getActivityIcon(PackageManager manager, ActivityInfo info)
     {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+        {
+            return info.loadUnbadgedIcon(manager);
+        }
         return info.loadIcon(manager);
     }
 
