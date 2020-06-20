@@ -8,9 +8,10 @@ import java.util.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.desktop.*;
 import ru.net.serbis.launcher.doc.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
 
-public class Home extends Activity
+public class Home extends Activity implements View.OnLayoutChangeListener
 {
     private DBHelper db;
     private List<Desktop> desktops;
@@ -37,6 +38,8 @@ public class Home extends Activity
         initDocs(parameters.docCount.getIntValue());
         
         setContentView(R.layout.home);
+        View view = Tools.getView(this, R.id.doc);
+        view.addOnLayoutChangeListener(this);
         
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         if (desktops.size() > 0)
@@ -183,5 +186,16 @@ public class Home extends Activity
     @Override
     public void onBackPressed()
     {
+    }
+
+    @Override
+    public void onLayoutChange(View view,
+                               int left,    int top,    int right,    int bottom,
+                               int leftWas, int topWas, int rightWas, int bottomWas)
+    {
+        if (topWas > 0 && top > topWas)
+        {
+            view.setTop(topWas);
+        }  
     }
 }
