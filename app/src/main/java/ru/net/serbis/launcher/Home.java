@@ -18,7 +18,7 @@ public class Home extends Activity implements View.OnLayoutChangeListener
     private int desktop;
     private List<Doc> docs;
     private int doc;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -188,14 +188,19 @@ public class Home extends Activity implements View.OnLayoutChangeListener
     {
     }
 
+    private int startTop;
     @Override
     public void onLayoutChange(View view,
                                int left,    int top,    int right,    int bottom,
                                int leftWas, int topWas, int rightWas, int bottomWas)
     {
-        if (topWas > 0 && top > topWas)
+        if (topWas == 0 && top > 0)
         {
-            view.setTop(topWas);
+            startTop = top;
+        }
+        else if (topWas > 0 && top > topWas)
+        {
+            view.setTop(startTop);
         }  
     }
 }
