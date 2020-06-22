@@ -172,12 +172,17 @@ public class AppsGroupTable extends Table
     {
         for (Item item : items)
         {
-            Long id = helper.addApplication(db, item);
-            excludeItemFromGroup(db, id, group);
+            excludeItemFromGroup(db, item, group);
         }
         return true;
     }
     
+    private void excludeItemFromGroup(SQLiteDatabase db, Item item, Group group)
+    {
+        Long id = helper.addApplication(db, item);
+        excludeItemFromGroup(db, id, group);
+    }
+
     public Collection<ExportData> getExportData()
     {
         return read(
@@ -274,6 +279,33 @@ public class AppsGroupTable extends Table
                     helper.appIcons.update(db, iconId, host);
                 }
             }
+        }
+    }
+
+    public void moveItem(final Item item, final Group from, final String to)
+    {
+        write(
+            new VoidAction()
+            {
+                @Override
+                public void voidCall(SQLiteDatabase db)
+                {
+                    moveItem(db, item, from, to);
+                }
+            }
+        );   
+    }
+    
+    private void moveItem(SQLiteDatabase db, Item item, Group from, String to)
+    {
+        if (!Group.ALL.equals(from))
+        {
+            excludeItemFromGroup(db, item, from);
+        }
+        Group group = helper.groups.getGroup(db, to);
+        if (group != null)
+        {
+            addItemInGroup(db, item, group);
         }
     }
 }

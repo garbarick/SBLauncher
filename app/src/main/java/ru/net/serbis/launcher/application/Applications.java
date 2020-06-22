@@ -21,6 +21,7 @@ public class Applications extends Activity
     private GridView grid;
     private Tabs tabs;
     private DBHelper db;
+    private Group group;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -41,7 +42,7 @@ public class Applications extends Activity
     private void initList()
     {
         Intent intent = getIntent();
-        Group group = (Group)intent.getSerializableExtra(Constants.GROUP);
+        group = (Group)intent.getSerializableExtra(Constants.GROUP);
         List<Item> items = db.getItems(group);
         items.removeAll(db.getItems(Group.HIDDEN));
         Collections.sort(items);
@@ -116,6 +117,26 @@ public class Applications extends Activity
             menu.setHeaderTitle(item.getLabel());
             menu.setHeaderIcon(item.getIcon());
             getMenuInflater().inflate(R.menu.activity, menu);
+            initMoveTo(menu, info);
+        }
+    }
+
+    private void initMoveTo(ContextMenu menu, AdapterView.AdapterContextMenuInfo info)
+    {
+        MenuItem moveTo = menu.findItem(R.id.moveTo);
+        SubMenu subMenu =moveTo.getSubMenu();
+        addSubItem(subMenu, moveTo, info, Group.ALL);
+        for(Group group : db.groups.getGroups())
+        {
+            addSubItem(subMenu, moveTo, info, group);
+        }
+    }
+
+    private void addSubItem(SubMenu subMenu, MenuItem item, AdapterView.AdapterContextMenuInfo info, Group group)
+    {
+        if (!this.group.equals(group))
+        {
+            subMenu.add(info.position, item.getItemId(), 0, group.getName(this));
         }
     }
 
@@ -123,16 +144,35 @@ public class Applications extends Activity
     public boolean onContextItemSelected(MenuItem menuItem)
     {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo();
-        Item item = (Item) grid.getItemAtPosition(info.position);
+        String name = menuItem.getTitle().toString();
+        Item item;
+        boolean subMenu = false;
+        if (info == null)
+        {
+            subMenu = true;
+            item  = (Item) grid.getItemAtPosition(menuItem.getGroupId());
+        }
+        else
+        {
+            item = (Item) grid.getItemAtPosition(info.position);
+        }
         switch(menuItem.getItemId())
         {
             case R.id.info:
                 openInformation(item);
                 return true;
-
             case R.id.addToDesktop:
                 addToDesktop(item, info.targetView);
                 return true;
+            case R.id.hide:
+                addToHiddenGroup(item);
+                return true;
+            case R.id.moveTo:
+                if (subMenu)
+                {
+                    moveToGroup(item, name);
+                    return true;
+                }
         }
         return super.onContextItemSelected(menuItem);
     }
@@ -142,5 +182,17 @@ public class Applications extends Activity
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + item.getPackageName()));
         startActivity(intent);
+    }
+
+    private void addToHiddenGroup(Item item)
+    {
+        db.appsGroup.addItemInGroup(item, Group.HIDDEN);
+        initList();
+	}
+
+    private void moveToGroup(Item item, String name)
+    {
+        db.appsGroup.moveItem(item, this.group, name);
+        initList();
     }
 }

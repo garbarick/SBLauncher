@@ -1,10 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/info"
         android:title="@string/info"/>
     <item
         android:id="@+id/addToDesktop"
         android:title="@string/addToDesktop"/>
-
+    <item
+        android:id="@+id/hide"
+        android:title="@string/hide"/>
+    <item
+        android:id="@+id/moveTo"
+        android:title="@string/moveTo">
+        <menu/>
+    </item>
 </menu>

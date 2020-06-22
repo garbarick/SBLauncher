@@ -1,15 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
     <item
         android:id="@+id/tabsSet"
         android:title="@string/tabsSet"/>
-
     <item
         android:id="@+id/hideSet"
         android:title="@string/hideSet"/>
-    
     <item
         android:id="@+id/reload"
         android:title="@string/reload"/>
-
 </menu>

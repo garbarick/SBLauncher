@@ -22,6 +22,8 @@
 
     <string name="addToDesktop">Add To Desktop</string>
     <string name="info">Information</string>
+    <string name="hide">Hide</string>
+    <string name="moveTo">Move To</string>
 
     <string name="doImport">Import</string>
     <string name="doExport">Export</string>
