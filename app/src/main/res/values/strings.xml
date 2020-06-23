@@ -6,7 +6,8 @@
     <string name="swipeRight">Swipe Right</string>
     <string name="swipeLeft">Swipe Left</string>
     <string name="swipeTop">Swipe Top</string>
-    
+    <string name="lockScreen">Lock Screen</string>
+
     <string name="groupNew">New Group</string>
     <string name="groupDelete">Delete Group</string>
     <string name="groupEdit">Edit Group</string>
@@ -29,5 +30,6 @@
     <string name="doExport">Export</string>
     <string name="selectFile">Select File</string>
     <string name="successfully">Successfully</string>
+    <string name="deviceAdmin">Activate SBLauncher device administrator to lock screen</string>
 
 </resources>

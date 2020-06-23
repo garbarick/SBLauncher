@@ -1,9 +1,10 @@
 package ru.net.serbis.launcher.help;
 
+import android.app.*;
+import android.content.*;
 import android.os.*;
 import android.view.*;
 import java.io.*;
-import android.app.*;
 
 public class Tools
 {
@@ -56,4 +57,9 @@ public class Tools
         appDir.mkdirs();
         return appDir;
     }
+
+    public static <T> T getService(Context context, String name)
+    {
+        return (T) context.getSystemService(name);
+    }    
 }

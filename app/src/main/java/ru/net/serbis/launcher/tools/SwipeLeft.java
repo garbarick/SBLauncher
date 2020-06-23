@@ -1,5 +1,6 @@
 package ru.net.serbis.launcher.tools;
 
+import android.app.*;
 import android.content.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
@@ -17,7 +18,7 @@ public class SwipeLeft extends Item
     }
 
     @Override
-    public void start(Context context)
+    public void start(Activity context)
     {
     }
 

@@ -14,8 +14,7 @@
             android:theme="@style/Home"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
-            android:resizeableActivity="true" >
-
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -47,24 +46,23 @@
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
-        
+
         <activity
             android:name=".group.GroupEditor"
             android:label="@string/groupEdit"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
-        
+
         <activity
             android:name=".set.Settings"
             android:label="@string/settings"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
-        
+
         <receiver 
             android:name=".application.Items">
-            
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
@@ -74,21 +72,30 @@
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
                 <data android:scheme="package"/>
             </intent-filter>
-       
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_MOUNTED"/>
                 <data android:scheme="file"/>
             </intent-filter>
         </receiver>
-      
+
 		<receiver 
             android:name=".icon.ShortcutReceiver"
 			android:permission="com.android.launcher.permission.INSTALL_SHORTCUT">
-
             <intent-filter>
                 <action android:name="com.android.launcher.action.INSTALL_SHORTCUT"/>
             </intent-filter>
         </receiver>
-		
+
+        <receiver
+            android:name=".tools.AdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin"/>
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest> 

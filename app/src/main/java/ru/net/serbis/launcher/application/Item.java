@@ -1,5 +1,6 @@
 package ru.net.serbis.launcher.application;
 
+import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
@@ -64,7 +65,7 @@ public class Item implements Comparable
         return intent;
     }
     
-    public void start(Context context)
+    public void start(Activity context)
     {
         try
         {
