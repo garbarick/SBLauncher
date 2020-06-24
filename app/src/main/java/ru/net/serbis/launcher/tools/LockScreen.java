@@ -42,9 +42,9 @@ public class LockScreen extends Item
 
     private void provideAccess(Activity context, ComponentName comp)
     {
-        Intent intent = new Intent("android.app.action.ADD_DEVICE_ADMIN");
-        intent.putExtra("android.app.extra.DEVICE_ADMIN", comp);
-        intent.putExtra("android.app.extra.ADD_EXPLANATION", context.getResources().getString(R.string.deviceAdmin));
+        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, comp);
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, context.getResources().getString(R.string.deviceAdmin));
         context.startActivityForResult(intent, Activity.RESULT_FIRST_USER);
     }
 }
