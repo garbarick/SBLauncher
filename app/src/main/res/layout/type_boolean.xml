@@ -11,7 +11,9 @@
 		android:id="@+id/value"
 		android:padding="10dp"
 		android:layout_alignParentRight="true"
-		android:layout_alignParentLeft="true"/>
+		android:layout_alignParentLeft="true"
+        android:button="@null"
+		android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
 
 </RelativeLayout>
 

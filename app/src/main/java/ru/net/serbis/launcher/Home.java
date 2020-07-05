@@ -5,6 +5,7 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import java.util.*;
+import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.desktop.*;
 import ru.net.serbis.launcher.doc.*;
@@ -117,6 +118,7 @@ public class Home extends Activity implements View.OnLayoutChangeListener
     {
         if (RESULT_OK == resultCode)
         {
+            Items.getIstance().reInit();
             initSettings();
         }
     }

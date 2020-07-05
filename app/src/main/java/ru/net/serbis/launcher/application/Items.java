@@ -6,7 +6,8 @@ import android.graphics.drawable.*;
 import android.os.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
-import ru.net.serbis.launcher.tab.*;
+import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.tools.*;
 
 public class Items extends BroadcastReceiver
@@ -16,6 +17,12 @@ public class Items extends BroadcastReceiver
 	private Map<String, Item> items = new HashMap<String, Item>();
     private boolean init;
     private List<ItemsHandler> handlers = new ArrayList<ItemsHandler>();
+    private boolean unbadgedIcon;
+
+    public void reInit()
+    {
+        init = false;
+    }
 
     public static Items getIstance()
     {
@@ -24,12 +31,13 @@ public class Items extends BroadcastReceiver
 
     public synchronized void init(Context context)
     {
+        items.clear();
+        initParameters(context);
         findActivities(context);
         
         PackageManager manager = context.getPackageManager();
-        Intent intent = new Intent(context, Tabs.class);
-        findActivities(manager, intent);
 
+        addItem(new AppList(context), manager);
         addItem(new SwipeRight(context), manager);
         addItem(new SwipeLeft(context), manager);
         addItem(new SwipeTop(context), manager);
@@ -38,7 +46,14 @@ public class Items extends BroadcastReceiver
         
         init = true;
     }
-    
+
+    private void initParameters(Context context)
+    {
+        Parameter unbadgedIcon = new Parameters().unbadgedIcon;
+        new DBHelper(context).settings.loadParameterValue(unbadgedIcon);
+        this.unbadgedIcon = unbadgedIcon.getBooleanValue();
+    }
+
     public synchronized void findActivities(Context context)
     {
         findActivities(context, null);
@@ -79,7 +94,7 @@ public class Items extends BroadcastReceiver
 
     private Drawable getActivityIcon(PackageManager manager, ActivityInfo info)
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+        if (unbadgedIcon && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
         {
             return info.loadUnbadgedIcon(manager);
         }

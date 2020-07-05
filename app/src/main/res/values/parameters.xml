@@ -3,5 +3,6 @@
     <string name="orientation">Orientation</string>
     <string name="desktopCount">Count of desktops</string>
     <string name="docCount">Count of docs</string>
-    
+    <string name="unbadgedIcon">Unbadged Icon</string>
+
 </resources>
