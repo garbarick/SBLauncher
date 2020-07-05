@@ -15,6 +15,7 @@ public class Items extends BroadcastReceiver
 
 	private Map<String, Item> items = new HashMap<String, Item>();
     private boolean init;
+    private List<ItemsHandler> handlers = new ArrayList<ItemsHandler>();
 
     public static Items getIstance()
     {
@@ -117,22 +118,30 @@ public class Items extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
+        getIstance().onReceiveInternal(context, intent);
+    }
+
+    private void onReceiveInternal(Context context, Intent intent)
+    {
         String packageName = intent.getData().getEncodedSchemeSpecificPart();
         String action = intent.getAction();
         Log.info(this, packageName + " - " + action);
         if (Intent.ACTION_PACKAGE_REMOVED.equals(action))
         {
-            getIstance().removeItems(context, packageName);
+            removeItems(context, packageName);
+            updateHandlers();
         }
         else if (Intent.ACTION_PACKAGE_ADDED.equals(action)  ||
                  Intent.ACTION_PACKAGE_CHANGED.equals(action) ||
                  Intent.ACTION_PACKAGE_REPLACED.equals(action))
         {
-            getIstance().findActivities(context, packageName);
+            findActivities(context, packageName);
+            updateHandlers();
         }
         else if (Intent.ACTION_MEDIA_MOUNTED.equals(action))
         {
-            getIstance().findActivities(context);
+            findActivities(context);
+            updateHandlers();
         }
     }
 
@@ -155,7 +164,7 @@ public class Items extends BroadcastReceiver
         findActivities(context, Intent.CATEGORY_LAUNCHER, packageName);
         findActivities(context, Intent.CATEGORY_HOME, packageName);
     }
-    
+
     private synchronized void findActivities(Context context, String category, String packageName)
     {
         PackageManager manager = context.getPackageManager();
@@ -166,5 +175,23 @@ public class Items extends BroadcastReceiver
             intent.setPackage(packageName);
         }
         findActivities(manager, intent);
+    }
+
+    public synchronized void addHandler(ItemsHandler handler)
+    {
+        handlers.add(handler);
+    }
+
+    public synchronized void removeHandler(ItemsHandler handler)
+    {
+        handlers.remove(handler);
+    }
+
+    private void updateHandlers()
+    {
+        for (ItemsHandler handler : handlers)
+        {
+            handler.itemsUpdate();
+        }
     }
 }

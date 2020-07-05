@@ -16,7 +16,7 @@ import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.tab.*;
 
-public class Applications extends Activity
+public class Applications extends Activity implements ItemsHandler
 {
     private GridView grid;
     private Tabs tabs;
@@ -193,6 +193,26 @@ public class Applications extends Activity
     private void moveToGroup(Item item, String name)
     {
         db.appsGroup.moveItem(item, this.group, name);
+        initList();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Items.getIstance().addHandler(this);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        Items.getIstance().removeHandler(this);
+    }
+
+    @Override
+    public void itemsUpdate()
+    {
         initList();
     }
 }
