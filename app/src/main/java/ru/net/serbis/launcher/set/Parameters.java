@@ -11,6 +11,7 @@ public class Parameters
     public Parameter docCount = new Parameter(new Value("docCount", R.string.docCount), Type.INTEGER, 3, 1, 10);
     public Parameter lastTab = new Parameter(new Value("lastTab"), Type.STRING);
     public Parameter unbadgedIcon = new Parameter(new Value("unbadgedIcon", R.string.unbadgedIcon), Type.BOOLEAN, 0);
+    public Parameter systemWidgetSelector = new Parameter(new Value("systemWidgetSelector", R.string.systemWidgetSelector), Type.BOOLEAN, 1);
 
     public List<Parameter> getParameters()
     {
@@ -18,6 +19,7 @@ public class Parameters
             orientation,
             desktopCount,
             docCount,
-            unbadgedIcon);
+            unbadgedIcon,
+            systemWidgetSelector);
     }
 }

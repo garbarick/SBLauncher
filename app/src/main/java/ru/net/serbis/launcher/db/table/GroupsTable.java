@@ -57,24 +57,23 @@ public class GroupsTable extends Table
         return result;
     }
 
-    public boolean deleteGroup(final Group group)
+    public void deleteGroup(final Group group)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
-					return deleteGroup(db, group);
+					deleteGroup(db, group);
 				}
 			}
 		);
     }
     
-    private boolean deleteGroup(SQLiteDatabase db, Group group)
+    private void deleteGroup(SQLiteDatabase db, Group group)
     {
-        int count = db.delete("groups", "id = ?", new String[]{group.getId().toString()});
-        return count > 0;
+        db.delete("groups", "id = ?", new String[]{group.getId().toString()});
     }
 
     public Group createGroup(String name)
@@ -154,26 +153,25 @@ public class GroupsTable extends Table
         }
     }
 
-    public boolean updateGroup(final Group group)
+    public void updateGroup(final Group group)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
-					return updateGroup(db, group);
+					updateGroup(db, group);
 				}
 			}
 		);
     }
     
-    private boolean updateGroup(SQLiteDatabase db, Group group)
+    private void updateGroup(SQLiteDatabase db, Group group)
     {
         ContentValues values = new ContentValues();
         values.put("name", group.getName(getContext()));
-        int count = db.update("groups", values, "id = ?", new String[]{group.getId().toString()});
-        return count > 0;
+        db.update("groups", values, "id = ?", new String[]{group.getId().toString()});
     }
 	
 	private boolean groupExists(SQLiteDatabase db, Long id)

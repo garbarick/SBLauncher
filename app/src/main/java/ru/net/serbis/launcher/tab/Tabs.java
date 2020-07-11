@@ -34,10 +34,8 @@ public class Tabs extends TabActivity
     private void initSettings()
     {
         Parameters parameters = new Parameters();
-        if (db.settings.loadParameterValue(parameters.orientation))
-        {
-            setRequestedOrientation(parameters.orientation.getIntValue());
-        }
+        db.settings.loadParameterValue(parameters.orientation);
+        setRequestedOrientation(parameters.orientation.getIntValue());
         setContentView(R.layout.tabs);
     }
 

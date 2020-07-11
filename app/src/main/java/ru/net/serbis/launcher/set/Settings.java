@@ -56,11 +56,9 @@ public class Settings extends Activity implements View.OnClickListener
 
     private void apply()
     {
-        if (db.settings.saveParameterValues(parameters))
-        {
-            makeResultOk();
-            finish();        
-        }
+        db.settings.saveParameterValues(parameters);
+        makeResultOk();
+        finish();
     }
 
     @Override

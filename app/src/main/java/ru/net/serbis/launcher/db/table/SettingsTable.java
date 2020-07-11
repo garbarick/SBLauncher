@@ -20,29 +20,27 @@ public class SettingsTable extends Table
             ")");
     }
 
-    public boolean loadParameterValue(final Parameter parameter)
+    public void loadParameterValue(final Parameter parameter)
     {
-		return read(
-			new BooleanAction()
+		read(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
-					return loadParameterValue(db, parameter);
+				    loadParameterValue(db, parameter);
 				}
 			}
 		);
     }
 
-    private boolean loadParameterValue(SQLiteDatabase db, Parameter parameter)
+    private void loadParameterValue(SQLiteDatabase db, Parameter parameter)
     {
         Cursor cursor = db.query("settings", new String[]{"value"}, "name = ?", new String[]{parameter.getName().getValue()}, null, null, null);
         if (cursor.moveToFirst())
         {
             parameter.setValue(cursor.getString(0));
-            return true;
         }
-        return false;
     }
 
     public void loadParameterValues(final List<Parameter> parameters)
@@ -67,31 +65,29 @@ public class SettingsTable extends Table
         }
     }
 
-    public boolean saveParameterValues(final List<Parameter> parameters)
+    public void saveParameterValues(final List<Parameter> parameters)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
 					saveParameterValues(db, parameters);
-					return true;
 				}
 			}
 		);
     }
 
-    public boolean saveParameterValue(final Parameter parameter)
+    public void saveParameterValue(final Parameter parameter)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
 					saveParameterValue(db, parameter);
-					return true;
 				}
 			}
 		);

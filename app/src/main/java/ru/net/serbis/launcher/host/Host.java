@@ -17,9 +17,6 @@ import ru.net.serbis.launcher.widget.*;
 
 public abstract class Host extends Fragment
 {
-    protected static final int REQUEST_PICK_WIDGET = 9;
-    protected static final int REQUEST_CREATE_WIDGET = 5;
-
     protected AppWidgetManager widgetManager;
     protected WidgetHost widgetHost;
     protected RelativeLayout layout;

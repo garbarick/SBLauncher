@@ -31,7 +31,7 @@ public class GroupEditor extends Activity
         db = new DBHelper(this);
 
         Intent intent = getIntent();
-        group = (Group)intent.getSerializableExtra(Constants.GROUP);
+        group = Tools.getExtra(intent, Constants.GROUP);
         input.setText(group.getName(this));
         input.setEnabled(group.getId() >= 0);
 
@@ -97,12 +97,12 @@ public class GroupEditor extends Activity
                 {
                     String name = input.getText().toString();
                     group.setName(name);
-                    if (saveGroup() && saveChecked())
-                    {
-                        Intent intent = new Intent(getIntent());
-                        intent.putExtra(Constants.GROUP, group);
-                        setResult(RESULT_OK, intent);
-                    }
+                    saveGroup();
+                    saveChecked();
+
+                    Intent intent = new Intent(getIntent());
+                    intent.putExtra(Constants.GROUP, group);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
             }
@@ -123,22 +123,24 @@ public class GroupEditor extends Activity
         );
     }
 
-    private boolean saveGroup()
+    private void saveGroup()
     {
-        if (Group.HIDDEN.equals(group))
+        if (!Group.HIDDEN.equals(group))
         {
-            return true;
+            db.groups.updateGroup(group);
         }
-        return db.groups.updateGroup(group);
     }
     
-    private boolean saveChecked()
+    private void saveChecked()
     {
         if (Group.HIDDEN.equals(group))
         {
             db.appsGroup.excludeItemsFromGroup(adapter.getAll(), group);
-            return db.appsGroup.addItemsInGroup(adapter.getChecked(), group);
+            db.appsGroup.addItemsInGroup(adapter.getChecked(), group);
         }
-        return db.appsGroup.saveItemsInGroup(adapter.getChecked(), group);
+        else
+        {
+            db.appsGroup.saveItemsInGroup(adapter.getChecked(), group);
+        }
     }
 }

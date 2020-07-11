@@ -70,46 +70,45 @@ public class AppsGroupTable extends Table
         return names;
     }
     
-    public boolean saveItemsInGroup(final List<Item> items, final Group group)
+    public void saveItemsInGroup(final List<Item> items, final Group group)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
-					return saveItemsInGroup(db, items, group);
+					saveItemsInGroup(db, items, group);
 				}
 			}
 		);
     }
     
-    private boolean saveItemsInGroup(SQLiteDatabase db, List<Item> items, Group group)
+    private void saveItemsInGroup(SQLiteDatabase db, List<Item> items, Group group)
     {
         db.delete("apps_group", "group_id = ?", new String[]{group.getId().toString()});
-        return addItemsInGroup(db, items, group);
+        addItemsInGroup(db, items, group);
     }
 
-	public boolean addItemInGroup(final Item item, final Group group)
+	public void addItemInGroup(final Item item, final Group group)
     {
-		return write(
-			new BooleanAction()
+		write(
+			new VoidAction()
 			{
 				@Override
-				public Boolean call(SQLiteDatabase db)
+				public void voidCall(SQLiteDatabase db)
 				{
-					return addItemInGroup(db, item, group);
+					addItemInGroup(db, item, group);
 				}
 			}
 		);
     }
 
-    private boolean addItemInGroup(SQLiteDatabase db, Item item, Group group)
+    private void addItemInGroup(SQLiteDatabase db, Item item, Group group)
     {
 		Long id = helper.addApplication(db, item);
         excludeItemFromGroup(db, id, group);
 		addItemInGroup(db, id, group);
-        return true;
     }
 
 	private void addItemInGroup(SQLiteDatabase db, Long itemId, Group group)
@@ -120,15 +119,15 @@ public class AppsGroupTable extends Table
         db.insert("apps_group", null, values);
     }
 
-    public boolean addItemsInGroup(final List<Item> items, final Group group)
+    public void addItemsInGroup(final List<Item> items, final Group group)
     {
-        return write(
-            new BooleanAction()
+        write(
+            new VoidAction()
             {
                 @Override
-                public Boolean call(SQLiteDatabase db)
+                public void voidCall(SQLiteDatabase db)
                 {
-                    return addItemsInGroup(db, items, group);
+                    addItemsInGroup(db, items, group);
                 }
             }
         );
@@ -154,27 +153,26 @@ public class AppsGroupTable extends Table
         db.delete("apps_group", "app_id = ?", new String[]{id.toString()});
     }
 
-    public boolean excludeItemsFromGroup(final List<Item> items, final Group group)
+    public void excludeItemsFromGroup(final List<Item> items, final Group group)
     {
-        return write(
-            new BooleanAction()
+        write(
+            new VoidAction()
             {
                 @Override
-                public Boolean call(SQLiteDatabase db)
+                public void voidCall(SQLiteDatabase db)
                 {
-                    return excludeItemsFromGroup(db, items, group);
+                    excludeItemsFromGroup(db, items, group);
                 }
             }
         );
     }
 
-    private boolean excludeItemsFromGroup(SQLiteDatabase db, List<Item> items, Group group)
+    private void excludeItemsFromGroup(SQLiteDatabase db, List<Item> items, Group group)
     {
         for (Item item : items)
         {
             excludeItemFromGroup(db, item, group);
         }
-        return true;
     }
     
     private void excludeItemFromGroup(SQLiteDatabase db, Item item, Group group)

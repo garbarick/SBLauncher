@@ -137,7 +137,7 @@ public class Groups extends Activity
     {
         if (RESULT_OK == resultCode)
         {
-            Group group = (Group) intent.getSerializableExtra(Constants.GROUP);
+            Group group = Tools.getExtra(intent, Constants.GROUP);
             int position = intent.getIntExtra(Constants.POSITION, -1);
             if (position > -1)
             {

@@ -42,7 +42,7 @@ public class Applications extends Activity implements ItemsHandler
     private void initList()
     {
         Intent intent = getIntent();
-        group = (Group)intent.getSerializableExtra(Constants.GROUP);
+        group = Tools.getExtra(intent, Constants.GROUP);
         List<Item> items = db.getItems(group);
         items.removeAll(db.getItems(Group.HIDDEN));
         Collections.sort(items);

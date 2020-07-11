@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.group;
+
 import android.content.*;
 import android.view.*;
 import android.view.View.*;
@@ -38,10 +39,8 @@ public class GroupAdapter extends ItemAdapter<Group>
             {
                 public void onClick(View view)
                 {
-                    if (db.groups.deleteGroup(item))
-                    {
-                        remove(item);
-                    }
+                    db.groups.deleteGroup(item);
+                    remove(item);
                 }
             }
         );

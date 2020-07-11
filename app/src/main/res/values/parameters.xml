@@ -4,5 +4,6 @@
     <string name="desktopCount">Count of desktops</string>
     <string name="docCount">Count of docs</string>
     <string name="unbadgedIcon">Unbadged Icon</string>
+    <string name="systemWidgetSelector">System Widget Selector</string>
 
 </resources>

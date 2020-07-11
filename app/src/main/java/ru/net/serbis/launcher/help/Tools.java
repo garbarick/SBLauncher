@@ -61,5 +61,10 @@ public class Tools
     public static <T> T getService(Context context, String name)
     {
         return (T) context.getSystemService(name);
-    }    
+    }
+
+    public static <T> T getExtra(Intent intent, String name)
+    {
+        return (T) intent.getSerializableExtra(name);
+    }
 }

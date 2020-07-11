@@ -10,10 +10,13 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.host.*;
 import ru.net.serbis.launcher.icon.*;
+import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.widget.*;
 
 public class Desktop extends Host
 {
+    private boolean systemWidgetSelector;
+
     public Desktop()
     {
         host = "desktop";
@@ -38,6 +41,18 @@ public class Desktop extends Host
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
+    {
+        View view = super.onCreateView(inflater, container, bundle);
+        
+        Parameters parameters = new Parameters();
+        db.settings.loadParameterValue(parameters.systemWidgetSelector);
+        systemWidgetSelector = parameters.systemWidgetSelector.getBooleanValue();
+        
+        return view;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
@@ -53,12 +68,32 @@ public class Desktop extends Host
 
     private void selectWidget()
     {
+        if (systemWidgetSelector)
+        {
+            selectWidgetBySystem();
+        }
+        else
+        {
+            selectWidgetCustom();
+        }
+    }
+
+    private void selectWidgetCustom()
+    {
+        Intent intent = new Intent(getActivity(), Widgets.class);
+        int widgetId = widgetHost.allocateAppWidgetId();
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        startActivityForResult(intent, Constants.REQUEST_PICK_WIDGET);
+    }
+
+    private void selectWidgetBySystem()
+    {
         int widgetId = widgetHost.allocateAppWidgetId();
         Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_PICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_INFO, new ArrayList<AppWidgetProviderInfo>());
         intent.putParcelableArrayListExtra(AppWidgetManager.EXTRA_CUSTOM_EXTRAS, new ArrayList<Bundle>());
-        startActivityForResult(intent, REQUEST_PICK_WIDGET);
+        startActivityForResult(intent, Constants.REQUEST_PICK_WIDGET);
     }
 
     @Override
@@ -66,13 +101,14 @@ public class Desktop extends Host
     {
         if (resultCode == Activity.RESULT_OK)
         {
-            if (requestCode == REQUEST_PICK_WIDGET)
+            switch(requestCode)
             {
-                configureWidget(data);
-            }
-            else if (requestCode == REQUEST_CREATE_WIDGET)
-            {
-                createWidget(data);
+                case Constants.REQUEST_PICK_WIDGET:
+                    configureWidget(data);
+                    break;
+                case Constants.REQUEST_CREATE_WIDGET:
+                    createWidget(data);
+                    break;
             }
         }
         else if (resultCode == Activity.RESULT_CANCELED && data != null)
@@ -88,13 +124,13 @@ public class Desktop extends Host
     private void configureWidget(Intent data)
     {
         int widgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
-        AppWidgetProviderInfo widgetInfo = widgetManager.getAppWidgetInfo(widgetId);
-        if (widgetInfo.configure != null)
+        AppWidgetProviderInfo info = widgetManager.getAppWidgetInfo(widgetId);
+        if (info.configure != null)
         {
             Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
-            intent.setComponent(widgetInfo.configure);
+            intent.setComponent(info.configure);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-            startActivityForResult(intent, REQUEST_CREATE_WIDGET);
+            startActivityForResult(intent, Constants.REQUEST_CREATE_WIDGET);
         }
         else
         {
@@ -115,7 +151,7 @@ public class Desktop extends Host
         Item item = db.getItem(itemKey);
         AppIcon appIcon = new AppIcon(0, item, x, y);
         db.appIcons.add(appIcon, host, place);
-        
+
         createAppIconView(appIcon);
     }
 
