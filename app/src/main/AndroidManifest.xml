@@ -12,7 +12,7 @@
         <activity 
             android:name=".Home"
             android:label="@string/appName"
-            android:theme="@style/Home"
+            android:theme="@style/Theme"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
@@ -26,7 +26,7 @@
 
         <activity
             android:name=".tab.Tabs"
-            android:theme="@style/Tabs"
+            android:theme="@style/Theme"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">

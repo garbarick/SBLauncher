@@ -12,6 +12,7 @@ public class Parameters
     public Parameter lastTab = new Parameter(new Value("lastTab"), Type.STRING);
     public Parameter unbadgedIcon = new Parameter(new Value("unbadgedIcon", R.string.unbadgedIcon), Type.BOOLEAN, 0);
     public Parameter systemWidgetSelector = new Parameter(new Value("systemWidgetSelector", R.string.systemWidgetSelector), Type.BOOLEAN, 1);
+    public Parameter systemBarTransparency = new Parameter(new Value("systemBarTransparency", R.string.systemBarTransparency), Type.INTEGER, 100, 0, 100);
 
     public List<Parameter> getParameters()
     {
@@ -20,6 +21,7 @@ public class Parameters
             desktopCount,
             docCount,
             unbadgedIcon,
-            systemWidgetSelector);
+            systemWidgetSelector,
+            systemBarTransparency);
     }
 }

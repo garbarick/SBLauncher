@@ -67,4 +67,13 @@ public class Tools
     {
         return (T) intent.getSerializableExtra(name);
     }
+    
+    public static void setStatusBarColor(Activity activity, int color)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            activity.getWindow().setStatusBarColor(color);
+            activity.getWindow().setNavigationBarColor(color);
+        }
+    }
 }

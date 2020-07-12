@@ -37,6 +37,7 @@ public class Tabs extends TabActivity
         db.settings.loadParameterValue(parameters.orientation);
         setRequestedOrientation(parameters.orientation.getIntValue());
         setContentView(R.layout.tabs);
+        Tools.setStatusBarColor(this, getResources().getColor(R.color.black_transparent));
     }
 
     private void initTabs()

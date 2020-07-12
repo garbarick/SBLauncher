@@ -2,6 +2,7 @@ package ru.net.serbis.launcher;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.os.*;
 import android.view.*;
 import java.util.*;
@@ -34,6 +35,7 @@ public class Home extends Activity implements View.OnLayoutChangeListener
         Parameters parameters = new Parameters();
         db.settings.loadParameterValues(parameters.getParameters());
 
+        setTransparency(parameters.systemBarTransparency.getIntValue());
         setRequestedOrientation(parameters.orientation.getIntValue());
         initDesktops(parameters.desktopCount.getIntValue());
         initDocs(parameters.docCount.getIntValue());
@@ -204,5 +206,12 @@ public class Home extends Activity implements View.OnLayoutChangeListener
         {
             view.setTop(startTop);
         }  
+    }
+    
+    private void setTransparency(int transparency)
+    {
+        int value = 255 - (int)(255 * transparency / 100.);
+        int color = Color.argb(value, 0, 0, 0);
+        Tools.setStatusBarColor(this, color);
     }
 }
