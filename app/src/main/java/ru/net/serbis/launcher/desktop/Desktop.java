@@ -19,7 +19,7 @@ public class Desktop extends Host
 
     public Desktop()
     {
-        host = "desktop";
+        host = Constants.DESKTOP;
     }
 
     @Override

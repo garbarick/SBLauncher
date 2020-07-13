@@ -12,4 +12,7 @@ public interface Constants
     int REQUEST_BIND_WIDGET = 4;
     int REQUEST_PICK_WIDGET = 9;
     int REQUEST_CREATE_WIDGET = 5;
+
+    String DESKTOP = "desktop";
+    String DOC = "doc";
 }

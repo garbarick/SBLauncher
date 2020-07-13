@@ -18,6 +18,7 @@ public class DBHelper extends SQLiteOpenHelper
     public WidgetTable widgets = new WidgetTable();
     public AppIconsTable appIcons = new AppIconsTable();
 	public AppsTable apps = new AppsTable();
+    public DefaultData defData = new DefaultData();
 
     private List<Table> tables = Arrays.asList(new Table[] {
         groups,
@@ -25,7 +26,8 @@ public class DBHelper extends SQLiteOpenHelper
         appsGroup,
         settings,
         widgets,
-        appIcons});
+        appIcons,
+        defData});
 
     public DBHelper(Context context)
     {

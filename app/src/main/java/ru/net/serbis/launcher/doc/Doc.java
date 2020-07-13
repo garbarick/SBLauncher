@@ -12,7 +12,7 @@ public class Doc extends Host
 {
     public Doc()
     {
-        host = "doc";
+        host = Constants.DOC;
     }
     
     @Override
