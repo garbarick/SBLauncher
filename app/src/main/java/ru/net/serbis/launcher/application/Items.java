@@ -18,6 +18,7 @@ public class Items extends BroadcastReceiver
     private boolean init;
     private List<ItemsHandler> handlers = new ArrayList<ItemsHandler>();
     private boolean unbadgedIcon;
+    private boolean searchDefaultActivities;
 
     public void reInit()
     {
@@ -49,9 +50,10 @@ public class Items extends BroadcastReceiver
 
     private void initParameters(Context context)
     {
-        Parameter unbadgedIcon = new Parameters().unbadgedIcon;
-        new DBHelper(context).settings.loadParameterValue(unbadgedIcon);
-        this.unbadgedIcon = unbadgedIcon.getBooleanValue();
+        Parameters parameters = new Parameters();
+        new DBHelper(context).settings.loadParameterValues(parameters.getItemsParameters());
+        this.unbadgedIcon = parameters.unbadgedIcon.getBooleanValue();
+        this.searchDefaultActivities = parameters.searchDefaultActivities.getBooleanValue();
     }
 
     public synchronized void findActivities(Context context)
@@ -178,6 +180,10 @@ public class Items extends BroadcastReceiver
     {
         findActivities(context, Intent.CATEGORY_LAUNCHER, packageName);
         findActivities(context, Intent.CATEGORY_HOME, packageName);
+        if (searchDefaultActivities)
+        {
+            findActivities(context, Intent.CATEGORY_DEFAULT, packageName);
+        }
     }
 
     private synchronized void findActivities(Context context, String category, String packageName)

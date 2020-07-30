@@ -13,6 +13,7 @@ public class Parameters
     public Parameter unbadgedIcon = new Parameter(new Value("unbadgedIcon", R.string.unbadgedIcon), Type.BOOLEAN, 0);
     public Parameter systemWidgetSelector = new Parameter(new Value("systemWidgetSelector", R.string.systemWidgetSelector), Type.BOOLEAN, 1);
     public Parameter systemBarTransparency = new Parameter(new Value("systemBarTransparency", R.string.systemBarTransparency), Type.INTEGER, 100, 0, 100);
+    public Parameter searchDefaultActivities = new Parameter(new Value("searchDefaultActivities", R.string.searchDefaultActivities), Type.BOOLEAN, 0);
 
     public List<Parameter> getParameters()
     {
@@ -22,6 +23,14 @@ public class Parameters
             docCount,
             unbadgedIcon,
             systemWidgetSelector,
-            systemBarTransparency);
+            systemBarTransparency,
+            searchDefaultActivities);
+    }
+    
+    public List<Parameter> getItemsParameters()
+    {
+        return Arrays.asList(
+            unbadgedIcon,
+            searchDefaultActivities);
     }
 }
