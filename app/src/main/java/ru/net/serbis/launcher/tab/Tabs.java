@@ -12,6 +12,7 @@ import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.group.*;
 import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
+import ru.net.serbis.launcher.view.*;
 
 public class Tabs extends TabActivity
 {
@@ -26,6 +27,8 @@ public class Tabs extends TabActivity
         db = new DBHelper(this);
 
         initSettings();
+        initStatusBar();
+        new NoMoveView(this, R.id.doc);
         initTabs();
         initAnimationTabChange();
         initMenuButton();
@@ -37,6 +40,10 @@ public class Tabs extends TabActivity
         db.settings.loadParameterValue(parameters.orientation);
         setRequestedOrientation(parameters.orientation.getIntValue());
         setContentView(R.layout.tabs);
+    }
+
+    private void initStatusBar()
+    {
         Tools.setStatusBarColor(this, getResources().getColor(R.color.black_transparent));
     }
 
@@ -190,5 +197,12 @@ public class Tabs extends TabActivity
             }
         }
         return false;
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu)
+    {
+        super.onOptionsMenuClosed(menu);
+        initStatusBar();
     }
 }

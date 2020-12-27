@@ -72,8 +72,9 @@ public class Tools
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            activity.getWindow().setStatusBarColor(color);
-            activity.getWindow().setNavigationBarColor(color);
+            Window window = activity.getWindow();
+            window.setStatusBarColor(color);
+            window.setNavigationBarColor(color);
         }
     }
 }

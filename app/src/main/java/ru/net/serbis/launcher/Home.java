@@ -12,8 +12,9 @@ import ru.net.serbis.launcher.desktop.*;
 import ru.net.serbis.launcher.doc.*;
 import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
+import ru.net.serbis.launcher.view.*;
 
-public class Home extends Activity implements View.OnLayoutChangeListener
+public class Home extends Activity
 {
     private DBHelper db;
     private List<Desktop> desktops;
@@ -41,8 +42,7 @@ public class Home extends Activity implements View.OnLayoutChangeListener
         initDocs(parameters.docCount.getIntValue());
         
         setContentView(R.layout.home);
-        View view = Tools.getView(this, R.id.doc);
-        view.addOnLayoutChangeListener(this);
+        new NoMoveView(this, R.id.doc);
         
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         if (desktops.size() > 0)
@@ -190,22 +190,6 @@ public class Home extends Activity implements View.OnLayoutChangeListener
     @Override
     public void onBackPressed()
     {
-    }
-
-    private int startTop;
-    @Override
-    public void onLayoutChange(View view,
-                               int left,    int top,    int right,    int bottom,
-                               int leftWas, int topWas, int rightWas, int bottomWas)
-    {
-        if (topWas == 0 && top > 0)
-        {
-            startTop = top;
-        }
-        else if (topWas > 0 && top > topWas)
-        {
-            view.setTop(startTop);
-        }  
     }
     
     private void setTransparency(int transparency)
