@@ -103,7 +103,7 @@ public class Home extends Activity
                 return true;
            
             case R.id.launcherSet:
-                startActivityForResult(new Intent(this, Settings.class), 0);
+                startActivityForResult(new Intent(this, Settings.class), Constants.REQUEST_CHANGE_SETTINGS);
                 return true;
                 
             case R.id.setWallpaper:
@@ -118,7 +118,8 @@ public class Home extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        if (RESULT_OK == resultCode)
+        if (Constants.REQUEST_CHANGE_SETTINGS == requestCode &&
+            RESULT_OK == resultCode)
         {
             Items.getIstance().reInit();
             initSettings();

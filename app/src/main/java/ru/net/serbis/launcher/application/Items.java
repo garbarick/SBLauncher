@@ -44,7 +44,8 @@ public class Items extends BroadcastReceiver
         addItem(new SwipeTop(context), manager);
         addItem(new DayDream(), manager);
         addItem(new LockScreen(context), manager);
-        
+        addItem(new SecureLockStart(context), manager);
+
         init = true;
     }
 

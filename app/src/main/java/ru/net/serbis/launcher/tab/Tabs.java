@@ -99,14 +99,14 @@ public class Tabs extends TabActivity
         switch (item.getItemId())
         {
             case R.id.tabsSet:
-                startActivityForResult(new Intent(this, Groups.class), 0);
+                startActivityForResult(new Intent(this, Groups.class), Constants.REQUEST_CHANGE_GROUPS);
                 return true;
 
             case R.id.hideSet:
                 Intent intent = new Intent(this, GroupEditor.class);
                 intent.putExtra(Constants.GROUP, Group.HIDDEN);
                 intent.putExtra(Constants.POSITION, getTabHost().getCurrentTab());
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, Constants.REQUEST_CHANGE_HIDDEN);
                 return true;
 
             case R.id.reload:
@@ -121,10 +121,17 @@ public class Tabs extends TabActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (RESULT_OK == resultCode)
+        switch(requestCode)
         {
-            reload();
+            case Constants.REQUEST_CHANGE_GROUPS:
+            case Constants.REQUEST_CHANGE_HIDDEN:
+                if (RESULT_OK == resultCode)
+                {
+                    reload();
+                }
+                break;
         }
+        
     }
 
     private void reload()

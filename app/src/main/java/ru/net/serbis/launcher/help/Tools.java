@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.view.*;
+import android.widget.*;
 import java.io.*;
 
 public class Tools
@@ -76,5 +77,15 @@ public class Tools
             window.setStatusBarColor(color);
             window.setNavigationBarColor(color);
         }
+    }
+
+    public static void toast(Context context, int resource)
+    {
+        Toast.makeText(context, resource, Toast.LENGTH_LONG).show();
+    }
+
+    public static void toast(Context context, String resource)
+    {
+        Toast.makeText(context, resource, Toast.LENGTH_LONG).show();
     }
 }

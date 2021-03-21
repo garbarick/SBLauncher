@@ -30,7 +30,7 @@ public class WidgetAdapter extends ItemAdapter<AppWidgetProviderInfo>
         clear();
         for(WidgetData data : datas.values())
         {
-            add(data.get(0));
+            add(data.getData().iterator().next());
         }
     }
     
@@ -38,7 +38,7 @@ public class WidgetAdapter extends ItemAdapter<AppWidgetProviderInfo>
     {
         appLevel = false;
         clear();
-        addAll(datas.get(packageName));
+        addAll(datas.get(packageName).getData());
     }
 
     public boolean isAppLevel()

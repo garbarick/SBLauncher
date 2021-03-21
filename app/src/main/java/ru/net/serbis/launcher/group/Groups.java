@@ -52,7 +52,7 @@ public class Groups extends Activity
                     Intent intent = new Intent(Groups.this, GroupEditor.class);
                     intent.putExtra(Constants.GROUP, group);
                     intent.putExtra(Constants.POSITION, position);
-                    Groups.this.startActivityForResult(intent, 0);
+                    Groups.this.startActivityForResult(intent, Constants.REQUEST_CHANGE_GROUP);
                 }
             }
         );
@@ -135,7 +135,8 @@ public class Groups extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        if (RESULT_OK == resultCode)
+        if (Constants.REQUEST_CHANGE_GROUP == requestCode &&
+            RESULT_OK == resultCode)
         {
             Group group = Tools.getExtra(intent, Constants.GROUP);
             int position = intent.getIntExtra(Constants.POSITION, -1);

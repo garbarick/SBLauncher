@@ -1,22 +1,33 @@
 package ru.net.serbis.launcher.widget;
 
 import android.appwidget.*;
-import android.content.*;
 import android.content.pm.*;
 import android.widget.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 
-public class WidgetData extends ArrayList<AppWidgetProviderInfo>
+public class WidgetData
 {
+    private List<AppWidgetProviderInfo> data = new ArrayList<AppWidgetProviderInfo>();
+
     public WidgetData(AppWidgetProviderInfo info)
     {
-        add(info);
+        data.add(info);
+    }
+
+    public List<AppWidgetProviderInfo> getData()
+    {
+        return data;
+    }
+
+    public void add(AppWidgetProviderInfo info)
+    {
+        data.add(info);
     }
 
     public String getPackageName()
     {
-        return getPackageName(get(0));
+        return getPackageName(data.get(0));
     }
 
     public static String getPackageName(AppWidgetProviderInfo info)
@@ -29,7 +40,7 @@ public class WidgetData extends ArrayList<AppWidgetProviderInfo>
         try
         {
             ApplicationInfo app = manager.getApplicationInfo(getPackageName(), 0);
-            label.setText(manager.getApplicationLabel(app) + " (" + size() + ")");
+            label.setText(manager.getApplicationLabel(app) + " (" + data.size() + ")");
             icon.setImageDrawable(manager.getApplicationIcon(app));
         }
         catch (Exception e)

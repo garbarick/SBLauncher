@@ -4,6 +4,8 @@ import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
+import android.widget.*;
+import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.host.*;
 
 public class Item implements Comparable
@@ -73,18 +75,13 @@ public class Item implements Comparable
         }
         catch(Throwable e)
         {
+            Log.info(this, e);
         }
     }
     
     public void start(Host host)
     {
-        try
-        {
-            host.getActivity().startActivity(getIntent());
-        }
-        catch(Throwable e)
-        {
-        }
+        start(host.getActivity());
     }
     
     @Override
