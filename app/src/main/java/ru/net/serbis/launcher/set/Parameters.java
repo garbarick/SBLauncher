@@ -1,7 +1,6 @@
 package ru.net.serbis.launcher.set;
 
 import android.content.pm.*;
-import java.util.*;
 import ru.net.serbis.launcher.*;
 
 public class Parameters
@@ -14,23 +13,25 @@ public class Parameters
     public Parameter systemWidgetSelector = new Parameter(new Value("systemWidgetSelector", R.string.systemWidgetSelector), Type.BOOLEAN, 1);
     public Parameter systemBarTransparency = new Parameter(new Value("systemBarTransparency", R.string.systemBarTransparency), Type.INTEGER, 100, 0, 100);
     public Parameter searchDefaultActivities = new Parameter(new Value("searchDefaultActivities", R.string.searchDefaultActivities), Type.BOOLEAN, 0);
-
-    public List<Parameter> getParameters()
+    public Parameter secureLockOnStart = new Parameter(new Value("secureLockOnStart", R.string.secureLockOnStart), Type.BOOLEAN, 0);
+    
+    public Parameter[] getParameters()
     {
-        return Arrays.asList(
+        return new Parameter[]{
             orientation,
             desktopCount,
             docCount,
             unbadgedIcon,
             systemWidgetSelector,
             systemBarTransparency,
-            searchDefaultActivities);
+            searchDefaultActivities,
+            secureLockOnStart};
     }
     
-    public List<Parameter> getItemsParameters()
+    public Parameter[] getItemsParameters()
     {
-        return Arrays.asList(
+        return new Parameter[]{
             unbadgedIcon,
-            searchDefaultActivities);
+            searchDefaultActivities};
     }
 }

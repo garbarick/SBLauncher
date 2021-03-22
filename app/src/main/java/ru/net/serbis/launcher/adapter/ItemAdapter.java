@@ -21,6 +21,12 @@ public abstract class ItemAdapter<T> extends ArrayAdapter<T>
         addAll(objects);
     }
 
+    public ItemAdapter(Context context, int resourceId, int layoutId, T[] objects)
+    {
+        this(context, resourceId, layoutId);
+        addAll(objects);
+    }
+
     protected View getItemView()
     {
         return getItemView(layoutId);

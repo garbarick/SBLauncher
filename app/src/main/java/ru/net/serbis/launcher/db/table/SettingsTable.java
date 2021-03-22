@@ -43,7 +43,7 @@ public class SettingsTable extends Table
         }
     }
 
-    public void loadParameterValues(final List<Parameter> parameters)
+    public void loadParameterValues(final Parameter[] parameters)
     {
 		read(
 			new VoidAction()
@@ -57,7 +57,7 @@ public class SettingsTable extends Table
 		);
     }
 
-    private void loadParameterValues(SQLiteDatabase db, List<Parameter> parameters)
+    private void loadParameterValues(SQLiteDatabase db, Parameter[] parameters)
     {
         for (Parameter parameter : parameters)
         {
@@ -65,7 +65,7 @@ public class SettingsTable extends Table
         }
     }
 
-    public void saveParameterValues(final List<Parameter> parameters)
+    public void saveParameterValues(final Parameter[] parameters)
     {
 		write(
 			new VoidAction()
@@ -93,7 +93,7 @@ public class SettingsTable extends Table
 		);
     }
 
-    private void saveParameterValues(SQLiteDatabase db, List<Parameter> parameters)
+    private void saveParameterValues(SQLiteDatabase db, Parameter[] parameters)
     {
         for (Parameter parameter : parameters)
         {

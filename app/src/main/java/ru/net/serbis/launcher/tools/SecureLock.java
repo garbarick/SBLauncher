@@ -22,27 +22,18 @@ public class SecureLock extends Activity
         try
         {
             KeyguardManager manager = Tools.getService(this, Context.KEYGUARD_SERVICE);
-            if (manager == null)
-            {
-                Tools.toast(this, R.string.secureLockNotSupport);
-                done();
-            }
             if (!manager.isKeyguardSecure())
             {
                 Tools.toast(this, R.string.secureLockNotSetUp);
                 done();
             }
             Intent intent = manager.createConfirmDeviceCredentialIntent(null, null);
-            if (intent == null)
-            {
-                Tools.toast(this, R.string.secureLockNotSupport);
-                done();
-            }
             startActivityForResult(intent, Constants.REQUEST_CODE_CONFIRM);           
         }
         catch (Throwable e)
         {
             Log.info(this, e);
+            Tools.toast(this, R.string.secureLockNotSupport);
             done();
         }
     }

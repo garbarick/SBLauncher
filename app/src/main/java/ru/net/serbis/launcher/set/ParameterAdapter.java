@@ -11,7 +11,7 @@ import ru.net.serbis.launcher.help.*;
 
 public class ParameterAdapter extends ItemAdapter<Parameter>
 {
-    public ParameterAdapter(Context context, int resourceId, List<Parameter> objects)
+    public ParameterAdapter(Context context, int resourceId, Parameter[] objects)
     {
         super(context, resourceId, 0, objects);
     }

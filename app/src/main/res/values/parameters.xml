@@ -7,5 +7,6 @@
     <string name="systemWidgetSelector">System Widget Selector</string>
     <string name="systemBarTransparency">System Bar Transparency</string>
     <string name="searchDefaultActivities">Search Default Activities</string>
+    <string name="secureLockOnStart">Secure Lock On Start</string>
 
 </resources>

@@ -15,7 +15,7 @@ public class Settings extends Activity implements View.OnClickListener
 {
     private ListView listView;
     private DBHelper db;
-    private List<Parameter> parameters;
+    private Parameter[] parameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -35,6 +35,7 @@
         <activity 
             android:name=".application.Applications"
             android:launchMode="singleTask"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
@@ -42,6 +43,7 @@
         <activity
             android:name=".group.Groups"
             android:label="@string/tabsSet"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
@@ -49,6 +51,7 @@
         <activity
             android:name=".group.GroupEditor"
             android:label="@string/groupEdit"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
@@ -56,6 +59,7 @@
         <activity
             android:name=".set.Settings"
             android:label="@string/settings"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
@@ -63,12 +67,14 @@
         <activity
             android:name=".widget.Widgets"
             android:label="@string/widgets"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>
 
         <activity
             android:name=".tools.SecureLock"
+            android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
         </activity>

@@ -13,6 +13,7 @@ import ru.net.serbis.launcher.doc.*;
 import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.view.*;
+import ru.net.serbis.launcher.tools.*;
 
 public class Home extends Activity
 {
@@ -21,6 +22,7 @@ public class Home extends Activity
     private int desktop;
     private List<Doc> docs;
     private int doc;
+    private boolean secureLock = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,6 +58,12 @@ public class Home extends Activity
             transaction.replace(R.id.doc, docs.get(doc));
         }
         transaction.commit();
+        
+        if (secureLock && parameters.secureLockOnStart.getBooleanValue())
+        {
+            secureLock = false;
+            new SecureLockStart(this).start(this);
+        }
     }
     
     private int getPosition(int position, List positions)
