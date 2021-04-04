@@ -35,5 +35,13 @@
     <string name="deviceAdmin">Activate SBLauncher device administrator to lock screen</string>
     <string name="secureLockNotSupport">Secure lock screen is not supported</string>
     <string name="secureLockNotSetUp">Secure lock screen has not set up. Go to Settings - Security - Screenlock to set up a lock screen</string>
+ 
+    <string name="pattern">Pattern</string>
+    <string name="selectNewPattern">Select new pattern</string>
+    <string name="confirmNewPattern">Confirm new pattern</string>
+    <string name="confirmOldPattern">Confirm old pattern</string>
+    <string name="confirmPattern">Confirm pattern</string>
+    <string name="patternWrong">Pattern is wrong</string>
+    <string name="reset">Reset pattern</string>
 
 </resources>

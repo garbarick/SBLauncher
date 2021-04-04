@@ -1,17 +1,16 @@
 package ru.net.serbis.launcher.tools;
 
 import android.content.*;
-import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.application.*;
 
-public class SecureLockStart extends Item
+public class ActivityItem extends Item
 {
-    public SecureLockStart(Context context)
+    public ActivityItem(Context context, int textId, int iconId, Class clazz)
     {
         super(
-            context.getResources().getString(R.string.securelock),
-            context.getResources().getDrawable(R.drawable.secure_lock),
-            SecureLock.class.getName(),
+            context.getResources().getString(textId),
+            context.getResources().getDrawable(iconId),
+            clazz.getName(),
             context.getPackageName());
     }
     

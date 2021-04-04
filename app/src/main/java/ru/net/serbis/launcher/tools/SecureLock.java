@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import ru.net.serbis.launcher.*;
+import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.help.*;
 
 public class SecureLock extends Activity
@@ -55,9 +56,22 @@ public class SecureLock extends Activity
             }
             else
             {
-                startKeyguard();
+                finish();
             }
         }
+    }
+
+    private void restart()
+    {
+        new Handler().postDelayed(
+            new Runnable()
+            {
+                public void run()
+                {
+                    startActivity(getIntent());
+                }
+            }, 100
+        );
     }
 
     @Override
@@ -65,16 +79,17 @@ public class SecureLock extends Activity
     {
         if (!done)
         {
-            new Handler().postDelayed(
-                new Runnable()
-                {
-                    public void run()
-                    {
-                        startActivity(getIntent());
-                    }
-                }, 100
-            );
+            restart();
         }
         super.onDestroy();
+    }
+    
+    public static Item getItem(Context context)
+    {
+        return new ActivityItem(
+            context,
+            R.string.securelock,
+            R.drawable.secure_lock, 
+            SecureLock.class);
     }
 }

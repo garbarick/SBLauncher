@@ -14,7 +14,9 @@ public class Parameters
     public Parameter systemBarTransparency = new Parameter(new Value("systemBarTransparency", R.string.systemBarTransparency), Type.INTEGER, 100, 0, 100);
     public Parameter searchDefaultActivities = new Parameter(new Value("searchDefaultActivities", R.string.searchDefaultActivities), Type.BOOLEAN, 0);
     public Parameter secureLockOnStart = new Parameter(new Value("secureLockOnStart", R.string.secureLockOnStart), Type.BOOLEAN, 0);
-    
+    public Parameter patern = new Parameter(new Value("pattern"), Type.STRING);
+    public Parameter systemSecureLock = new Parameter(new Value("systemSecureLock", R.string.systemSecureLock), Type.BOOLEAN, 0);
+
     public Parameter[] getParameters()
     {
         return new Parameter[]{
@@ -25,7 +27,8 @@ public class Parameters
             systemWidgetSelector,
             systemBarTransparency,
             searchDefaultActivities,
-            secureLockOnStart};
+            secureLockOnStart,
+            systemSecureLock};
     }
     
     public Parameter[] getItemsParameters()

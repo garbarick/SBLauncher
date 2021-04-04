@@ -20,4 +20,12 @@ public interface Constants
 
     String DESKTOP = "desktop";
     String DOC = "doc";
+
+    enum PatternState
+    {
+        NEW,
+        CONFIRM_NEW,
+        CONFIRM_OLD,
+        CONFIRM
+    };
 }

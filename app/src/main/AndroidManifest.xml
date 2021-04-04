@@ -79,6 +79,13 @@
             android:resizeableActivity="true">
         </activity>
 
+        <activity
+            android:name=".tools.Pattern"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true">
+        </activity>
+
         <receiver 
             android:name=".application.Items">
             <intent-filter>

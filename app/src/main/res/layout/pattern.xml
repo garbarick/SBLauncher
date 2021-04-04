@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:gravity="center"
+	android:padding="10dp">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:paddingBottom="10dp"
+		android:id="@+id/text"
+		android:gravity="center"/>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/reset"
+		android:text="@string/reset"/>
+
+	<ru.net.serbis.launcher.view.PatternView
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:id="@+id/pattern"/>
+
+</LinearLayout>
+

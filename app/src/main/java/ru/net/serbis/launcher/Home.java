@@ -62,7 +62,14 @@ public class Home extends Activity
         if (secureLock && parameters.secureLockOnStart.getBooleanValue())
         {
             secureLock = false;
-            new SecureLockStart(this).start(this);
+            if (parameters.systemSecureLock.getBooleanValue())
+            {
+                SecureLock.getItem(this).start(this);
+            }
+            else
+            {
+                Pattern.getItem(this).start(this);
+            }
         }
     }
     

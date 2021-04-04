@@ -8,5 +8,6 @@
     <string name="systemBarTransparency">System Bar Transparency</string>
     <string name="searchDefaultActivities">Search Default Activities</string>
     <string name="secureLockOnStart">Secure Lock On Start</string>
+    <string name="systemSecureLock">System Secure Lock</string>
 
 </resources>
