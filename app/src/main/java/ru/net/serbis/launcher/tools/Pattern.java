@@ -170,6 +170,11 @@ public class Pattern extends Activity implements PatternView.Listener, View.OnCl
     @Override
     public void onBackPressed()
     {
+        if (Constants.PatternState.NEW.equals(state) ||
+            Constants.PatternState.CONFIRM_NEW.equals(state))
+        {
+            super.onBackPressed();
+        }
     }
 
     public static Item getItem(Context context)
