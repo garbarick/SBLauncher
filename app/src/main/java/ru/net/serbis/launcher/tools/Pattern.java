@@ -167,6 +167,11 @@ public class Pattern extends Activity implements PatternView.Listener, View.OnCl
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+    }
+
     public static Item getItem(Context context)
     {
         return new ActivityItem(
