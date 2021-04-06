@@ -121,7 +121,7 @@ public class Pattern extends Activity implements PatternView.Listener, View.OnCl
         patternView.reset();
         done = false;
         text.setText(R.string.patternWrong);
-        text.setTextColor(Color.RED);
+        text.setTextColor(Color.YELLOW);
     }
 
     private void done()

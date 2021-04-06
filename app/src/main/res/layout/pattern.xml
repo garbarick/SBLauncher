@@ -7,13 +7,25 @@
 	android:gravity="center"
 	android:padding="10dp">
 
-	<TextView
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:paddingBottom="10dp"
-		android:id="@+id/text"
-		android:gravity="center"/>
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:src="@drawable/pattern"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:id="@+id/text"
+			android:gravity="left|center_vertical"
+			android:paddingLeft="10dp"/>
+
+	</LinearLayout>
 
 	<Button
 		android:layout_width="match_parent"

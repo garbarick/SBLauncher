@@ -81,6 +81,8 @@
 
         <activity
             android:name=".tools.Pattern"
+            android:label="@string/pattern"
+            android:theme="@style/Pattern"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
             android:resizeableActivity="true">
