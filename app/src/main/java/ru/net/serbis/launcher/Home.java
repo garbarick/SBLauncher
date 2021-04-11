@@ -23,6 +23,7 @@ public class Home extends Activity
     private List<Doc> docs;
     private int doc;
     private boolean secureLock = true;
+    private DayDreamReciever dayDreamReciever;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,33 +47,11 @@ public class Home extends Activity
         setContentView(R.layout.home);
         new NoMoveView(this, R.id.doc);
         
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if (desktops.size() > 0)
-        {
-            desktop = getPosition(desktop, desktops);
-            transaction.replace(R.id.desktop, desktops.get(desktop));
-        }
-        if (docs.size() > 0)
-        {
-            doc = getPosition(doc, docs);
-            transaction.replace(R.id.doc, docs.get(doc));
-        }
-        transaction.commit();
-        
-        if (secureLock && parameters.secureLockOnStart.getBooleanValue())
-        {
-            secureLock = false;
-            if (parameters.systemSecureLock.getBooleanValue())
-            {
-                SecureLock.getItem(this).start(this);
-            }
-            else
-            {
-                Pattern.getItem(this).start(this);
-            }
-        }
+        initCurrentFragments();
+        secureLock(parameters);
+        setOnDayDreamStoped(parameters);
     }
-    
+
     private int getPosition(int position, List positions)
     {
         return position > positions.size() - 1 ? positions.size() - 1 : position;
@@ -213,5 +192,44 @@ public class Home extends Activity
         int value = 255 - (int)(255 * transparency / 100.);
         int color = Color.argb(value, 0, 0, 0);
         Tools.setStatusBarColor(this, color);
+    }
+
+    private void initCurrentFragments()
+    {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if (desktops.size() > 0)
+        {
+            desktop = getPosition(desktop, desktops);
+            transaction.replace(R.id.desktop, desktops.get(desktop));
+        }
+        if (docs.size() > 0)
+        {
+            doc = getPosition(doc, docs);
+            transaction.replace(R.id.doc, docs.get(doc));
+        }
+        transaction.commit();
+    }
+
+    private void secureLock(Parameters parameters)
+    {
+        if (secureLock && parameters.secureLockOnStart.getBooleanValue())
+        {
+            secureLock = false;
+            SecureLock.start(parameters.systemSecureLock.getBooleanValue(), this);
+        }
+    }
+
+    private void setOnDayDreamStoped(Parameters parameters)
+    {
+        if (dayDreamReciever != null)
+        {
+            unregisterReceiver(dayDreamReciever);
+            dayDreamReciever = null;
+        }
+        if (parameters.secureLockAfterDayDream.getBooleanValue())
+        {
+            dayDreamReciever = new DayDreamReciever();
+            registerReceiver(dayDreamReciever, new IntentFilter(Intent.ACTION_DREAMING_STOPPED));
+        }
     }
 }

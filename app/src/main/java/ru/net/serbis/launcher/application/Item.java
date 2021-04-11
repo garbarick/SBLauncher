@@ -67,7 +67,7 @@ public class Item implements Comparable
         return intent;
     }
     
-    public void start(Activity context)
+    public void start(Context context)
     {
         try
         {

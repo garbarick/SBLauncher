@@ -20,7 +20,7 @@ public class LockScreen extends Item
     }
 
     @Override
-    public void start(Activity context)
+    public void start(Context context)
     {
         DevicePolicyManager manager = Tools.getService(context, Context.DEVICE_POLICY_SERVICE);
         ComponentName comp = new ComponentName(context, AdminReceiver.class);
@@ -28,9 +28,9 @@ public class LockScreen extends Item
         {
             manager.lockNow();
         }
-        else
+        else if (context instanceof Activity)
         {
-            provideAccess(context, comp);
+            provideAccess((Activity) context, comp);
         }
     }
 

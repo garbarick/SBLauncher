@@ -9,5 +9,6 @@
     <string name="searchDefaultActivities">Search Default Activities</string>
     <string name="secureLockOnStart">Secure Lock On Start</string>
     <string name="systemSecureLock">System Secure Lock</string>
+    <string name="secureLockAfterDayDream">Secure Lock After DayDream</string>
 
 </resources>

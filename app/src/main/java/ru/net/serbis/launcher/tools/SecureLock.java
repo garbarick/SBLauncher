@@ -92,4 +92,16 @@ public class SecureLock extends Activity
             R.drawable.secure_lock, 
             SecureLock.class);
     }
+
+    public static void start(boolean system, Context context)
+    {
+        if (system)
+        {
+            SecureLock.getItem(context).start(context);
+        }
+        else
+        {
+            Pattern.getItem(context).start(context);
+        }
+    }
 }

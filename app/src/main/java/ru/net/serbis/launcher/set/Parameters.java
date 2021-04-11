@@ -16,6 +16,7 @@ public class Parameters
     public Parameter secureLockOnStart = new Parameter(new Value("secureLockOnStart", R.string.secureLockOnStart), Type.BOOLEAN, 0);
     public Parameter patern = new Parameter(new Value("pattern"), Type.STRING);
     public Parameter systemSecureLock = new Parameter(new Value("systemSecureLock", R.string.systemSecureLock), Type.BOOLEAN, 0);
+    public Parameter secureLockAfterDayDream = new Parameter(new Value("secureLockAfterDayDream", R.string.secureLockAfterDayDream), Type.BOOLEAN, 0);
 
     public Parameter[] getParameters()
     {
@@ -28,9 +29,10 @@ public class Parameters
             systemBarTransparency,
             searchDefaultActivities,
             secureLockOnStart,
-            systemSecureLock};
+            systemSecureLock,
+            secureLockAfterDayDream};
     }
-    
+
     public Parameter[] getItemsParameters()
     {
         return new Parameter[]{

@@ -18,7 +18,7 @@ public class SwipeLeft extends Item
     }
 
     @Override
-    public void start(Activity context)
+    public void start(Context context)
     {
     }
 
