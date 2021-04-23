@@ -9,6 +9,7 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.tools.*;
+import ru.net.serbis.launcher.help.*;
 
 public class Items extends BroadcastReceiver
 {
@@ -135,9 +136,17 @@ public class Items extends BroadcastReceiver
     }
 
     @Override
-    public void onReceive(Context context, Intent intent)
+    public void onReceive(final Context context, final Intent intent)
     {
-        getIstance().onReceiveInternal(context, intent);
+        new Handler().postDelayed(
+            new Runnable()
+            {
+                public void run()
+                {
+                    getIstance().onReceiveInternal(context, intent);
+                }
+            }, 100
+        );
     }
 
     private void onReceiveInternal(Context context, Intent intent)
