@@ -15,6 +15,6 @@ public class Line
 
     public void draw(Canvas canvas)
     {
-        canvas.drawLine(start.x, start.y, end.x, end.y, PatternView.PAINT);
+        canvas.drawLine(start.x, start.y, end.x, end.y, PaintHolder.getInstance().getPaint());
     }
 }

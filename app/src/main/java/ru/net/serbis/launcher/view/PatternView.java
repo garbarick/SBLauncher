@@ -11,18 +11,6 @@ import ru.net.serbis.launcher.Log;
 
 public class PatternView extends View
 {
-    public static Paint PAINT = newPaint(5, Color.WHITE, Paint.Style.STROKE);
-    public static Paint PAINT_FILL = newPaint(5, Color.WHITE, Paint.Style.FILL_AND_STROKE);
-
-    static Paint newPaint(float width, int color, Paint.Style style)
-    {
-        Paint paint = new Paint();
-        paint.setStrokeWidth(width);
-        paint.setColor(color);
-        paint.setStyle(style);
-        return paint;
-    }
-
     public interface Listener
     {
         void onSelectPattern(String pattern);
@@ -50,21 +38,26 @@ public class PatternView extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
+        if (PaintHolder.getInstance() == null)
+        {
+            PaintHolder.createInstance(getContext());
+        }
+        
         float w = canvas.getWidth();
         float h = canvas.getHeight();
 
-        drawBorder(w, h, canvas, PAINT);
+        drawBorder(w, h, canvas);
         if (!points.ready())
         {
             points.init(w, h);
         }
         points.draw(canvas);
-        lines.draw(canvas, PAINT);
+        lines.draw(canvas);
     }
 
-    private void drawBorder(float w, float h, Canvas canvas, Paint paint)
+    private void drawBorder(float w, float h, Canvas canvas)
     {
-        canvas.drawRect(1, 1, w - 1, h - 1, paint);
+        canvas.drawRect(1, 1, w - 1, h - 1, PaintHolder.getInstance().getPaint());
     }
 
     @Override

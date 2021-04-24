@@ -8,7 +8,7 @@ public class Lines
     private List<Line> lines = new ArrayList<Line>();
     private Line line;
 
-    public void draw(Canvas canvas, Paint paint)
+    public void draw(Canvas canvas)
     {
         for (Line line : lines)
         {

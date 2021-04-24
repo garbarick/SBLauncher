@@ -5,10 +5,6 @@ import java.util.*;
 
 public class Point
 {
-    private static int POINT_RAD = 30;
-    private static int POINT_DOT_RAD = 15;
-    private static int POINT_CLOUD_RAD = 60;
-
     public float x;
     public float y;
     public boolean filled;
@@ -38,18 +34,19 @@ public class Point
 
     public boolean inCloud(float x, float y)
     {
-        return this.x - POINT_CLOUD_RAD < x &&
-            this.x + POINT_CLOUD_RAD > x &&
-            this.y - POINT_CLOUD_RAD < y &&
-            this.y + POINT_CLOUD_RAD > y;
+        float radius = PaintHolder.getInstance().getPointCloudRadius();
+        return this.x - radius < x &&
+            this.x + radius > x &&
+            this.y - radius < y &&
+            this.y + radius > y;
     }
 
     public void draw(Canvas canvas)
     {
-        canvas.drawCircle(x, y, POINT_RAD, PatternView.PAINT);
+        canvas.drawCircle(x, y, PaintHolder.getInstance().getPointRadius(), PaintHolder.getInstance().getPaint());
         if (filled)
         {
-            canvas.drawCircle(x, y, POINT_DOT_RAD, PatternView.PAINT_FILL);
+            canvas.drawCircle(x, y, PaintHolder.getInstance().getPointDotRadius(), PaintHolder.getInstance().getPaintFill());
         }
     }
 }
