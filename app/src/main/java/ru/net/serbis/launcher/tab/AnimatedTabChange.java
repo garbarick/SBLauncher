@@ -1,5 +1,6 @@
 package ru.net.serbis.launcher.tab;
 
+import android.os.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
@@ -46,25 +47,42 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
         current = host.getCurrentView();
         if (host.getCurrentTab() > currentTab)
         {
-            previous.setAnimation(outToLeft());
-            current.setAnimation(inFromRight());
+            setAnimation(previous, outToLeft());
+            setAnimation(current, inFromRight());
         }
         else
         {
-            previous.setAnimation(outToRight());
-            current.setAnimation(inFromLeft());
+            setAnimation(previous, outToRight());
+            setAnimation(current, inFromLeft());
         }
         previous = current;
         currentTab = host.getCurrentTab();
         
-        scroll();
+        new Handler().postDelayed(
+            new Runnable()
+            {
+                public void run()
+                {
+                    scroll();
+                }
+            }, 100
+        );
     }
 
-    private void scroll()
+    private void setAnimation(View view, Animation animation)
+    {
+        if (view == null)
+        {
+            return;
+        }
+        view.setAnimation(animation);
+    }
+
+    public void scroll()
     {
         HorizontalScrollView scroll = (HorizontalScrollView) host.getTabWidget().getParent();
         View view = host.getCurrentTabView();
-        int position = view.getLeft();
+        int position = view.getLeft() - (scroll.getWidth() - view.getWidth()) / 2;
         scroll.scrollTo(position, 0);
     }
 

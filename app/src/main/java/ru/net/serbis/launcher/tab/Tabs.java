@@ -31,6 +31,7 @@ public class Tabs extends TabActivity
         new NoMoveView(this, R.id.doc);
         initTabs();
         initAnimationTabChange();
+        initCurrentTab();
         initMenuButton();
     }
 
@@ -48,12 +49,15 @@ public class Tabs extends TabActivity
     }
 
     private void initTabs()
-    {        
+    {
         for (Group group : db.getGroups(true))
         {
             setupTab(group);
         }
+    }
 
+    private void initCurrentTab()
+    {
         Parameter lastTab = new Parameters().lastTab;
         db.settings.loadParameterValue(lastTab);
         getTabHost().setCurrentTabByTag(lastTab.getValue());
@@ -140,6 +144,7 @@ public class Tabs extends TabActivity
         Items.getIstance().findActivities(this);
         getTabHost().clearAllTabs();
         initTabs();
+        initCurrentTab();
         animationTab.setDisable(false);
     }
 
