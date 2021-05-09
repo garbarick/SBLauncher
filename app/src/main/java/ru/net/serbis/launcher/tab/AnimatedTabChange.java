@@ -4,7 +4,6 @@ import android.os.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
-import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.set.*;
 
@@ -24,8 +23,6 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
     {
         this.db = db;
         this.host = host;
-        previous = host.getCurrentView();
-        currentTab = host.getCurrentTab();
     }
 
     public void setDisable(boolean disable)
@@ -59,6 +56,7 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
                 break;
 
             default:
+                setAnimation(previous, outToTop());
                 setAnimation(current, inFromTop());
                 break;
         }
@@ -116,6 +114,11 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
     private Animation inFromTop()
     {
         return getAnination(0, 0, -1, 0);
+    }
+
+    private Animation outToTop()
+    {
+        return getAnination(0, 0, 0, -1);
     }
 
     private Animation getAnination(int fromX, int toX, int fromY, int toY)
