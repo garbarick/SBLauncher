@@ -4,6 +4,7 @@ import android.os.*;
 import android.view.*;
 import android.view.animation.*;
 import android.widget.*;
+import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.set.*;
 
@@ -45,15 +46,21 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
         db.settings.saveParameterValue(lastTab);
         
         current = host.getCurrentView();
-        if (host.getCurrentTab() > currentTab)
+        switch (host.getCurrentTab() - currentTab)
         {
-            setAnimation(previous, outToLeft());
-            setAnimation(current, inFromRight());
-        }
-        else
-        {
-            setAnimation(previous, outToRight());
-            setAnimation(current, inFromLeft());
+            case 1:
+                setAnimation(previous, outToLeft());
+                setAnimation(current, inFromRight());
+                break;
+
+            case -1:
+                setAnimation(previous, outToRight());
+                setAnimation(current, inFromLeft());
+                break;
+
+            default:
+                setAnimation(current, inFromTop());
+                break;
         }
         previous = current;
         currentTab = host.getCurrentTab();
@@ -85,53 +92,40 @@ public class AnimatedTabChange implements TabHost.OnTabChangeListener
         int position = view.getLeft() - (scroll.getWidth() - view.getWidth()) / 2;
         scroll.scrollTo(position, 0);
     }
-
+    
     private Animation inFromRight()
     {
-        Animation animation = new TranslateAnimation(
-            Animation.RELATIVE_TO_PARENT, 1,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0
-        );
-        return setProperties(animation);
+        return getAnination(1, 0, 0, 0);
     }
 
     private Animation outToRight()
     {
-        Animation animation = new TranslateAnimation(
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 1,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0
-        );
-        return setProperties(animation);
+        return getAnination(0, 1, 0, 0);
     }
 
     private Animation inFromLeft()
     {
-        Animation animation = new TranslateAnimation(
-            Animation.RELATIVE_TO_PARENT, -1,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0
-        );
-        return setProperties(animation);
+        return getAnination(-1, 0, 0, 0);
     }
 
     private Animation outToLeft()
     {
-        Animation animation = new TranslateAnimation(
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, -1,
-            Animation.RELATIVE_TO_PARENT, 0,
-            Animation.RELATIVE_TO_PARENT, 0
-        );
-        return setProperties(animation);
+        return getAnination(0, -1, 0, 0);
+    }
+    
+    private Animation inFromTop()
+    {
+        return getAnination(0, 0, -1, 0);
     }
 
-    private Animation setProperties(Animation animation)
+    private Animation getAnination(int fromX, int toX, int fromY, int toY)
     {
+        Animation animation = new TranslateAnimation(
+            Animation.RELATIVE_TO_PARENT, fromX,
+            Animation.RELATIVE_TO_PARENT, toX,
+            Animation.RELATIVE_TO_PARENT, fromY,
+            Animation.RELATIVE_TO_PARENT, toY
+        );
         animation.setDuration(DURATION);
         animation.setInterpolator(new AccelerateInterpolator());
         return animation;
