@@ -85,7 +85,7 @@ public class Tabs extends TabActivity
 
     private void initAnimationTabChange()
     {
-        animationTab = new AnimatedTabChange(db, getTabHost());
+        animationTab = new AnimatedTabChange(this, db, getTabHost());
         getTabHost().setOnTabChangedListener(animationTab);
     }
 
