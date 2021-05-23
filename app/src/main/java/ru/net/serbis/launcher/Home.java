@@ -180,6 +180,11 @@ public class Home extends Activity
             int y = intent.getIntExtra(Constants.ITEM_POS_Y, 0);
             desktops.get(desktop).sendItem(itemKey, x, y);
         }
+        if (intent.hasExtra(Constants.SHORTCUT_ID))
+        {
+            long id = intent.getLongExtra(Constants.SHORTCUT_ID, 0);
+            desktops.get(desktop).sendShortcut(id);
+        }
     }
 
     @Override

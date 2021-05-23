@@ -1,12 +1,13 @@
 package ru.net.serbis.launcher.icon;
 
+import android.view.*;
 import android.widget.*;
-import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.host.*;
+import ru.net.serbis.launcher.db.*;
 
-public class AppIconView extends IconView<AppIcon>
+public class ShortcutView extends IconView<Shortcut>
 {
-    public AppIconView(Host host, AppIcon icon, int layoutId)
+    public ShortcutView(Host host, Shortcut icon, int layoutId)
     {
         super(host, icon, layoutId);
     }
@@ -14,32 +15,33 @@ public class AppIconView extends IconView<AppIcon>
     @Override
     protected void initIconView(ImageView iconView)
     {
-        iconView.setImageDrawable(icon.getItem().getIcon());
+        iconView.setImageBitmap(icon.getBitmap());
     }
 
     @Override
     protected void initLabelView(TextView labelView)
     {
-        labelView.setText(icon.getItem().getLabel());
+        labelView.setText(icon.getName());
+        labelView.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void start()
     {
-        icon.getItem().start(host);
+        icon.start(host.getActivity());
     }
 
     @Override
     protected void update(DBHelper db)
     {
-        db.appIcons.update(icon, host.getName(), host.getPlace());
-        host.createAppIconView(icon);
+        db.shortcuts.update(icon, host.getName(), host.getPlace());
+        host.createShortcutView(icon);
     }
 
     @Override
     public void remove(DBHelper db)
     {
-        db.appIcons.remove(icon.getId());
+        db.shortcuts.remove(icon.getId());
         super.remove(db);
     }
 }

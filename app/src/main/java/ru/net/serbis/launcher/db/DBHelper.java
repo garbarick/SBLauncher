@@ -19,7 +19,8 @@ public class DBHelper extends SQLiteOpenHelper
     public AppIconsTable appIcons = new AppIconsTable();
 	public AppsTable apps = new AppsTable();
     public DefaultData defData = new DefaultData();
-
+    public ShortcutsTable shortcuts = new ShortcutsTable();
+    
     private List<Table> tables = Arrays.asList(new Table[] {
         groups,
         apps,
@@ -27,11 +28,12 @@ public class DBHelper extends SQLiteOpenHelper
         settings,
         widgets,
         appIcons,
-        defData});
+        defData,
+        shortcuts});
 
     public DBHelper(Context context)
     {
-        super(context, "db", null, 2);
+        super(context, "db", null, 3);
         this.context = context;
 
         initTables();

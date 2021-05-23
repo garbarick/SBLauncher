@@ -22,7 +22,6 @@ public abstract class Host extends Fragment
     protected RelativeLayout layout;
 
     protected DBHelper db;
-
     protected String host;
     protected int place;
 
@@ -45,6 +44,7 @@ public abstract class Host extends Fragment
 
         restoreWidgets();
         restoreAppIcons();
+        restoreShortcuts();
 
         initDragListener();
         initSwipeListener();
@@ -52,11 +52,21 @@ public abstract class Host extends Fragment
         return view;
     }
 
+    public String getName()
+    {
+        return host;
+    }
+
+    public int getPlace()
+    {
+        return place;
+    }
+
     public void setPlace(int place)
     {
         this.place = place;
     }
-
+    
     protected void restoreWidgets()
     {
         for (Widget widget : db.widgets.getWidgets(host, place))
@@ -73,6 +83,14 @@ public abstract class Host extends Fragment
         }
     }
 
+    protected void restoreShortcuts()
+    {
+        for (Shortcut shortcut : db.shortcuts.getShortcuts(host, place))
+        {
+            createShortcutView(shortcut);
+        }
+    }
+
     protected void initDragListener()
     {
         ImageView deleteItem = Tools.getView(layout, R.id.deleteItem);
@@ -86,11 +104,15 @@ public abstract class Host extends Fragment
                 View object = item.getView();
                 if (object instanceof WidgetView)
                 {
-                    saveWidgetPosition(event, item);
+                    WidgetView itemView = ((WidgetView) object);
+                    itemView.setHost(Host.this);
+                    itemView.savePosition(event, item, db);
                 }
-                else if (object instanceof AppIconView)
+                else if (object instanceof IconView)
                 {
-                    saveAppIconPosition(event, item);
+                    IconView itemView = ((IconView) object);
+                    itemView.setHost(Host.this);
+                    itemView.savePosition(event, item, db);
                 }
             }
         };
@@ -119,11 +141,11 @@ public abstract class Host extends Fragment
                     View object = item.getView();
                     if (object instanceof WidgetView)
                     {
-                        removeWidget(item);
+                        ((WidgetView) object).remove(item, widgetHost, db);
                     }
-                    else if (object instanceof AppIconView)
+                    else if (object instanceof IconView)
                     {
-                        removeAppIcon(item);
+                        ((IconView) object).remove(db);
                     }
                 }
             }
@@ -163,6 +185,13 @@ public abstract class Host extends Fragment
         return view;
     }
 
+    public ShortcutView createShortcutView(Shortcut shortcut)
+    {
+        ShortcutView view = new ShortcutView(this, shortcut, getAppIconLayotId());
+        layout.addView(view, createLayoutParams(shortcut.getRect()));
+        return view;
+    }
+
     protected RelativeLayout.LayoutParams createLayoutParams(Rect rect)
     {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -189,7 +218,7 @@ public abstract class Host extends Fragment
         widgetHost.stopListening();
     }
 
-    protected Point getPosition(DragEvent event, DragItem item)
+    public Point getPosition(DragEvent event, DragItem item)
     {
         View view = item.getView();
         Point point = new Point();
@@ -198,79 +227,10 @@ public abstract class Host extends Fragment
         return point;
     }
 
-    protected Point getWidgetPosition(DragEvent event, DragItem item)
-    {
-        return getPosition(event, item);
-    }
-
-    protected Point getAppIconPosition(DragEvent event, DragItem item)
-    {
-        return getPosition(event, item);
-    }
-
-    protected void saveWidgetPosition(DragEvent event, DragItem item)
-    {
-        try
-        {
-            WidgetView view = (WidgetView) item.getView();
-            Point point = getWidgetPosition(event, item);
-            removeFromParent(view);
-
-            Widget widget = view.getWidget();
-            widget.setX(point.x);
-            widget.setY(point.y);
-
-            db.widgets.updateWidget(widget, host, place);
-
-            createWidget(widget);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "error on save widget", e);
-        }
-    }
-
-    protected void saveAppIconPosition(DragEvent event, DragItem item)
-    {
-        try
-        {
-            AppIconView view = (AppIconView) item.getView();
-            Point point = getAppIconPosition(event, item);
-            removeFromParent(view);
-
-            AppIcon appIcon = view.getAppIcon();
-            appIcon.setX(point.x);
-            appIcon.setY(point.y);
-
-            db.appIcons.update(appIcon, host, place);
-
-            createAppIconView(appIcon);
-        }
-        catch (Exception e)
-        {
-            Log.info(this, "error on save ikon", e);
-        }
-    }
-
-    protected void removeFromParent(View view)
+    public void removeFromParent(View view)
     {
         RelativeLayout parent = (RelativeLayout) view.getParent();
         parent.removeView(view);
-    }
-
-    protected void removeWidget(DragItem item)
-    {
-        WidgetView view = (WidgetView) item.getView();
-        db.widgets.removeWidget(view.getWidget().getId());
-        widgetHost.deleteAppWidgetId(view.getAppWidgetId());
-        removeFromParent(view);
-    }
-
-    protected void removeAppIcon(DragItem item)
-    {
-        AppIconView view = (AppIconView) item.getView();
-        db.appIcons.remove(view.getAppIcon().getId());
-        removeFromParent(view);
     }
 
     protected void initSwipeListener()

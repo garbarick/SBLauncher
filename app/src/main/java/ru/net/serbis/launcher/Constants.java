@@ -28,4 +28,7 @@ public interface Constants
         CONFIRM_OLD,
         CONFIRM
     };
+
+    String INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
+    String SHORTCUT_ID = "shortcutId";
 }

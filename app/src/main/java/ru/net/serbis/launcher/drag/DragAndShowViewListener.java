@@ -38,7 +38,7 @@ public abstract class DragAndShowViewListener extends DragListener
         {
             showViews(viewsForWidget, viewsVisible);
         }
-        else if (view instanceof AppIconView)
+        else if (view instanceof IconView)
         {
             showViews(viewsForAppIcon, viewsVisible);
         }

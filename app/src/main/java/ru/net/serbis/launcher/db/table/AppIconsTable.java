@@ -89,11 +89,11 @@ public class AppIconsTable extends Table
         {
             do
             {
-                long id = cursor.getLong(0);
                 Item item = helper.getItem(cursor.getString(1), cursor.getString(2));
                 if (item != null)
                 {
-                    AppIcon appIcon = new AppIcon(id, item, cursor.getInt(3), cursor.getInt(4));
+                    AppIcon appIcon = new AppIcon(item, cursor.getInt(3), cursor.getInt(4));
+                    appIcon.setId(cursor.getLong(0));
                     result.add(appIcon);
                 }
             }
@@ -155,19 +155,19 @@ public class AppIconsTable extends Table
         update(db, appIcon.getId(), host, place, appIcon.getX(), appIcon.getY());
     }
 
-    public void update(SQLiteDatabase db, long iconId, Host host)
+    public void update(SQLiteDatabase db, long id, Host host)
     {
-        update(db, iconId, host.getType(), host.getPlace(), host.getX(), host.getY());
+        update(db, id, host.getType(), host.getPlace(), host.getX(), host.getY());
     }
 
-    private void update(SQLiteDatabase db, Long iconId, String host, int place, int x, int y)
+    private void update(SQLiteDatabase db, Long id, String host, int place, int x, int y)
     {
         ContentValues values = new ContentValues();
         values.put("x", x);
         values.put("y", y);
         values.put("host", host);
         values.put("place", place);
-        db.update("app_icons", values, "id = ?", new String[]{iconId.toString()});   
+        db.update("app_icons", values, "id = ?", new String[]{id.toString()});   
     }
 
     public long findIcon(SQLiteDatabase db, Long appId, String host, Integer place)

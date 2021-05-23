@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.doc;
+
 import android.content.*;
 import android.graphics.*;
 import android.view.*;
@@ -30,7 +31,7 @@ public class Doc extends Host
     @Override
     protected int getAppIconLayotId()
     {
-        return R.layout.doc_application;
+        return R.layout.doc_icon;
     }
 
     @Override
@@ -72,9 +73,9 @@ public class Doc extends Host
     }
 
     @Override
-    protected Point getAppIconPosition(DragEvent event, DragItem item)
+    public Point getPosition(DragEvent event, DragItem item)
     {
-        Point result = super.getAppIconPosition(event, item);
+        Point result = super.getPosition(event, item);
         result.x = result.x < 0 ? 0 : result.x;
         result.x = (int) Math.ceil(result.x/5) * 5;
         result.y = 0;

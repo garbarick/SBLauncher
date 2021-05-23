@@ -30,7 +30,7 @@ public class DefaultData extends Table
 
     private void addAppIcon(SQLiteDatabase db, Item item, int pos)
     {
-        AppIcon appsIcon = new AppIcon(0, item, x, 0);
+        AppIcon appsIcon = new AppIcon(item, x, 0);
         helper.appIcons.add(db, appsIcon, Constants.DOC, pos);
     }
 

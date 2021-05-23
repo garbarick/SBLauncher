@@ -114,8 +114,15 @@ public class Applications extends Activity implements ItemsHandler
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Item item = (Item) grid.getItemAtPosition(info.position);
-            menu.setHeaderTitle(item.getLabel());
-            menu.setHeaderIcon(item.getIcon());
+            
+            View headerView = LayoutInflater.from(this).inflate(R.layout.menu_header, null);
+            ImageView icon = Tools.getView(headerView, R.id.icon);
+            icon.setImageDrawable(item.getIcon());
+            TextView label = Tools.getView(headerView, R.id.label);
+            label.setText(item.getLabel());
+
+            menu = menu.setHeaderView(headerView);
+
             getMenuInflater().inflate(R.menu.activity, menu);
             initMoveTo(menu, info);
         }

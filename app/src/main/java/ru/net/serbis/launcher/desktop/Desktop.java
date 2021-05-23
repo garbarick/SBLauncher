@@ -37,7 +37,7 @@ public class Desktop extends Host
     @Override
     protected int getAppIconLayotId()
     {
-        return R.layout.doc_application;
+        return R.layout.desktop_icon;
     }
 
     @Override
@@ -149,10 +149,17 @@ public class Desktop extends Host
     public void sendItem(String itemKey, int x, int y)
     {
         Item item = db.getItem(itemKey);
-        AppIcon appIcon = new AppIcon(0, item, x, y);
+        AppIcon appIcon = new AppIcon(item, x, y);
         db.appIcons.add(appIcon, host, place);
 
         createAppIconView(appIcon);
+    }
+
+    public void sendShortcut(long id)
+    {
+        Shortcut shortcut = db.shortcuts.getShortcut(id);
+        db.shortcuts.update(shortcut, host, place);
+        createShortcutView(shortcut);
     }
 
     @Override
