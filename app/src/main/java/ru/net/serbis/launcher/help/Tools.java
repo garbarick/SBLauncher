@@ -88,4 +88,9 @@ public class Tools
     {
         Toast.makeText(context, resource, Toast.LENGTH_LONG).show();
     }
+
+    public static boolean isSupportHeaderView()
+    {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.O;
+    }
 }

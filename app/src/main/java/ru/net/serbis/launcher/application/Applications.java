@@ -114,24 +114,35 @@ public class Applications extends Activity implements ItemsHandler
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             Item item = (Item) grid.getItemAtPosition(info.position);
-            
-            View headerView = LayoutInflater.from(this).inflate(R.layout.menu_header, null);
-            ImageView icon = Tools.getView(headerView, R.id.icon);
-            icon.setImageDrawable(item.getIcon());
-            TextView label = Tools.getView(headerView, R.id.label);
-            label.setText(item.getLabel());
 
-            menu = menu.setHeaderView(headerView);
+            if (Tools.isSupportHeaderView())
+            {
+                menu.setHeaderView(getMenuHeader(item));
+            }
+            else
+            {
+                menu.setHeaderTitle(item.getLabel());
+            }
 
             getMenuInflater().inflate(R.menu.activity, menu);
             initMoveTo(menu, info);
         }
     }
 
+    private View getMenuHeader(Item item)
+    {
+        View result = View.inflate(this, R.layout.menu_header, null);
+        ImageView icon = Tools.getView(result, R.id.icon);
+        icon.setImageDrawable(item.getIcon());
+        TextView label = Tools.getView(result, R.id.label);
+        label.setText(item.getLabel());
+        return result;
+    }
+
     private void initMoveTo(ContextMenu menu, AdapterView.AdapterContextMenuInfo info)
     {
         MenuItem moveTo = menu.findItem(R.id.moveTo);
-        SubMenu subMenu =moveTo.getSubMenu();
+        SubMenu subMenu = moveTo.getSubMenu();
         addSubItem(subMenu, moveTo, info, Group.ALL);
         for(Group group : db.groups.getGroups())
         {
