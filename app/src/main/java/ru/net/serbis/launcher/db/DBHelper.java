@@ -104,7 +104,8 @@ public class DBHelper extends SQLiteOpenHelper
 
     public List<Item> getItems(Group group)
     {
-        Map<String, Item> items = Items.getIstance().getItems(context);
+        Map<String, Item> items = new HashMap<String, Item>(Items.getIstance().getItems(context));
+        items.keySet().removeAll(Items.getIstance().getTools());
         if (Group.ALL.equals(group))
         {
             return filterItemForAll(items);
@@ -117,10 +118,9 @@ public class DBHelper extends SQLiteOpenHelper
 
     private List<Item> filterItemForAll(Map<String, Item> items)
     {
-        Map<String, Item> result = new HashMap<String, Item>(items);
         List<String> inGroups = new ArrayList<String>(appsGroup.getItemKeys(null));
-        result.keySet().removeAll(inGroups);
-        return new ArrayList<Item>(result.values());
+        items.keySet().removeAll(inGroups);
+        return new ArrayList<Item>(items.values());
     }
 
     private List<Item> filterItemForGroup(Map<String, Item> items, Group group)

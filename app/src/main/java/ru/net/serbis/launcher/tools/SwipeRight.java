@@ -25,6 +25,6 @@ public class SwipeRight extends Item
     @Override
     public void start(Host host)
     {
-        host.swipeRight();
+        host.swipeLeft();
     }
 }

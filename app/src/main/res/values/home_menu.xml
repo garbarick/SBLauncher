@@ -1,9 +1,10 @@
 <resources>
-    
+
     <string name="androidSet">Settings</string>
     <string name="launcherSet">Launcher Settings</string>
     <string name="applications">Applications</string>
     <string name="addWidget">Add Widget</string>
     <string name="setWallpaper">Set Wallpaper</string>
+    <string name="addTool">Add Tool</string>
 
 </resources>

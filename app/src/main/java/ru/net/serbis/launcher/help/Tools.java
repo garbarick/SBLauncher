@@ -2,7 +2,10 @@ package ru.net.serbis.launcher.help;
 
 import android.app.*;
 import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
 import android.os.*;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 import java.io.*;
@@ -92,5 +95,11 @@ public class Tools
     public static boolean isSupportHeaderView()
     {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.O;
+    }
+
+    public static Point getDisplaySize()
+    {
+        DisplayMetrics metrics =Resources.getSystem().getDisplayMetrics();
+        return new Point(metrics.widthPixels, metrics.heightPixels);
     }
 }

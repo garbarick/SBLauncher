@@ -1,7 +1,7 @@
 <resources>
-    
+
     <string name="tabsSet">Tabs Settings</string>
     <string name="hideSet">Hide Applications</string>
     <string name="reload">Reload</string>
-    
+
 </resources>

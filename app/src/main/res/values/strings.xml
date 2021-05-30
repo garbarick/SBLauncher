@@ -1,5 +1,5 @@
 <resources>
-    
+
     <string name="appName">SBLauncher</string>
     <string name="allApps">All</string>
     <string name="settings">Settings</string>
@@ -13,12 +13,12 @@
     <string name="groupNew">New Group</string>
     <string name="groupDelete">Delete Group</string>
     <string name="groupEdit">Edit Group</string>
-    
+
     <string name="ok">Ok</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
     <string name="name">Name</string>
-    
+
     <string name="resize">Resize</string>
     <string name="width">Width</string>
     <string name="height">Height</string>

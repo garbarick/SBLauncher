@@ -2,7 +2,6 @@ package ru.net.serbis.launcher.application;
 
 import android.app.*;
 import android.content.*;
-import android.graphics.*;
 import android.net.*;
 import android.os.*;
 import android.provider.*;
@@ -82,20 +81,6 @@ public class Applications extends Activity implements ItemsHandler
                 }
             }
         );
-    }
-    
-    private void addToDesktop(Item item, View view)
-    {
-        Intent intent = new Intent(Applications.this, Home.class);
-        intent.putExtra(Constants.ITEM_KEY, item.getKey());
-
-        Rect rect = new Rect();
-        view.getGlobalVisibleRect(rect);
-
-        intent.putExtra(Constants.ITEM_POS_X, rect.left);
-        intent.putExtra(Constants.ITEM_POS_Y, rect.top);
-
-        startActivity(intent);
     }
 
     @Override
@@ -180,7 +165,7 @@ public class Applications extends Activity implements ItemsHandler
                 openInformation(item);
                 return true;
             case R.id.addToDesktop:
-                addToDesktop(item, info.targetView);
+                startActivity(Items.getIstance().getDesktopIntent(this, item, info.targetView));
                 return true;
             case R.id.hide:
                 addToHiddenGroup(item);

@@ -9,11 +9,12 @@ import java.util.*;
 import ru.net.serbis.launcher.application.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.desktop.*;
+import ru.net.serbis.launcher.dialog.*;
 import ru.net.serbis.launcher.doc.*;
 import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
-import ru.net.serbis.launcher.view.*;
 import ru.net.serbis.launcher.tools.*;
+import ru.net.serbis.launcher.view.*;
 
 public class Home extends Activity
 {
@@ -95,18 +96,20 @@ public class Home extends Activity
             case R.id.androidSet:
                 startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
                 return true;
-           
+
             case R.id.launcherSet:
                 startActivityForResult(new Intent(this, Settings.class), Constants.REQUEST_CHANGE_SETTINGS);
                 return true;
-                
+
             case R.id.setWallpaper:
                 startActivity(new Intent(Intent.ACTION_SET_WALLPAPER));
                 return true;
-        
-            default:
-                return super.onOptionsItemSelected(item);
+
+            case R.id.addTool:
+                new ToolsDialog(this);
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
     
     @Override

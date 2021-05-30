@@ -2,20 +2,23 @@ package ru.net.serbis.launcher.application;
 
 import android.content.*;
 import android.content.pm.*;
+import android.graphics.*;
 import android.graphics.drawable.*;
 import android.os.*;
+import android.view.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.set.*;
 import ru.net.serbis.launcher.tools.*;
-import ru.net.serbis.launcher.help.*;
 
 public class Items extends BroadcastReceiver
 {
     private static Items instance = new Items();
 
 	private Map<String, Item> items = new HashMap<String, Item>();
+    private List<String> tools = new ArrayList<String>();
     private boolean init;
     private List<ItemsHandler> handlers = new ArrayList<ItemsHandler>();
     private boolean unbadgedIcon;
@@ -34,19 +37,20 @@ public class Items extends BroadcastReceiver
     public synchronized void init(Context context)
     {
         items.clear();
+        tools.clear();
         initParameters(context);
         findActivities(context);
         
         PackageManager manager = context.getPackageManager();
 
-        addItem(new AppList(context), manager);
-        addItem(new SwipeRight(context), manager);
-        addItem(new SwipeLeft(context), manager);
-        addItem(new SwipeTop(context), manager);
-        addItem(new DayDream(), manager);
-        addItem(new LockScreen(context), manager);
-        addItem(SecureLock.getItem(context), manager);
-        addItem(Pattern.getItem(context), manager);
+        addItem(new AppList(context), manager, true);
+        addItem(new SwipeRight(context), manager, true);
+        addItem(new SwipeLeft(context), manager, true);
+        addItem(new SwipeTop(context), manager, true);
+        addItem(new DayDream(), manager, true);
+        addItem(new LockScreen(context), manager, true);
+        addItem(SecureLock.getItem(context), manager, true);
+        addItem(Pattern.getItem(context), manager, true);
 
         init = true;
     }
@@ -66,9 +70,18 @@ public class Items extends BroadcastReceiver
 
     private boolean addItem(Item item, PackageManager manager)
     {
+        return addItem(item, manager, false);
+    }
+
+    private boolean addItem(Item item, PackageManager manager, boolean tool)
+    {
         if (item.validate(manager))
         {
 			addItem(item);
+            if (tool)
+            {
+                tools.add(item.getKey());
+            }
 			return true;
         }
 		return false;
@@ -225,5 +238,45 @@ public class Items extends BroadcastReceiver
         {
             handler.itemsUpdate();
         }
+    }
+
+    public List<String> getTools()
+    {
+        return tools;
+    }
+
+    public List<Item> getItemTools()
+    {
+        List<Item> result = new ArrayList<Item>();
+        for (String key : tools)
+        {
+            result.add(items.get(key));
+        }
+        return result;
+    }
+
+    public Intent getDesktopIntent(Context context, Item item, int x, int y)
+    {
+        Intent intent = new Intent(context, Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.putExtra(Constants.ITEM_KEY, item.getKey());
+
+        intent.putExtra(Constants.ITEM_POS_X, x);
+        intent.putExtra(Constants.ITEM_POS_Y, y);
+
+        return intent;
+	}
+
+    public Intent getDesktopIntent(Context context, Item item)
+    {
+        Point size = Tools.getDisplaySize();
+        return getDesktopIntent(context, item, size.x / 4, size.y / 4);
+    }
+
+    public Intent getDesktopIntent(Context context, Item item, View view)
+    {
+        Rect rect = new Rect();
+        view.getGlobalVisibleRect(rect);
+        return getDesktopIntent(context, item, rect.left, rect.top);
     }
 }
