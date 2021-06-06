@@ -148,15 +148,15 @@ public class PatternView extends View
                 lines.clearLast();
             }
         }
-        else
-        {
-            lines.stop();
-        }
+        lines.stop();
         invalidate();
-
         if (lines.isFilled())
         {
             onSelect(md5(lines.toPattern(points)));
+        }
+        else
+        {
+            reset();
         }
     }
 
