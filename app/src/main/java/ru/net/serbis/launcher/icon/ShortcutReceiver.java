@@ -24,7 +24,7 @@ public class ShortcutReceiver extends BroadcastReceiver
 		}
 		catch (Throwable e)
 		{
-			Log.info(this, e);
+			Log.error(this, e);
 		}
 	}
 

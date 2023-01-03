@@ -31,7 +31,7 @@ public abstract class Tool
                 }
                 catch(Exception e)
                 {
-                    Log.info(Tool.this, e);
+                    Log.error(Tool.this, e);
                     result = e.getMessage();
                 }
             }

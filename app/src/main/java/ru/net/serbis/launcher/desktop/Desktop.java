@@ -16,6 +16,7 @@ import ru.net.serbis.launcher.widget.*;
 public class Desktop extends Host
 {
     private boolean systemWidgetSelector;
+    private int lastWidgetId;
 
     public Desktop()
     {
@@ -99,6 +100,7 @@ public class Desktop extends Host
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Log.info(this, "activity result, requestCode:" + requestCode + ", resultCode:" + resultCode + ", data:" + data);
         if (resultCode == Activity.RESULT_OK)
         {
             switch(requestCode)
@@ -111,12 +113,23 @@ public class Desktop extends Host
                     break;
             }
         }
-        else if (resultCode == Activity.RESULT_CANCELED && data != null)
+        else if (resultCode == Activity.RESULT_CANCELED)
         {
-            int widgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            if (widgetId > AppWidgetManager.INVALID_APPWIDGET_ID)
+            if (requestCode == Constants.REQUEST_CREATE_WIDGET && data == null)
             {
-                widgetHost.deleteAppWidgetId(widgetId);
+                if (lastWidgetId > AppWidgetManager.INVALID_APPWIDGET_ID)
+                {
+                    createWidget(lastWidgetId);
+                    lastWidgetId = 0;
+                }
+            }
+            else if (data != null)
+            {
+                int widgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+                if (widgetId > AppWidgetManager.INVALID_APPWIDGET_ID)
+                {
+                    widgetHost.deleteAppWidgetId(widgetId);
+                }                
             }
         }
     }
@@ -130,7 +143,11 @@ public class Desktop extends Host
             Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
             intent.setComponent(info.configure);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-            startActivityForResult(intent, Constants.REQUEST_CREATE_WIDGET);
+            
+            if (!startWidgetConfigure1(intent))
+            {
+                startWidgetConfigure2(widgetId);
+            }
         }
         else
         {
@@ -138,9 +155,48 @@ public class Desktop extends Host
         }
     }
 
+    private boolean startWidgetConfigure1(Intent intent)
+    {
+        try
+        {
+            startActivityForResult(intent, Constants.REQUEST_CREATE_WIDGET);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e);
+            return false;
+        }
+    }
+
+    private boolean startWidgetConfigure2(int widgetId)
+    {
+        try
+        {
+            widgetHost.startAppWidgetConfigureActivityForResult(
+                getActivity(),
+                widgetId,
+                0,
+                Constants.REQUEST_CREATE_WIDGET,
+                null);
+            lastWidgetId = widgetId;
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.error(this, e);
+            return false;
+        }
+    }
+
     private void createWidget(Intent data)
     {
         int widgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
+        createWidget(widgetId);
+    }
+
+    private void createWidget(int widgetId)
+    {
         Widget widget = new Widget(widgetId, 100, 100);
         db.widgets.addWidget(widget, host, place);
         createWidget(widget);

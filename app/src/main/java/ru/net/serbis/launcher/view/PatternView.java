@@ -176,7 +176,7 @@ public class PatternView extends View
         } 
         catch (Exception e)
         {
-            Log.info(this, e);
+            Log.error(this, e);
         }
         return null;
     }

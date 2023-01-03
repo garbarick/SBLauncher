@@ -49,7 +49,7 @@ public abstract class Table
 		}
 		catch (Throwable e)
 		{
-			Log.info(this, e);
+			Log.error(this, e);
 			return action.onError();
 		}
 		finally

@@ -33,7 +33,7 @@ public class SecureLock extends Activity
         }
         catch (Throwable e)
         {
-            Log.info(this, e);
+            Log.error(this, e);
             Tools.toast(this, R.string.secureLockNotSupport);
             done();
         }

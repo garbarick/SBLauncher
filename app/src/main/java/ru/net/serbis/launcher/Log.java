@@ -7,13 +7,13 @@ public class Log
         android.util.Log.i(o.getClass().getName(), message);
     }
 
-    public static void info(Object o, String message, Throwable e)
+    public static void error(Object o, String message, Throwable e)
     {
-        android.util.Log.i(o.getClass().getName(), message, e);
+        android.util.Log.e(o.getClass().getName(), message, e);
     }
 	
-	public static void info(Object o, Throwable e)
+	public static void error(Object o, Throwable e)
     {
-        info(o, "Error", e);
+        error(o, "Error", e);
     }
 }

@@ -45,7 +45,7 @@ public class WidgetData
         }
         catch (Exception e)
         {
-            Log.info(this, e);
+            Log.error(this, e);
         }
     }
 

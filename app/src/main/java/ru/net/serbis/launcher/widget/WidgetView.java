@@ -108,7 +108,7 @@ public class WidgetView extends AppWidgetHostView
         }
         catch (Exception e)
         {
-            Log.info(this, "error on save widget", e);
+            Log.error(this, "error on save widget", e);
         }
     }
 

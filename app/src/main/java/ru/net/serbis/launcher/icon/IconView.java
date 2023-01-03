@@ -137,7 +137,7 @@ public abstract class IconView<T extends Icon> extends LinearLayout
         }
         catch (Exception e)
         {
-            Log.info(this, "error on save ikon", e);
+            Log.error(this, "error on save ikon", e);
         }
     }
 
