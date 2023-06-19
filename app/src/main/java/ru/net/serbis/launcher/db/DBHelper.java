@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper
 
     public DBHelper(Context context)
     {
-        super(context, "db", null, 3);
+        super(context, "db", null, 4);
         this.context = context;
 
         initTables();
@@ -86,7 +86,7 @@ public class DBHelper extends SQLiteOpenHelper
             }
             catch (Exception e)
             {
-                Log.info(this, "Error on create tables: " + e.getMessage());
+                Log.error(this, "Error on create tables", e);
             }
         }
     }

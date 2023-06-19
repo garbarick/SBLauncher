@@ -35,6 +35,12 @@ public class Doc extends Host
     }
 
     @Override
+    protected int getAppIconCloseLayotId()
+    {
+        return R.layout.close_icon;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())

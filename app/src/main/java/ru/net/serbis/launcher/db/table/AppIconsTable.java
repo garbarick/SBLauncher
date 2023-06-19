@@ -23,10 +23,18 @@ public class AppIconsTable extends Table
             "    y integer," +
             "    host text," +
             "    place integer," +
+            "    command text," +
 			"    foreign key(app_id) references apps(id)" +
             ")");
 			
 		new IkonsTable().setHelper(helper).createTable(db, oldVersion, newVersion);
+        if (oldVersion == 3 && newVersion > 3)
+        {
+            db.execSQL(
+                "alter table app_icons" +
+                "  add column command text"
+            );
+        }
     }
     
     public void add(final AppIcon appIcon, final String host, final int place)
@@ -47,16 +55,16 @@ public class AppIconsTable extends Table
     public void add(SQLiteDatabase db, AppIcon appIcon, String host, int place)
     {
         long appId = helper.addApplication(db, appIcon.getItem());
-        long id = add(db, appId, host, place, appIcon.getX(), appIcon.getY());
+        long id = add(db, appId, host, place, appIcon.getX(), appIcon.getY(), appIcon.getCommand());
         appIcon.setId(id);
     }
 
     public void add(SQLiteDatabase db, long appId, Host host)
     {
-        add(db, appId, host.getType(), host.getPlace(), host.getX(), host.getY());
+        add(db, appId, host.getType(), host.getPlace(), host.getX(), host.getY(), null);
     }
 
-    private long add(SQLiteDatabase db, long appId, String host, int place, int x, int y)
+    private long add(SQLiteDatabase db, long appId, String host, int place, int x, int y, String command)
     {
         ContentValues values = new ContentValues();
         values.put("app_id", appId);
@@ -64,6 +72,7 @@ public class AppIconsTable extends Table
         values.put("y", y);
         values.put("host", host);
         values.put("place", place);
+        values.put("command", command);
         return db.insert("app_icons", null, values);
     }
 
@@ -84,7 +93,7 @@ public class AppIconsTable extends Table
     private List<AppIcon> getIcons(SQLiteDatabase db, String host, Integer place)
     {
         List<AppIcon> result = new ArrayList<AppIcon>();
-        Cursor cursor = db.query("app_icons i, apps a", new String[]{"i.id", "a.name", "a.package", "i.x", "i.y"}, "i.app_id = a.id and i.host = ? and i.place = ?", new String[]{host, place.toString()}, null, null, "i.id");
+        Cursor cursor = db.query("app_icons i, apps a", new String[]{"i.id", "a.name", "a.package", "i.x", "i.y", "i.command"}, "i.app_id = a.id and i.host = ? and i.place = ?", new String[]{host, place.toString()}, null, null, "i.id");
         if (cursor.moveToFirst())
         {
             do
@@ -92,7 +101,7 @@ public class AppIconsTable extends Table
                 Item item = helper.getItem(cursor.getString(1), cursor.getString(2));
                 if (item != null)
                 {
-                    AppIcon appIcon = new AppIcon(item, cursor.getInt(3), cursor.getInt(4));
+                    AppIcon appIcon = new AppIcon(item, cursor.getInt(3), cursor.getInt(4), cursor.getString(5));
                     appIcon.setId(cursor.getLong(0));
                     result.add(appIcon);
                 }

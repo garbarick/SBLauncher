@@ -42,6 +42,12 @@ public class Desktop extends Host
     }
 
     @Override
+    protected int getAppIconCloseLayotId()
+    {
+        return R.layout.close_icon;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         View view = super.onCreateView(inflater, container, bundle);
@@ -202,10 +208,10 @@ public class Desktop extends Host
         createWidget(widget);
     }
 
-    public void sendItem(String itemKey, int x, int y)
+    public void sendItem(String itemKey, int x, int y, String command)
     {
         Item item = db.getItem(itemKey);
-        AppIcon appIcon = new AppIcon(item, x, y);
+        AppIcon appIcon = new AppIcon(item, x, y, command);
         db.appIcons.add(appIcon, host, place);
 
         createAppIconView(appIcon);

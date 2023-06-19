@@ -255,7 +255,7 @@ public class Items extends BroadcastReceiver
         return result;
     }
 
-    public Intent getDesktopIntent(Context context, Item item, int x, int y)
+    public Intent getDesktopIntent(Context context, Item item, int x, int y, String command)
     {
         Intent intent = new Intent(context, Home.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -264,19 +264,29 @@ public class Items extends BroadcastReceiver
         intent.putExtra(Constants.ITEM_POS_X, x);
         intent.putExtra(Constants.ITEM_POS_Y, y);
 
+        if (command != null)
+        {
+            intent.putExtra(Constants.ITEM_COMMAND, command);
+        }
+
         return intent;
 	}
 
     public Intent getDesktopIntent(Context context, Item item)
     {
         Point size = Tools.getDisplaySize();
-        return getDesktopIntent(context, item, size.x / 4, size.y / 4);
+        return getDesktopIntent(context, item, size.x / 4, size.y / 4, null);
     }
 
     public Intent getDesktopIntent(Context context, Item item, View view)
     {
+        return getDesktopIntent(context, item, view, null);
+    }
+
+    public Intent getDesktopIntent(Context context, Item item, View view, String comnand)
+    {
         Rect rect = new Rect();
         view.getGlobalVisibleRect(rect);
-        return getDesktopIntent(context, item, rect.left, rect.top);
+        return getDesktopIntent(context, item, rect.left, rect.top, comnand);
     }
 }

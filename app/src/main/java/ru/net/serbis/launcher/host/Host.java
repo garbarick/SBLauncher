@@ -28,6 +28,7 @@ public abstract class Host extends Fragment
     protected abstract int getLayoutId();
     protected abstract int getHostId();
     protected abstract int getAppIconLayotId();
+    protected abstract int getAppIconCloseLayotId();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
@@ -180,7 +181,8 @@ public abstract class Host extends Fragment
 
     public AppIconView createAppIconView(AppIcon appIcon)
     {
-        AppIconView view = new AppIconView(this, appIcon, getAppIconLayotId());
+        int layoutId = Constants.COMMAND_STOP.equals(appIcon.getCommand()) ? getAppIconCloseLayotId() : getAppIconLayotId();
+        AppIconView view = new AppIconView(this, appIcon, layoutId);
         layout.addView(view, createLayoutParams(appIcon.getRect()));
         return view;
     }

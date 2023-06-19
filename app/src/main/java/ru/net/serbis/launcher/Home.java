@@ -181,7 +181,8 @@ public class Home extends Activity
             String itemKey = intent.getStringExtra(Constants.ITEM_KEY);
             int x = intent.getIntExtra(Constants.ITEM_POS_X, 0);
             int y = intent.getIntExtra(Constants.ITEM_POS_Y, 0);
-            desktops.get(desktop).sendItem(itemKey, x, y);
+            String command = intent.getStringExtra(Constants.ITEM_COMMAND);
+            desktops.get(desktop).sendItem(itemKey, x, y, command);
         }
         if (intent.hasExtra(Constants.SHORTCUT_ID))
         {

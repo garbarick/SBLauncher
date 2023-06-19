@@ -3,8 +3,14 @@
         android:id="@+id/info"
         android:title="@string/info"/>
     <item
+        android:id="@+id/stop"
+        android:title="@string/stop"/>
+    <item
         android:id="@+id/addToDesktop"
         android:title="@string/addToDesktop"/>
+    <item
+        android:id="@+id/addStopToDesktop"
+        android:title="@string/addStopToDesktop"/>
     <item
         android:id="@+id/hide"
         android:title="@string/hide"/>

@@ -1,8 +1,10 @@
 package ru.net.serbis.launcher.icon;
 
 import android.widget.*;
+import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.host.*;
+import ru.net.serbis.launcher.sh.*;
 
 public class AppIconView extends IconView<AppIcon>
 {
@@ -26,7 +28,14 @@ public class AppIconView extends IconView<AppIcon>
     @Override
     protected void start()
     {
-        icon.getItem().start(host);
+        if (Constants.COMMAND_STOP.equals(icon.getCommand()))
+        {
+            new Shell().stop(icon.getItem().getPackageName());
+        }
+        else
+        {
+            icon.getItem().start(host);
+        }
     }
 
     @Override

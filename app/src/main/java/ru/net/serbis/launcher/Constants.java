@@ -5,6 +5,7 @@ public interface Constants
     String ITEM_KEY = "itemKey";
     String ITEM_POS_X = "itemPosX";
     String ITEM_POS_Y = "itemPosY";
+    String ITEM_COMMAND = "itemCommand";
 
     String GROUP = "group";
     String POSITION = "position";
@@ -31,4 +32,6 @@ public interface Constants
 
     String INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
     String SHORTCUT_ID = "shortcutId";
+    
+    String COMMAND_STOP = "stop";
 }

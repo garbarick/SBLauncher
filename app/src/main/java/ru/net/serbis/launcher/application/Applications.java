@@ -12,6 +12,7 @@ import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.group.*;
 import ru.net.serbis.launcher.help.*;
+import ru.net.serbis.launcher.sh.*;
 import ru.net.serbis.launcher.swipe.*;
 import ru.net.serbis.launcher.tab.*;
 
@@ -108,8 +109,13 @@ public class Applications extends Activity implements ItemsHandler
             {
                 menu.setHeaderTitle(item.getLabel());
             }
-
             getMenuInflater().inflate(R.menu.activity, menu);
+
+            if (!new Shell().check())
+            {
+                menu.removeItem(R.id.stop);
+                menu.removeItem(R.id.addStopToDesktop);
+            }
             initMoveTo(menu, info);
         }
     }
@@ -164,8 +170,14 @@ public class Applications extends Activity implements ItemsHandler
             case R.id.info:
                 openInformation(item);
                 return true;
+            case R.id.stop:
+                stop(item);
+                return true;
             case R.id.addToDesktop:
                 startActivity(Items.getIstance().getDesktopIntent(this, item, info.targetView));
+                return true;
+            case R.id.addStopToDesktop:
+                startActivity(Items.getIstance().getDesktopIntent(this, item, info.targetView, Constants.COMMAND_STOP));
                 return true;
             case R.id.hide:
                 addToHiddenGroup(item);
@@ -185,6 +197,11 @@ public class Applications extends Activity implements ItemsHandler
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + item.getPackageName()));
         startActivity(intent);
+    }
+    
+    private void stop(Item item)
+    {
+        new Shell().stop(item.getPackageName());
     }
 
     private void addToHiddenGroup(Item item)
