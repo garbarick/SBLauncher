@@ -84,6 +84,9 @@ public class Shell
     
     public void stop(String packageName)
     {
-        command("pkill " + packageName);
+        if (check())
+        {
+            command("pkill " + packageName);
+        }
     }
 }

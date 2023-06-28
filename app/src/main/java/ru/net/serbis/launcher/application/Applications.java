@@ -110,12 +110,6 @@ public class Applications extends Activity implements ItemsHandler
                 menu.setHeaderTitle(item.getLabel());
             }
             getMenuInflater().inflate(R.menu.activity, menu);
-
-            if (!new Shell().check())
-            {
-                menu.removeItem(R.id.stop);
-                menu.removeItem(R.id.addStopToDesktop);
-            }
             initMoveTo(menu, info);
         }
     }
@@ -201,6 +195,7 @@ public class Applications extends Activity implements ItemsHandler
     
     private void stop(Item item)
     {
+        Tools.killBackgroundProcesses(this, item.getPackageName());
         new Shell().stop(item.getPackageName());
     }
 

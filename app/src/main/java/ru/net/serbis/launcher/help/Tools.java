@@ -102,4 +102,10 @@ public class Tools
         DisplayMetrics metrics =Resources.getSystem().getDisplayMetrics();
         return new Point(metrics.widthPixels, metrics.heightPixels);
     }
+    
+    public static void killBackgroundProcesses(Context context, String packageName)
+    {
+        ActivityManager manager = getService(context, Context.ACTIVITY_SERVICE);
+        manager.killBackgroundProcesses(packageName);
+    }
 }

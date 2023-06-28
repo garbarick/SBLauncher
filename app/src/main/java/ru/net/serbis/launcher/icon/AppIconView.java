@@ -3,6 +3,7 @@ package ru.net.serbis.launcher.icon;
 import android.widget.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.help.*;
 import ru.net.serbis.launcher.host.*;
 import ru.net.serbis.launcher.sh.*;
 
@@ -30,6 +31,7 @@ public class AppIconView extends IconView<AppIcon>
     {
         if (Constants.COMMAND_STOP.equals(icon.getCommand()))
         {
+            Tools.killBackgroundProcesses(host.getActivity(), icon.getItem().getPackageName());
             new Shell().stop(icon.getItem().getPackageName());
         }
         else
