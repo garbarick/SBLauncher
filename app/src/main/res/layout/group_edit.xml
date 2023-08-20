@@ -39,7 +39,7 @@
 
 		<Button
 			android:layout_height="wrap_content"
-			android:text="@string/ok"
+			android:text="@android:string/ok"
 			android:id="@+id/ok"
 			android:background="@drawable/group_background_selector"
 			android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
 
 		<Button
 			android:layout_height="wrap_content"
-			android:text="@string/cancel"
+			android:text="@android:string/cancel"
 			android:id="@+id/cancel"
 			android:background="@drawable/group_background_selector"
 			android:layout_width="wrap_content"

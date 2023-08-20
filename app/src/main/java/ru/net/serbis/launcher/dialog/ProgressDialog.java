@@ -21,8 +21,8 @@ public abstract class ProgressDialog extends AlertDialog.Builder implements Asyn
         view = LayoutInflater.from(context).inflate(R.layout.progress, null);
         setView(view);
         
-        setPositiveButton(R.string.ok, this);
-        setNegativeButton(R.string.cancel, this);
+        setPositiveButton(android.R.string.ok, this);
+        setNegativeButton(android.R.string.cancel, this);
         setCancelable(false);
         
         dialog = show();

@@ -32,6 +32,6 @@ public interface Constants
 
     String INSTALL_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
     String SHORTCUT_ID = "shortcutId";
-    
     String COMMAND_STOP = "stop";
+    String THROWABLE = "throwable";
 }

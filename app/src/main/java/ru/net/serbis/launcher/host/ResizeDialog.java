@@ -44,7 +44,7 @@ public class ResizeDialog extends AlertDialog.Builder
     private void initPositive(final Host host, final WidgetView view)
     {
         setPositiveButton(
-            R.string.ok,
+            android.R.string.ok,
             new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
@@ -62,7 +62,7 @@ public class ResizeDialog extends AlertDialog.Builder
     private void initNegative()
     {
         setNegativeButton(
-            R.string.cancel,
+            android.R.string.cancel,
             new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)

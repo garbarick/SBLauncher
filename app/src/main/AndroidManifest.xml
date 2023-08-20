@@ -7,17 +7,18 @@
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
 
-    <application 
+    <application
+        android:name=".App"
         android:label="@string/appName"
-        android:icon="@drawable/app">
+        android:icon="@drawable/app"
+        android:resizeableActivity="true">
 
         <activity 
             android:name=".Home"
             android:label="@string/appName"
             android:theme="@style/Theme"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -30,55 +31,47 @@
             android:name=".tab.Tabs"
             android:theme="@style/Theme"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity 
             android:name=".application.Applications"
             android:launchMode="singleTask"
-            android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
             android:name=".group.Groups"
             android:label="@string/tabsSet"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
             android:name=".group.GroupEditor"
             android:label="@string/groupEdit"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
             android:name=".set.Settings"
             android:label="@string/settings"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
             android:name=".widget.Widgets"
             android:label="@string/widgets"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
             android:name=".tools.SecureLock"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
         </activity>
 
         <activity
@@ -86,8 +79,14 @@
             android:label="@string/pattern"
             android:theme="@style/Pattern"
             android:launchMode="singleTask"
-            android:stateNotNeeded="true"
-            android:resizeableActivity="true">
+            android:stateNotNeeded="true">
+        </activity>
+
+        <activity
+            android:name=".activity.ExceptionReport"
+            android:label="@string/uncaught_exception"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true">
         </activity>
 
         <receiver 

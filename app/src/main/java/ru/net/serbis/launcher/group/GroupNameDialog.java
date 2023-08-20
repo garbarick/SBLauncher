@@ -32,7 +32,7 @@ public class GroupNameDialog extends AlertDialog.Builder
     private void initPositive(final GroupAdapter groupAdapter)
     {
         setPositiveButton(
-            R.string.ok,
+            android.R.string.ok,
             new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
@@ -51,7 +51,7 @@ public class GroupNameDialog extends AlertDialog.Builder
     private void initNegative()
     {
         setNegativeButton(
-            R.string.cancel,
+            android.R.string.cancel,
             new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)

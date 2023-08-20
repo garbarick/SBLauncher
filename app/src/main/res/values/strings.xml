@@ -9,14 +9,13 @@
     <string name="lockScreen">Lock Screen</string>
     <string name="securelock">Secure Lock</string>
     <string name="widgets">Widgets</string>
+    <string name="checkError">Check Error</string>
 
     <string name="groupNew">New Group</string>
     <string name="groupDelete">Delete Group</string>
     <string name="groupEdit">Edit Group</string>
 
-    <string name="ok">Ok</string>
     <string name="apply">Apply</string>
-    <string name="cancel">Cancel</string>
     <string name="name">Name</string>
 
     <string name="resize">Resize</string>
@@ -45,5 +44,5 @@
     <string name="confirmPattern">Confirm pattern</string>
     <string name="patternWrong">Pattern is wrong</string>
     <string name="reset">Reset pattern</string>
-
+    <string name="uncaught_exception">Uncaught exception</string>
 </resources>

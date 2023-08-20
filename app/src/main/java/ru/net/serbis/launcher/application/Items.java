@@ -51,6 +51,7 @@ public class Items extends BroadcastReceiver
         addItem(new LockScreen(context), manager, true);
         addItem(SecureLock.getItem(context), manager, true);
         addItem(Pattern.getItem(context), manager, true);
+        addItem(new CheckError(context), manager, true);
 
         init = true;
     }

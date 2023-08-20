@@ -108,4 +108,11 @@ public class Tools
         ActivityManager manager = getService(context, Context.ACTIVITY_SERVICE);
         manager.killBackgroundProcesses(packageName);
     }
+    
+    public static String errorToText(Throwable error)
+    {
+        StringWriter writer = new StringWriter();
+        error.printStackTrace(new PrintWriter(writer));
+        return writer.toString();
+    }
 }

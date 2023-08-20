@@ -18,8 +18,8 @@ public abstract class FileDialog extends AlertDialog.Builder implements DialogIn
 
         adapter = new FileAdapter(context, dir, ext);
         setAdapter(adapter, null);
-        setPositiveButton(R.string.ok, this);
-        setNegativeButton(R.string.cancel, this);
+        setPositiveButton(android.R.string.ok, this);
+        setNegativeButton(android.R.string.cancel, this);
 
         AlertDialog dialog = show();
 
