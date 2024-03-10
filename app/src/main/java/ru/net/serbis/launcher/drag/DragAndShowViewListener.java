@@ -33,6 +33,10 @@ public abstract class DragAndShowViewListener extends DragListener
     
     private void viewDrag(DragItem item, int itemVisible, int viewsVisible)
     {
+        if (item == null)
+        {
+            return;
+        }
         View view = item.getView();
         if (view instanceof WidgetView)
         {
