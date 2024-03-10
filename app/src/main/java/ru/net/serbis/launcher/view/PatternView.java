@@ -7,6 +7,7 @@ import android.view.*;
 import java.security.*;
 import java.util.*;
 import ru.net.serbis.launcher.*;
+
 import ru.net.serbis.launcher.Log;
 
 public class PatternView extends View

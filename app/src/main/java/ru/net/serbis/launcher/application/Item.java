@@ -1,10 +1,8 @@
 package ru.net.serbis.launcher.application;
 
-import android.app.*;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.drawable.*;
-import android.widget.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.host.*;
 

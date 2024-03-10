@@ -1,7 +1,7 @@
 package ru.net.serbis.launcher.db.table.migrate;
 
-import ru.net.serbis.launcher.db.table.*;
 import android.database.sqlite.*;
+import ru.net.serbis.launcher.db.table.*;
 
 public class ApplicationsTable extends Table
 {

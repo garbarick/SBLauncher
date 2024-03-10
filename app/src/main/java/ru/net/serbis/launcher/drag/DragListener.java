@@ -7,6 +7,10 @@ public class DragListener implements View.OnDragListener
     public boolean onDrag(View view, DragEvent event)
     { 
         DragItem item = (DragItem) event.getLocalState();
+        if (item == null)
+        {
+            return false;
+        }
 
         switch(event.getAction())
         {

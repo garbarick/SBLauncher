@@ -1,5 +1,5 @@
 package ru.net.serbis.launcher.widget;
-import android.view.inputmethod.*;
+
 import android.appwidget.*;
 import android.content.*;
 import ru.net.serbis.launcher.host.*;

@@ -1,8 +1,6 @@
 package ru.net.serbis.launcher.drag;
 
 import android.view.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
 
 public class DragItem
 {

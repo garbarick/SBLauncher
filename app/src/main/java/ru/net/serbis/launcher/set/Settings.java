@@ -5,7 +5,6 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
-import java.util.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
 import ru.net.serbis.launcher.ei.*;

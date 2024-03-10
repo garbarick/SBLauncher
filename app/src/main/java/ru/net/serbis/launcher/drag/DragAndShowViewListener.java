@@ -1,7 +1,6 @@
 package ru.net.serbis.launcher.drag;
 
 import android.view.*;
-import java.util.*;
 import ru.net.serbis.launcher.icon.*;
 import ru.net.serbis.launcher.widget.*;
 

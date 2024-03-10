@@ -1,4 +1,5 @@
 package ru.net.serbis.launcher.set;
+
 import android.content.*;
 
 public class Name extends Value

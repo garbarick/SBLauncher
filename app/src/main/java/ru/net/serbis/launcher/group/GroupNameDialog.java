@@ -5,7 +5,6 @@ import android.content.*;
 import android.widget.*;
 import ru.net.serbis.launcher.*;
 import ru.net.serbis.launcher.db.*;
-import ru.net.serbis.launcher.group.*;
 
 public class GroupNameDialog extends AlertDialog.Builder
 {

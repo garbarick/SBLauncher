@@ -2,7 +2,6 @@ package ru.net.serbis.launcher.dialog;
 
 import android.app.*;
 import android.content.*;
-import android.graphics.*;
 import android.view.*;
 import android.widget.*;
 import ru.net.serbis.launcher.*;

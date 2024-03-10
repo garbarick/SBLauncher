@@ -2,8 +2,8 @@ package ru.net.serbis.launcher.icon;
 
 import android.view.*;
 import android.widget.*;
-import ru.net.serbis.launcher.host.*;
 import ru.net.serbis.launcher.db.*;
+import ru.net.serbis.launcher.host.*;
 
 public class ShortcutView extends IconView<Shortcut>
 {

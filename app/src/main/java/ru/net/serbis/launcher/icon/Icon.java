@@ -9,6 +9,7 @@ public class Icon
 
     public Icon(long id, Rect rect)
     {
+        this.id = id;
         this.rect = rect;
     }
 
