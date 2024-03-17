@@ -34,4 +34,5 @@ public interface Constants
     String SHORTCUT_ID = "shortcutId";
     String COMMAND_STOP = "stop";
     String THROWABLE = "throwable";
+    String UPDATE_DESKTOP = "updateDesktop";
 }

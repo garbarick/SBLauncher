@@ -172,7 +172,7 @@ public class Home extends Activity
         transaction.addToBackStack(null);
         transaction.commit();
     }
-    
+
     @Override
     protected void onNewIntent(Intent intent)
     {
@@ -184,10 +184,14 @@ public class Home extends Activity
             String command = intent.getStringExtra(Constants.ITEM_COMMAND);
             desktops.get(desktop).sendItem(itemKey, x, y, command);
         }
-        if (intent.hasExtra(Constants.SHORTCUT_ID))
+        else if (intent.hasExtra(Constants.SHORTCUT_ID))
         {
             long id = intent.getLongExtra(Constants.SHORTCUT_ID, 0);
             desktops.get(desktop).sendShortcut(id);
+        }
+        else if (intent.hasExtra(Constants.UPDATE_DESKTOP))
+        {
+            initSettings();
         }
     }
 
@@ -233,12 +237,8 @@ public class Home extends Activity
         if (dayDreamReciever != null)
         {
             unregisterReceiver(dayDreamReciever);
-            dayDreamReciever = null;
         }
-        if (parameters.secureLockAfterDayDream.getBooleanValue())
-        {
-            dayDreamReciever = new DayDreamReciever();
-            registerReceiver(dayDreamReciever, new IntentFilter(Intent.ACTION_DREAMING_STOPPED));
-        }
+        dayDreamReciever = new DayDreamReciever();
+        registerReceiver(dayDreamReciever, new IntentFilter(Intent.ACTION_DREAMING_STOPPED));
     }
 }
